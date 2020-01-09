@@ -1,0 +1,17 @@
+https://pub.dev/packages/flare_flutter
+https://pub.dev/packages/fluttie
+https://pub.dev/packages/drawing_animation
+https://flutterawesome.com/tag/svg/
+https://flutterawesome.com/convert-text-to-paths-and-animate-them-with-this-flutter-package/
+https://medium.com/flutter-community/using-svg-in-flutter-3dcf7b1dd713
+https://pub.dev/packages/flutter_svg#-readme-tab-
+https://api.flutter.dev/flutter/dart-ui/Color-class.html
+https://stackoverflow.com/questions/50081213/how-do-i-use-hexadecimal-color-strings-in-flutter
+https://stackoverflow.com/questions/50381968/flutter-dart-convert-hex-color-string-to-color/50382196
+https://www.pngtosvg.com/
+https://stackoverflow.com/questions/53992195/does-flutter-support-animated-svg
+https://pub.dev/packages/splashscreen
+https://stackoverflow.com/questions/43879103/adding-a-splash-screen-to-flutter-apps
+https://medium.com/@vignesh_prakash/flutter-splash-screen-84fb0307ac55
+https://fluttermaster.com/create-splash-screen-in-flutter/
+https://medium.com/@vignesh_prakash/flutter-splash-screen-84fb0307ac55
