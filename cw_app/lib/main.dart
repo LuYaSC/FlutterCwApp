@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
         ),
         image: Image(
-            image: AssetImage('assets/images/logobcpcircle.jpg'),
+            image: AssetImage('assets/images/logobcpcircle-removebg.png'),
             fit: BoxFit.cover),
         backgroundColor: Color(0xFF002d74),
         styleTextUnderTheLoader: TextStyle(),
