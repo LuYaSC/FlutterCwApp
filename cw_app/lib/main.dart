@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 void main() {
@@ -13,22 +12,26 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => new _MyAppState();
 }
 
-final String assetName = 'assets/images/logo_blue.svg';
-final Widget svg = SvgPicture.asset(assetName, semanticsLabel: 'Acme Logo');
-
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return SplashScreen(
-        seconds: 14,
+        seconds: 1400,
         navigateAfterSeconds: AfterSplash(),
         title: Text(
-          'BCP Credinet Web',
+          'Credinet Web',
           style: TextStyle(
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),
         ),
+        /*loadingText: Text(
+          'Iniciando Cw',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15.0),
+        ),*/
         image: Image(
             image: AssetImage('assets/images/logobcpcircle-removebg.png'),
+            height: 310,
+            width: 310,
             fit: BoxFit.cover),
         backgroundColor: Color(0xFF002d74),
         styleTextUnderTheLoader: TextStyle(),
