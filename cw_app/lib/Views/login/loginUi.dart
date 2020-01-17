@@ -29,7 +29,7 @@ class Login extends StatelessWidget {
                           children: <Widget>[
                             Expanded(
                                 child: Padding(
-                                padding: EdgeInsets.only(top: 40),
+                              padding: EdgeInsets.only(top: 40),
                             )),
                           ],
                         )),
@@ -68,52 +68,57 @@ Widget roundedRectButton(
     String title, List<Color> gradient, bool isEndIconVisible) {
   return Builder(builder: (BuildContext mContext) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.pushNamed(mContext, '/page');
       },
       child: Padding(
-      padding: EdgeInsets.only(bottom: 10),
-      child: Stack(
-        alignment: Alignment(1.0, 0.0),
-        children: <Widget>[
-          Container(
-            alignment: Alignment.center,
-            width: MediaQuery.of(mContext).size.width / 1.7,
-            decoration: ShapeDecoration(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0)),
-              gradient: LinearGradient(
-                  colors: gradient,
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight),
+        padding: EdgeInsets.only(bottom: 10),
+        child: Stack(
+          alignment: Alignment(1.0, 0.0),
+          children: <Widget>[
+            Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(mContext).size.width / 1.7,
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0)),
+                gradient: LinearGradient(
+                    colors: [
+                     Color(0xFFfb7437),
+                      Color(0xFFfb7437),
+                    ], //gradient,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight),
+              ),
+              child: Text(
+                title,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500),
+              ),
+              padding: EdgeInsets.only(top: 16, bottom: 16),
             ),
-            child: Text(
-              title,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500),
+            Visibility(
+              visible: isEndIconVisible,
+              child: Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: ImageIcon(
+                    AssetImage("assets/ic_forward.png"),
+                    size: 30,
+                    color: Colors.white,
+                  )),
             ),
-            padding: EdgeInsets.only(top: 16, bottom: 16),
-          ),
-          Visibility(
-            visible: isEndIconVisible,
-            child: Padding(
-                padding: EdgeInsets.only(right: 10),
-                child: ImageIcon(
-                  AssetImage("assets/ic_forward.png"),
-                  size: 30,
-                  color: Colors.white,
-                )),
-          ),
-          /*IconButton(
+            /*IconButton(
             icon: Icon(Icons.info),
             onPressed: () {
               Navigator.pushNamed(mContext, '/home');
             },
           )*/
-        ],
-      ),),);
+          ],
+        ),
+      ),
+    );
   });
 }
 

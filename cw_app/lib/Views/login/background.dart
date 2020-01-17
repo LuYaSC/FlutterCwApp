@@ -5,20 +5,23 @@ class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      backgroundColor: Colors.blue[900],
+      backgroundColor:Color(0xFF014B8E),
       //backgroundColor: Image.asset('assets/images/logo1.jpg', width: MediaQuery.of(context).size.width/1.8,),
       body: Column(
         children: <Widget>[
           Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
-              Image.asset('assets/images/logo1.jpg', width: MediaQuery.of(context).size.width/1.8,),
+              Image.asset(
+                'assets/images/logoSF.png',
+                width: MediaQuery.of(context).size.width / 1.8,
+                height: MediaQuery.of(context).size.width / 1.8,
+              ),
               WavyHeader(),
             ],
           ),
           Expanded(
-            child: Container(
-            ),
+            child: Container(),
           ),
           Stack(
             alignment: Alignment.bottomLeft,
@@ -35,15 +38,18 @@ class Background extends StatelessWidget {
 }
 
 const List<Color> orangeGradients = [
-  Color(0xFFFF9844),
+  Color(0xFFFF4F10),
+  //Color(0xFF80D8FF),
+  Color(0xFFfb7437),
+  /*Color(0xFFFF9844),
   Color(0xFFFE8853),
-  Color(0xFFFD7267),
+  Color(0xFFFD7267),*/
 ];
 
 const List<Color> aquaGradients = [
-  Color(0xFF039BE5),
+  Color(0xFFFF4F10),
   //Color(0xFF80D8FF),
-  Color(0xFF0D47A1),
+  Color(0xFFfb7437),
 ];
 
 class WavyHeader extends StatelessWidget {
@@ -88,9 +94,9 @@ class CirclePink extends StatelessWidget {
     return Transform.translate(
       offset: Offset(-70.0, 90.0),
       child: Material(
-        color: Colors.orange,
+        color: Color(0xFFfb7437),
         child: Padding(padding: EdgeInsets.all(120)),
-        shape: CircleBorder(side: BorderSide(color: Colors.white, width: 15.0)),
+        shape: CircleBorder(side: BorderSide(color: Color(0xFF014B8E), width: 15.0)),
       ),
     );
   }
@@ -102,9 +108,9 @@ class CircleYellow extends StatelessWidget {
     return Transform.translate(
       offset: Offset(0.0, 210.0),
       child: Material(
-        color: Colors.lightBlue,
+        color: Color(0xFFfb7437),
         child: Padding(padding: EdgeInsets.all(140)),
-        shape: CircleBorder(side: BorderSide(color: Colors.white, width: 15.0)),
+        shape: CircleBorder(side: BorderSide(color: Color(0xFF014B8E), width: 15.0)),
       ),
     );
   }
