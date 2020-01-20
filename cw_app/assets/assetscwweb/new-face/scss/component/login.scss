@@ -1,0 +1,513 @@
+.login {
+    &__virtual-keyboard {
+        background: $gray-lighter;
+        display: flex;
+        flex-wrap: wrap;
+        width: auto;
+        justify-content: center;
+        align-items: center;
+        padding: 7px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        -webkit-box-shadow: 0px 0px 13px -2px #dcdcdc;
+        -moz-box-shadow: 0px 0px 13px -2px #dcdcdc;
+        box-shadow: 0px 0px 13px -2px #dcdcdc;
+
+        @include breakpoint("small"){
+            margin-bottom: 15px;
+        }
+    }
+
+    &__keyboard-row {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+        button {
+            background-color: $white;
+            color: $gray-dark;
+            border: none;
+            margin-bottom: 7px;
+            width: 9%;
+            font-size: 10px;
+            font-family: Lato;
+            padding: 4px 0;
+            @include all-ease(); 
+            p {
+                margin: 0;
+            }
+
+            &:hover  {
+                background-color: $gray-dark;
+                color:$white;
+            }
+        }
+    }
+
+    &__error {
+        color:$red;
+    }
+    .button--fixed-alias{
+        top:86vh;
+    }
+
+    &__password-container {
+        display: flex;
+        p{
+            color: gray;
+            position: relative;
+            left: -26px;
+            top: 3px;
+            margin-right: -12px;
+        }
+    }
+
+    &--height-full {
+        min-height: calc(100vh); 
+        
+        &-password{
+            min-height: calc(100vh); 
+         @include breakpoint("small"){
+                 min-height: calc(100vh - 165px);
+             }
+         }
+
+        &-firsttime{
+            min-height: calc(100vh); 
+
+            @include breakpoint("small"){
+                min-height: calc(100vh - 165px);
+            }
+        }
+
+        &-alias{
+            min-height: calc(80vh);
+
+            @include breakpoint("small"){
+                min-height: calc(100vh - 165px);
+            }
+        }
+
+        @include breakpoint("small"){
+            min-height: calc(100vh - 165px);
+        }
+    } 
+    
+    &--background{
+
+        &-login{
+            background-image: url('../images/backgrounds/login.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin-left: -15px;
+            padding-left: 40px;
+
+            @include breakpoint("small"){
+                text-align: center;
+                padding-left: 30px;
+                padding-bottom:30px;
+                height: 85vh;
+                margin-bottom: 30px;
+            }
+        }
+
+        &-password{
+            background-image: url('../images/backgrounds/password-login.jpg');
+            padding-left: 130px;
+    
+            @include breakpoint("small"){
+                margin-left: 0;
+                margin-bottom: 0;
+                padding:0 35px 50px 35px;
+            }
+        }
+
+        &-firsttime{
+            background-image: url('../images/backgrounds/first-time.jpg');
+            padding-left: 110px;
+    
+            @include breakpoint("small"){
+                padding:0 24px;
+                margin:0;
+            }
+        }
+
+        &-alias{
+            background-image: url('../images/backgrounds/alias.jpg');
+            padding-left: 115px;
+
+            @include breakpoint("small"){
+                margin-bottom: 0;
+                margin-left: 0;
+                padding: 0 30px;
+            }
+        }
+    }
+
+    &__a--password {
+        color: $primary;
+        text-decoration: underline;
+        text-align: center;
+        width: 100%;
+        font-size: 12px;
+
+        &:hover{
+            color:$secondary;
+            transition:0.5s;
+        }
+
+        &:focus{
+            color: $primary;
+            outline: none;
+        }
+
+        &:disabled{
+            color:#D8D8D8;
+            text-decoration: none;
+        }
+    }
+
+    &__checkbox-p {
+        font-size: 12px;
+    }
+
+    &--container-a {
+        text-align: center;
+        margin-bottom: 70px;
+        margin-top: 12px;
+
+        .login__p--password{
+            margin-bottom: 50px;
+
+            @include breakpoint("small"){
+                margin-bottom: 40px;
+            }
+        }
+
+        @include breakpoint("small"){
+            margin-bottom: 10px;
+        }
+    }
+
+    &__p-post {
+        width: 215px;
+        margin: 0 auto;
+        padding: 10px 0;
+        font-size:12px;
+
+        a{
+            color: $primary;
+
+            &:hover{
+                color:$secondary;
+                transition:0.5s;
+            }
+        }
+
+        @include breakpoint("small"){
+            width: 212px;
+        }
+    }
+
+    &__separator {
+        height: 1px;
+        width: 214px;
+        background-color: $gray-light;
+        margin: 12px auto;
+
+        @include breakpoint("small"){
+            margin: 10px 0 10px 36px;
+            width: 189px;
+        }
+    }
+
+    &__h1{
+        color:$white ;
+        font-size: 50px;
+        line-height: 60px;
+        width: 50%;
+
+        @include breakpoint("small"){
+            width:100%;
+            font-size: 44px;
+            font-weight: bold;
+        }
+
+        &-password{
+            font-weight: bold;
+            width: 100%;
+            margin-top:38px;
+    
+            @include breakpoint("small"){
+                font-size: 50px;
+                padding: 0 22px;
+            }
+        }
+
+        &-firsttime{
+            width: 60%;
+    
+            @include breakpoint("small"){
+                width: 100%;
+                font-size: 42px;
+            }
+        }
+
+        &-alias{
+            width: 40%;
+            
+            @include breakpoint("small"){
+                width: 100%;
+            }
+        }
+    }
+
+    &__h6 {
+        color:$gray-dark;
+        font-size: 18px;
+        font-weight: normal;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        width: 300px;
+        font-family: 'Lato';
+     
+        @include breakpoint("small"){
+            margin-bottom: 25px;
+            margin-top: 10px;
+            padding-right: 20px;
+            width: 100%;
+        }
+
+        &-password{
+            margin-top: 35px;
+            margin-bottom: 14px;
+        }
+
+        &-firsttime{
+            margin-top: 35px;
+        }
+
+        &-alias{
+            margin-top: 25px;
+        }
+    }
+
+    &__label {
+        color:$primary;
+        font-size: 14px;
+        font-family: 'Lato';
+        font-weight: normal;
+    }
+
+    &__form {
+
+        .form-group{
+            margin-bottom: 20px;
+
+            p{
+                font-size: 12px;
+                font-family: 'Lato';
+                margin-top: 6px;
+            }
+
+            @include breakpoint("small"){
+                margin-bottom: 18px;
+            }
+        }
+
+
+        .form-group-password{
+            margin-bottom: 15px;
+            margin-top: -10px;
+
+            p{
+                display: inline;
+                font-size: 12px;
+                color:$gray-dark;
+            }
+        }
+
+        .form-control{
+            width: 300px;
+        
+            &:focus{
+                border: 1px solid $primary;
+                box-shadow: none;
+            }
+
+            @include breakpoint("small"){
+                width: 100%;
+             }
+        }
+
+        .form-submit{
+            text-align: center;
+
+            &-alias{
+                margin-top: 20px;
+                margin-bottom: 15px;
+            }
+        }
+
+        .form-password-info{
+            width: 125px;
+            position: absolute;
+            top: 36vh;
+            right: -21vh;
+
+            &-firsttime{
+                top: 39vh; 
+            }
+
+            p{
+                font-family: 'Lato';
+                font-size: 10px;
+                color: #333333;
+            }
+
+            @include breakpoint("small"){
+                position: static;
+                width: 94%;
+                margin-top: 26px;
+            }
+
+        }
+
+        .password-bar-info{
+            background-color:$primary;
+            height: 1px;
+            width: 20px;
+            margin-bottom: 5px;
+        }
+
+        .checkbox{
+            @include breakpoint("small"){
+                display: none;
+            }
+        }
+
+        @include breakpoint("small"){
+            width: 100%;
+        }
+    }
+
+    &__btn-submit {
+
+        @include breakpoint("small"){
+            width: 134px;
+            margin-top: 15px;
+        }
+    }
+
+    &__p {
+        color:$white ;
+        font-size: 12px;
+        line-height: 17px;
+        margin-top: 30px;
+        margin-bottom: 65px;
+
+        @include breakpoint("small"){
+            margin-bottom: 50px;
+            margin-top: 35px;
+        }
+
+        &-firsttime{
+            width: 60%;
+            margin-bottom: 58px;
+    
+            @include breakpoint("small"){
+                width: 100%;
+                margin-top: 20px;
+                margin-bottom: 38px;
+            }
+        }
+
+        &-password{
+            width: 393px;
+            padding-left: 6px;
+            margin-top: 20px;
+            margin-bottom: 60px;
+    
+            @include breakpoint("small"){
+                width: 100%;
+                padding-left: 0;
+                margin-bottom: 44px;
+                margin-top: 22px;
+            }         
+        }
+
+        &-alias{
+            width: 56%;
+    
+            @include breakpoint("small"){
+                font-size: 13px;
+                margin-bottom: 70px;
+                margin-top: 15px;
+                width: 100%;
+            }
+        }
+    }
+
+    &__center-flex-login {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__left-flex-login{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    &--container-form{
+
+        .form--margin{
+            margin-top: 35px;
+        }
+
+        .form--margin-password{
+            margin-top: 14px;
+        }
+
+        @include breakpoint("small"){ //
+            padding:0 26px;
+        }
+    }
+
+    &__password-condition{
+        margin-left: 108px;
+
+        @include breakpoint("small"){
+            margin-left: 76px;
+        }
+    }
+
+    &__bar-condition{
+        width: 299px;
+        height: 8px;
+        border-radius: 4px;
+        background-color: $green;
+        margin:5px 0;
+
+        @include breakpoint("small"){
+            width: 100%;
+        }
+    }
+
+    &__keyboard{
+        width: 297px;
+        height:95px;
+        border-radius: 9px;
+        background-color:$keyboard;
+        margin:20px 0;
+
+        @include breakpoint("small"){
+            display: none;
+        }
+    }
+}
+
+.password--container--a{
+    margin-bottom: 0;
+}

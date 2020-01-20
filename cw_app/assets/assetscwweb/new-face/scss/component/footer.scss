@@ -1,0 +1,39 @@
+.footer {
+    background-color: #F5F5F5;
+    height: 80px;
+    border-top: 5px solid $primary;
+    padding: 0px 112px;
+
+    &__text-left {
+        float: left;
+        position: relative;
+        width: 440px;
+        top: 20px;
+        font-size:12px;
+
+        @include breakpoint("small"){
+            width:100%;
+            font-size: 12px;
+        }
+    }
+
+    &__text-right {
+        float: right;
+        position: relative;
+        width: 322px;
+        top: 20px;
+        color:$secondary-dark;
+        font-size:12px;
+        
+        @include breakpoint("small"){
+            width:100%;
+            font-size: 12px;
+        }
+     }
+    
+    @include breakpoint("small"){
+        height: auto;
+        padding: 0 8px 40px 30px;
+        margin-top: 20px;
+    }
+}

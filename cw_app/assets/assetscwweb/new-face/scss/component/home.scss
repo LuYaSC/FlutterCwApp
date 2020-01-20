@@ -1,0 +1,359 @@
+.home {
+
+    &__ref-title {
+        display: flex;
+        font-size: 10px;
+        color: $gray-darker;
+    }
+    
+    &__subtitle{
+        background-color: $secondary;
+        min-height:60px;
+    }
+
+    &__h2 {
+        color:$white;
+        margin-top: 17px;
+        font-size: 24px;  
+    }
+
+    &__view-mode  {
+        display: flex;
+        align-items: center;
+        p {
+            margin:0 10px 0 0;
+        }
+
+        svg {
+            margin-right: 6px;
+        }
+    }
+
+    &__mobile-table-text {
+        font-weight: bold;
+        text-align: left;
+    }
+
+    &__saldo__volver{
+        margin:10px;
+
+        @include breakpoint("small"){
+            display: none;
+        }
+    }
+
+    &__table {
+        margin-bottom:50px;
+        width: 100%;
+        font-size: 11px;
+        thead tr {
+            height: 60px;
+            background-color: $primary;
+            color: white;
+        }
+
+        th, tr {
+            text-align:center;
+            
+        }
+
+        tbody>tr:nth-child(even) {background: $gray-lighter}
+        tbody>tr:nth-child(odd) {background: #FFF}        
+
+        td {
+            padding: 9px 0px;
+        }
+
+        td:first-of-type  {
+            display:none;
+        }
+    }
+
+    &__ref-title {
+        font-size: 16px;
+     
+    }
+
+    &__container-ref {
+        width: 100%;
+        display:flex;
+        justify-content: space-between;
+        color:$gray-dark;
+        margin: 20px 0;
+
+        button {
+            display: flex;
+            padding: 4px 8px;
+            margin-left: 14px;
+            border: none;
+            font-size: 12px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.19);
+            -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.19);
+            box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.19); 
+            @include all-ease();
+
+            svg {
+                margin-top: 3px;   
+            }
+            &.selected {
+                background-color: $primary;
+                color: $white;
+            }
+            &:hover {
+                background-color: $gray-medium;
+            }
+        }
+    }
+
+    &__container-data {
+        background-color: #F9F9F9;
+        width: 100%;
+        display:flex;
+        justify-content: flex-start;
+        margin: 0 0 20px;
+        padding: 7px 7px 7px 26px;
+
+    }
+
+    &__table-title {
+        display:none;
+
+        &__colA {
+            width: 28%;
+            color: $primary;
+        }
+        &__colB {
+            width: 14%;
+            font-size: 10px;
+            font-weight: bold;
+            padding-bottom: 20px;
+            color:$primary;
+        }
+    }
+
+    &__card-saldo--hidden{
+        display: none;
+
+        @include breakpoint("small"){
+            display: block;
+            margin-top:20px;
+        }
+    }
+
+    &__table-card-saldo{
+        .home__card{
+            display:flex !important;
+        }
+    }
+
+    &__table-title-saldo{
+        display:flex; 
+
+        @include breakpoint("small"){
+            display: none;
+
+        }
+    }
+
+    &__card {
+        -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.19);
+        -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.19);
+        box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.19); 
+        margin: 0px 0px 20px 0px;
+        width: 100%;
+        min-height: 170px;
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 15px;
+        @include all-ease();
+        cursor:pointer;
+        &:hover {
+            -webkit-box-shadow: 0px 2px 5px 3px rgba(0,0,0,0.19);
+            -moz-box-shadow: 0px 2px 5px 3px rgba(0,0,0,0.19);
+            box-shadow: 0px 2px 5px 3px rgba(0,0,0,0.19) ;
+
+        }
+
+        &__item-access {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+
+            &:hover {
+                .home__card__item-access__icon{
+                    font-size: 25px;
+                }
+                
+                svg {
+                    fill:$primary;
+                    color:$primary;
+                }
+                .home__card__item-access__p{
+                    color: $primary;
+                }
+            }
+
+            p {
+                margin:0;
+            }
+            &__icon {
+                border: 1px solid $primary;
+                border-radius:50%;
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 10px;
+                @include all-ease();
+                svg {
+                    fill:$primary;
+                    color:$primary;
+                }
+            }
+            
+        }
+
+        &__see-transaction a {
+            color: $primary;
+            font-size: 10px;
+            text-decoration: underline;
+            margin-top:10px; 
+
+
+            &:hover{
+                color:$secondary;
+                transition:0.5s;
+            }
+
+            &:focus{
+                outline: none;
+            }
+        }
+
+        &__item {
+            width: 50%;
+
+            @include breakpoint("small"){
+                width: 100%;
+            }
+
+            &__small-title {
+                color: $primary;
+                margin: 0;
+                font-weight: bold;
+                font-size: 12px;
+            }
+
+            &__small-value {
+                color:#000;
+                font-weight: bold;
+                font-size: 12px;
+            }
+        }
+
+        &__title {
+            font-size: 20px;
+            display: flex;
+
+            @include breakpoint("small"){
+                display: inline-flex;
+            }
+
+            &__medium-title {
+                font-size: 18px;
+                color: $primary;
+                margin-right: 11px;
+                font-weight: bold;
+
+                @include breakpoint("small"){
+                    font-size: 13px;
+                }
+            }
+
+            &__medium__value {
+                font-size: 18px;
+                color: #000;
+                font-weight: bold; 
+
+                @include breakpoint("small"){
+                    font-size: 13px;
+                }
+            }
+        }
+
+        @include breakpoint("small"){
+            display: block;
+        }
+    }
+
+    &__data__value {
+        color: $primary;
+        font-size: 25px;
+        margin: 0;
+    }
+
+    &__data {
+        margin-right: 70px;
+    }
+
+    &__button {
+        width: 187px;
+        background: white;
+        border: solid $primary 1px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+
+        svg {
+            margin-right: 20px;
+        }
+    }
+
+    &__layout {
+        &__list{
+            .home__card__title__medium-title, .home__card__title__medium__value, .home__card__item__small-value {
+                font-size: 10px;
+                margin-bottom: 0;
+            }
+            .home__card {
+                min-height: auto;
+                height: 43px;
+                margin: 0px 0px 15px 0px;
+                display: flex;
+            }
+
+            .home__card__item__small-title {
+                display: none;
+                margin-bottom: 0;
+            }
+
+            .home__card__item {
+                width: auto;
+                margin-bottom: 0;
+            }
+
+            .home__card__title {
+                width: 27%;
+                margin-bottom: 0;
+            }
+
+            .home__card__item {
+                width: 15% !important;
+                margin-bottom: 0;
+            }
+
+            .home__table-title {
+                display: flex;
+                font-size: 10px !important;
+                color: $primary;
+            }
+        }
+    }
+}

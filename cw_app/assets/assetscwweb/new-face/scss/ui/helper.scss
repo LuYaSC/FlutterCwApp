@@ -1,0 +1,93 @@
+.helpers {
+    &__hide-medium {
+        @include breakpoint("medium"){
+            display: none !important;
+        }
+    }
+
+    &__show-medium {
+        @include breakpoint("medium"){
+            display: block !important;
+        }
+        @include breakpoint("large"){
+            display: none !important;
+        }
+    }
+
+    &__show-small {
+        @include breakpoint("only-mobile"){
+            display: none !important;
+        }
+    }
+
+    &__hidden-small{
+        @include breakpoint("small"){
+            display: none !important;
+        }
+    }
+
+    &__inactive {
+        opacity: .5;
+    }
+
+    &__hide {
+        display: none !important;
+    }
+
+    &__bold {
+        font-weight: bold;
+    }
+
+    &__text-left {
+        text-align: left;  
+    }  
+
+    &--padding-top-A {
+        padding-top: 70px;
+    }
+    &--padding-top-B {
+    margin-top: 25px !important;
+    }
+
+    &--margin-bottom-A {
+    margin-bottom: 0px !important;
+    }
+
+    &__flex {
+        display: flex;
+        @include breakpoint ('medium'){
+            display: block;
+        }
+    }
+
+    &__modal-large {
+        width: 75%;
+        @include breakpoint('small'){
+            width: 100% !important;
+        }
+    }
+
+    &__select-modal {
+        width: 95% !important;
+        display: block;
+        margin-top: 10px;
+        @include breakpoint('small'){
+            width: 100% !important;
+        }
+    }
+
+    &__fin--margin{
+
+        @include breakpoint("small"){
+            padding:0 25px;
+            margin-top:20px;
+        }
+    }
+}
+
+button:focus { outline:0 !important; }
+option { margin: 100px !important;}
+* {font-family: 'Lato';}
+.form-group {
+    margin-bottom: 9px !important;
+}

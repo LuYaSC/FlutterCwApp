@@ -1,0 +1,370 @@
+.haberes{
+
+    &__button-secondary{
+        margin-top:35px;
+
+        @include breakpoint("small"){
+            margin-top:0;
+        }
+    }
+
+    &__details{
+
+        label{
+            margin-right:12px;
+        }
+
+        select{
+            width: 85%;
+
+            @include breakpoint("small"){
+                width: 82%;
+            }
+        }
+
+        button{
+            width: 50%;
+            margin-top: 100px;
+
+            @include breakpoint("small"){
+                margin-top:0;
+                width: 95%;
+            }
+        }
+    }
+
+    &__debit{
+        margin-bottom: 9px;
+        margin-top: -4px;
+
+        @include breakpoint("small"){
+            margin-bottom: 0px;
+            margin-top: 15px;
+        }
+
+        p{
+            font-size: 12px;
+            font-family: 'Lato';
+            font-weight: normal;
+            margin-right: 30px;
+            display: inline-block;
+        }
+    }
+
+    &__destination{
+    
+        &-options{
+            margin-bottom: 10px;
+
+            button{
+                width: 30%;
+            }
+
+            select{
+                display: none;
+
+                @include breakpoint("small"){
+                    display: block;
+                }
+            }
+        }
+
+        &-examine{
+            margin: 30px -15px;
+            
+            button{
+                width: 30%;
+                margin-top: 10px;
+                margin-right: 25px;
+
+                @include breakpoint("small"){
+                    width: 70%;
+                    margin-bottom: 15px;
+                    display: block;
+                }
+            }
+
+            span{
+                font-family: 'Lato';
+                color:$gray-dark;
+
+                @include breakpoint("small"){
+                    font-weight: bold;
+                }
+            }
+
+            select{
+                display: none;
+                margin-bottom: 10px;
+
+                @include breakpoint("small"){
+                    display: block;
+                }
+            }
+
+            @include breakpoint("small"){
+                margin-top:0;
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &_text-info{
+        padding-top:10px;
+
+        p{ 
+            font-size: 14px;
+
+            @include breakpoint("small"){
+                font-size: 12px;
+            }
+        }
+
+        .historical__p--cancel a{
+            text-decoration:none; 
+        }
+
+        @include breakpoint("small"){
+            margin-top:10px;
+        }
+    }
+
+    &__alert p{
+        width: 96%;
+    }  
+
+    &__card{
+
+        .transferencias__card{
+
+            @include breakpoint("small"){
+                display: block;
+            }
+        }
+    }
+
+    &__submit{
+
+        @include breakpoint("small"){
+            text-align: center;
+        }
+
+        div{
+            @include breakpoint("small"){
+                padding: 5px;
+            }
+        }
+
+        .button__principal{
+
+            @include breakpoint("small"){            
+                 width: 90%;
+            }
+        }
+
+        .button__secondary{
+
+            @include breakpoint("small"){
+                width: 70%;
+            }
+        }
+    }
+
+    &__table{
+    
+        .actions svg{
+            margin:0 10px;
+            cursor: pointer;
+        }
+
+        &-mobile{
+            
+            @include breakpoint("small"){
+                display: table;
+            }
+
+            .actions{
+                margin-top:20px;
+                display: inline-flex;
+                align-items: baseline;
+
+                p{
+                    font-weight: normal;
+                }
+            }
+        }
+    }
+
+    &__destination-info{
+        margin:20px 0 0 0;
+
+        &--hidden{
+            display: none;
+
+            button{
+                width: 80%;
+                margin-bottom: 25px;
+            }
+
+            @include breakpoint("small"){
+                display: block;
+            }
+        }
+
+        .card-info{
+            background-color:#F9F9F9;
+            padding: 20px;
+        }
+
+        p{
+            margin:0;
+        }
+
+        .text-big{
+            font-size: 25px;
+            color:$primary;
+        }
+
+        .text-small{
+            font-size: 14px;
+            color:$gray-dark;
+        }
+
+        .text--green{
+            color:$green;
+        }
+
+        button{
+            margin-top:15px;
+            width: 80%;
+        }
+    }
+
+    &__modal{
+
+        .modal__title{
+            font-size: 16px;
+        }
+    
+        &__inputs{
+            .input-numero{
+                input{
+                    width: 95% !important;
+
+                    @include breakpoint("small"){
+                        width: 100% !important;
+                    }
+                }
+            }
+        }
+    }
+
+    &__previous-form{
+        padding-right: 50px;
+        margin-bottom: 20px;
+
+        @include breakpoint("small"){
+            margin-bottom: 10px;
+        }
+
+        select{
+            width: 98%;
+        }
+
+        button{
+            width: 20%;
+            margin-top:20px;
+
+            @include breakpoint("small"){
+                width: 100%;
+            }
+        }
+    }
+
+    &__manual-form{
+        margin-top:15px;
+        padding-bottom: 30px;
+
+        @include breakpoint("small"){
+            margin-top:0;
+        }
+
+        .button__secondary{
+            margin-top:20px;
+        }
+
+       .box-input{
+           margin-bottom:10px;
+
+            input{
+                padding: 8px 10px;
+                width: 90%;
+
+                @include breakpoint("small"){
+                    width: 82%;
+                }
+            }
+
+            .input--width{
+                width:89%;
+            }
+
+            select{
+                padding: 8px 10px;
+                width: 77%;
+
+                @include breakpoint("small"){
+                    width: 81% !important;
+                }
+            }
+
+            svg{
+                margin-left: 10px;
+                font-size: 15px;
+            }
+       }
+    }
+}
+
+.ach{
+    &__card{
+        padding: 41px 0 20px 0;
+    }
+
+    &__details{
+        button{
+            width: 100%;
+        }
+
+        &__input{
+            margin-top:100px;
+            background-color: #F9F9F9;
+            color:black;
+
+            @include breakpoint("small"){
+                margin-top:20px;
+            }
+        }
+    }
+
+    &__alert-error{
+        margin-top:20px;
+    }
+
+    &__card-info{
+        button{
+            margin-top: 6px;
+        }
+    }
+
+    &__table{
+
+        table{
+            margin-bottom:40px;
+
+            @include breakpoint("small"){
+                margin-bottom: 0;
+            }
+        }
+    }
+}

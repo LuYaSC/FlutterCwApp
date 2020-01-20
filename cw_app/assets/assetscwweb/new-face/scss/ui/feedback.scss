@@ -1,0 +1,29 @@
+.alert{
+    width: 100%;
+    display: inline-flex;
+    flex-wrap: wrap;
+    padding: 12px 20px;
+    margin-bottom:10px;
+
+    div:first-child{
+        margin-top:5px;
+    }
+
+    p{
+        display: inline-block;
+        margin-left: 10px;
+        font-size: 14px;
+    }
+
+    &-attention{
+        background-color:  #FFFFBF;
+    }
+
+    &-information{
+        background-color: #F3F3F3;
+    }
+
+    &-error{
+        color: $red;
+    }
+}
