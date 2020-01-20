@@ -5,7 +5,7 @@ class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      backgroundColor:Color(0xFF014B8E),
+      backgroundColor: Colors.white,// Color(0xFF014B8E),
       //backgroundColor: Image.asset('assets/images/logo1.jpg', width: MediaQuery.of(context).size.width/1.8,),
       body: Column(
         children: <Widget>[
@@ -13,9 +13,9 @@ class Background extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             children: <Widget>[
               Image.asset(
-                'assets/images/logoSF.png',
-                width: MediaQuery.of(context).size.width / 1.8,
-                height: MediaQuery.of(context).size.width / 1.8,
+                'assets/images/logo1.jpg',
+                width: MediaQuery.of(context).size.width / 1.6,
+                height: MediaQuery.of(context).size.width / 2.1,
               ),
               WavyHeader(),
             ],
@@ -38,9 +38,11 @@ class Background extends StatelessWidget {
 }
 
 const List<Color> orangeGradients = [
-  Color(0xFFFF4F10),
+  Color(0xFF014B8E),
+  //Color(0xFFFF4F10),
   //Color(0xFF80D8FF),
-  Color(0xFFfb7437),
+  Color(0xFF014B8E),
+  //Color(0xFFfb7437),
   /*Color(0xFFFF9844),
   Color(0xFFFE8853),
   Color(0xFFFD7267),*/
@@ -82,7 +84,7 @@ class WavyFooter extends StatelessWidget {
               begin: Alignment.center,
               end: Alignment.bottomRight),
         ),
-        height: MediaQuery.of(context).size.height / 3,
+        height: MediaQuery.of(context).size.height / 5,
       ),
     );
   }
@@ -95,8 +97,9 @@ class CirclePink extends StatelessWidget {
       offset: Offset(-70.0, 90.0),
       child: Material(
         color: Color(0xFFfb7437),
-        child: Padding(padding: EdgeInsets.all(120)),
-        shape: CircleBorder(side: BorderSide(color: Color(0xFF014B8E), width: 15.0)),
+        child: Padding(padding: EdgeInsets.all(90)),
+        shape: CircleBorder(
+            side: BorderSide(color: Colors.white, width: 15.0)),
       ),
     );
   }
@@ -110,7 +113,8 @@ class CircleYellow extends StatelessWidget {
       child: Material(
         color: Color(0xFFfb7437),
         child: Padding(padding: EdgeInsets.all(140)),
-        shape: CircleBorder(side: BorderSide(color: Color(0xFF014B8E), width: 15.0)),
+        shape: CircleBorder(
+            side: BorderSide(color: Colors.white, width: 15.0)),
       ),
     );
   }
