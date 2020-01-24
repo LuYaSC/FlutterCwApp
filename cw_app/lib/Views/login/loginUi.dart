@@ -22,7 +22,8 @@ class Login extends StatelessWidget {
                 Stack(
                   alignment: Alignment.bottomRight,
                   children: <Widget>[
-                    InputWidget(30.0, 0.0, 'Introduzca su Tarjeta'),
+                    InputWidget('90000100000', 16, 'Tarjeta',
+                        TextInputType.number, false),
                     Padding(
                         padding: EdgeInsets.only(right: 50),
                         child: Row(
@@ -38,7 +39,7 @@ class Login extends StatelessWidget {
                 Stack(
                   alignment: Alignment.bottomRight,
                   children: <Widget>[
-                    InputWidget(30.0, 0.0, 'Introduzca su Contraseña'),
+                    InputWidget('', 35, 'Contraseña', TextInputType.text, true),
                     Padding(
                         padding: EdgeInsets.only(right: 50),
                         child: Row(
@@ -50,6 +51,15 @@ class Login extends StatelessWidget {
                           ],
                         )),
                   ],
+                ),
+                Checkbox(value: false, onChanged: (bool newBalue) => true),
+                CheckboxListTile(
+                  title: Text("Recordar mi numero acceso"),
+                  activeColor: Color(0xFFFF4F10),
+                  value: false,
+                  onChanged: (newValue) => true,
+                  controlAffinity:
+                      ListTileControlAffinity.leading, //  <-- leading Checkbox
                 )
               ],
             ),
@@ -63,6 +73,7 @@ class Login extends StatelessWidget {
     );
   }
 }
+
 
 Widget roundedRectButton(
     String title, List<Color> gradient, bool isEndIconVisible) {
@@ -84,7 +95,7 @@ Widget roundedRectButton(
                     borderRadius: BorderRadius.circular(30.0)),
                 gradient: LinearGradient(
                     colors: [
-                     Color(0xFFfb7437),
+                      Color(0xFFfb7437),
                       Color(0xFFfb7437),
                     ], //gradient,
                     begin: Alignment.topLeft,
