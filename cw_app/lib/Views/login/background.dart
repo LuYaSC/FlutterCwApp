@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;  
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      backgroundColor: Colors.white,// Color(0xFF014B8E),
+      backgroundColor: Colors.white30, //Colors.white,// Color(0xFF014B8E),
       //backgroundColor: Image.asset('assets/images/logo1.jpg', width: MediaQuery.of(context).size.width/1.8,),
       body: Column(
         children: <Widget>[
@@ -24,13 +25,25 @@ class Background extends StatelessWidget {
             child: Container(),
           ),
           Stack(
+            children: <Widget>[
+              Center(
+                child: new Image.asset(
+                  'assets/assetscwweb/new-face/images/backgrounds/login.jpg',
+                  width: 100,//size.width,
+                  height: 100,//size.height,
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+            ],
+          ),
+          /*Stack(
             alignment: Alignment.bottomLeft,
             children: <Widget>[
-              WavyFooter(),
+              /*WavyFooter(),
               CirclePink(),
-              CircleYellow(),
+              CircleYellow(),*/
             ],
-          )
+          )*/
         ],
       ),
     );
@@ -98,8 +111,7 @@ class CirclePink extends StatelessWidget {
       child: Material(
         color: Color(0xFFfb7437),
         child: Padding(padding: EdgeInsets.all(90)),
-        shape: CircleBorder(
-            side: BorderSide(color: Colors.white, width: 15.0)),
+        shape: CircleBorder(side: BorderSide(color: Colors.white, width: 15.0)),
       ),
     );
   }
@@ -113,8 +125,7 @@ class CircleYellow extends StatelessWidget {
       child: Material(
         color: Color(0xFFfb7437),
         child: Padding(padding: EdgeInsets.all(140)),
-        shape: CircleBorder(
-            side: BorderSide(color: Colors.white, width: 15.0)),
+        shape: CircleBorder(side: BorderSide(color: Colors.white, width: 15.0)),
       ),
     );
   }

@@ -52,7 +52,7 @@ class Login extends StatelessWidget {
                         )),
                   ],
                 ),
-                Checkbox(value: false, onChanged: (bool newBalue) => true),
+               // Checkbox(value: false, onChanged: (bool newBalue) => true),
                 CheckboxListTile(
                   title: Text("Recordar mi numero acceso"),
                   activeColor: Color(0xFFFF4F10),
