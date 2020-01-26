@@ -16,6 +16,8 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.1.0 <3.0.0"
 
+  
+
 dependencies:
   flutter:
     sdk: flutter
@@ -25,15 +27,19 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   splashscreen:
   cupertino_icons: ^0.1.2
+  flutter_screenutil: ^0.4.2
+  auto_size_text: ^2.1.0
   font_awesome_flutter: ^8.5.0
   smooth_star_rating: ^1.0.3
   intl: ^0.16.0
   flutter_svg: ^0.15.0
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+    
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -74,12 +80,22 @@ flutter:
           weight: 600
         - asset: assets/fonts/WorkSans-Bold.ttf
           weight: 700
+
+    - family: Poppins-Bold
+      fonts:
+        - asset: assets/fonts/Poppins-Bold.ttf
+
+    - family: Poppins-Medium
+      fonts:
+        - asset: assets/fonts/Poppins-Medium.ttf    
+
     - family: Roboto
       fonts:
         - asset: assets/fonts/Roboto-Bold.ttf
         - asset: assets/fonts/Roboto-Regular.ttf
         - asset: assets/fonts/Roboto-Medium.ttf
           weight: 400
+          
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

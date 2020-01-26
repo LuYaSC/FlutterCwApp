@@ -1,31 +1,31 @@
-import 'package:cw_app/Views/login/login_screem.dart';
+import 'package:cw_app/Views/login/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: MyApp(),
-  ));
-}
+void main() => runApp(MaterialApp(
+      home: MyApp(),
+      debugShowCheckedModeBanner: false,
+    ));
 
 class MyApp extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _MyAppState createState() => new _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: SplashScreen(
+    return Scaffold(
+        body: SplashScreen(
             seconds: 14,
             navigateAfterSeconds: AfterSplash(),
             title: Text(
-              'Credinet Web',
+              'CredinetWeb',
               style: TextStyle(
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                  fontFamily: "Poppins-Bold",
+                  //fontWeight: FontWeight.bold,
                   fontSize: 20.0),
             ),
             /*loadingText: Text(
@@ -46,13 +46,9 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class AfterSplash extends StatelessWidget {
+class AfterSplash extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    //return new LoginScreem();
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: LoginScreem(),
-    );
+    return LoginScreen();
   }
 }
