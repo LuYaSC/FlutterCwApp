@@ -49,19 +49,6 @@ class _LoginScreen extends State<LoginScreen> {
   Future<void> _getListOfBiometricTypes() async {
     List<BiometricType> listofBiometrics;
     try {
-      if (Platform.isIOS) {
-        if (listofBiometrics.contains(BiometricType.face)) {
-          
-          // Face ID.
-        } else if (listofBiometrics.contains(BiometricType.fingerprint)) {
-          // Touch ID.
-          const iosStrings = const IOSAuthMessages(
-              cancelButton: 'cancel',
-              goToSettingsButton: 'settings',
-              goToSettingsDescription: 'Please set up your Touch ID.',
-              lockOut: 'Please reenable your Touch ID');
-        }
-      }
       listofBiometrics = await _localAuthentication.getAvailableBiometrics();
     } on PlatformException catch (e) {
       print(e);
@@ -78,7 +65,12 @@ class _LoginScreen extends State<LoginScreen> {
     bool isAuthorized = false;
     try {
       isAuthorized = await _localAuthentication.authenticateWithBiometrics(
-        localizedReason: "Please authenticate to complete your transaction",
+        localizedReason: 'Please authenticate to complete your transaction',
+        iOSAuthStrings: const IOSAuthMessages(
+            cancelButton: 'cancel',
+            goToSettingsButton: 'settings',
+            goToSettingsDescription: 'Please set up your Touch ID.',
+            lockOut: 'Please reenable your Touch ID'),
         useErrorDialogs: true,
         stickyAuth: true,
       );
