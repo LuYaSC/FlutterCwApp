@@ -2,15 +2,83 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cw_app/Views/login/FormCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:local_auth/local_auth.dart';
+import 'dart:async';
+import 'package:flutter/services.dart';
 
+void main() {
+  runApp(LoginScreen());
+}
 
-class LoginScreen extends StatelessWidget {
-  final bool isSelected = true;
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreen createState() => _LoginScreen();
+}
 
- void _radio() {
-    //setState(() {
-      //isSelected = false;
-    //});
+class _LoginScreen extends State<LoginScreen> {
+  bool isSelected = false;
+  final LocalAuthentication _localAuthentication = LocalAuthentication();
+  bool _canCheckBiometric = false;
+  String _authorizedOrNot = "Not Authorized";
+  List<BiometricType> _availableBiometricTypes = List<BiometricType>();
+
+  void _radio() {
+    setState(() {
+      isSelected = !isSelected;
+    });
+  }
+
+  Future<void> _checkBiometric() async {
+    bool canCheckBiometric = false;
+    try {
+      canCheckBiometric = await _localAuthentication.canCheckBiometrics;
+    } on PlatformException catch (e) {
+      print(e);
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _canCheckBiometric = canCheckBiometric;
+    });
+  }
+
+  Future<void> _getListOfBiometricTypes() async {
+    List<BiometricType> listofBiometrics;
+    try {
+      listofBiometrics = await _localAuthentication.getAvailableBiometrics();
+    } on PlatformException catch (e) {
+      print(e);
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _availableBiometricTypes = listofBiometrics;
+    });
+  }
+
+  Future<void> _authorizeNow() async {
+    bool isAuthorized = false;
+    try {
+      isAuthorized = await _localAuthentication.authenticateWithBiometrics(
+        localizedReason: "Please authenticate to complete your transaction",
+        useErrorDialogs: true,
+        stickyAuth: true,
+      );
+    } on PlatformException catch (e) {
+      print(e);
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      if (isAuthorized) {
+        _authorizedOrNot = "Authorized";
+      } else {
+        _authorizedOrNot = "Not Authorized";
+      }
+    });
   }
 
   Widget radioButton(bool isSelected) => Container(
@@ -19,17 +87,16 @@ class LoginScreen extends StatelessWidget {
         padding: EdgeInsets.all(2.0),
         decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(width: 2.0, color: Colors.black)),
+            border: Border.all(width: 2.0, color: Color(0xFFf57328))),
         child: isSelected
             ? Container(
                 width: double.infinity,
                 height: double.infinity,
-                decoration:
-                    BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle, color: Color(0xFFf57328)),
               )
             : Container(),
       );
-
 
   @override
   Widget build(BuildContext context) {
@@ -91,14 +158,16 @@ class LoginScreen extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: _radio,
-                            child: radioButton(this.isSelected),
+                            child: radioButton(isSelected),
                           ),
                           SizedBox(
                             width: 8.0,
                           ),
                           Text("Recordarme",
                               style: TextStyle(
-                                  fontSize: 12, fontFamily: "Poppins-Medium"))
+                                  fontSize: 12,
+                                  color: Color(0xFF014B8E),
+                                  fontFamily: "Poppins-Medium"))
                         ],
                       ),
                       InkWell(
@@ -139,65 +208,45 @@ class LoginScreen extends StatelessWidget {
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(40),
                   ),
+                  Text("Can we check Biometric : $_canCheckBiometric"),
+                  RaisedButton(
+                    onPressed: _checkBiometric,
+                    child: Text("Check Biometric"),
+                    color: Colors.red,
+                    colorBrightness: Brightness.light,
+                  ),
+                  SizedBox(
+                    height: ScreenUtil.getInstance().setHeight(40),
+                  ),
+                  Text(
+                      "List Of Biometric : ${_availableBiometricTypes.toString()}"),
+                  RaisedButton(
+                    onPressed: _getListOfBiometricTypes,
+                    child: Text("List of Biometric Types"),
+                    color: Colors.red,
+                    colorBrightness: Brightness.light,
+                  ),
+                  SizedBox(
+                    height: ScreenUtil.getInstance().setHeight(40),
+                  ),
+                  Text("Authorized : $_authorizedOrNot"),
+                  RaisedButton(
+                    onPressed: _authorizeNow,
+                    child: Text("Authorize now"),
+                    color: Colors.red,
+                    colorBrightness: Brightness.light,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       //horizontalLine(),
                       Image.asset(
-                        "assets/images/logo3.png",
+                        "assets/images/logo4.png",
                         width: ScreenUtil.getInstance().setWidth(350),
                         height: ScreenUtil.getInstance().setHeight(350),
                       ),
-                      /*Text("Social Login",
-                          style: TextStyle(
-                              fontSize: 16.0, fontFamily: "Poppins-Medium")),
-                      horizontalLine()*/
                     ],
                   ),
-                  /*SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(40),
-                  ),*/
-                  /*Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SocialIcon(
-                        colors: [
-                          Color(0xFF102397),
-                          Color(0xFF187adf),
-                          Color(0xFF00eaf8),
-                        ],
-                        iconData: CustomIcons.facebook,
-                        onPressed: () {},
-                      ),
-                      SocialIcon(
-                        colors: [
-                          Color(0xFFff4f38),
-                          Color(0xFFff355d),
-                        ],
-                        iconData: CustomIcons.googlePlus,
-                        onPressed: () {},
-                      ),
-                      SocialIcon(
-                        colors: [
-                          Color(0xFF17ead9),
-                          Color(0xFF6078ea),
-                        ],
-                        iconData: CustomIcons.twitter,
-                        onPressed: () {},
-                      ),
-                      SocialIcon(
-                        colors: [
-                          Color(0xFF00c6fb),
-                          Color(0xFF005bea),
-                        ],
-                        iconData: CustomIcons.linkedin,
-                        onPressed: () {},
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(30),
-                  ),*/
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -209,13 +258,6 @@ class LoginScreen extends StatelessWidget {
                             fontFamily: "Poppins-Medium",
                             color: Color(0xFFf57328)),
                       )),
-                      /*InkWell(
-                        onTap: () {},
-                        child: Text("SignUp",
-                            style: TextStyle(
-                                color: Color(0xFF014B8E),
-                                fontFamily: "Poppins-Bold")),
-                      )*/
                     ],
                   ),
                   InkWell(

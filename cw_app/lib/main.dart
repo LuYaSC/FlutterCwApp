@@ -13,19 +13,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SplashScreen(
-            seconds: 14,
-            navigateAfterSeconds: AfterSplash(),
+            seconds: 10,
+            navigateAfterSeconds: LoginScreen(),
             title: Text(
               'CredinetWeb',
               style: TextStyle(
                   color: Colors.white,
                   fontFamily: "Poppins-Bold",
-                  //fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.bold,
                   fontSize: 20.0),
             ),
             /*loadingText: Text(
@@ -40,15 +39,9 @@ class _MyAppState extends State<MyApp> {
                 fit: BoxFit.cover),
             backgroundColor: Color(0xFF002d74),
             styleTextUnderTheLoader: TextStyle(),
-            photoSize: 200.0,
-            onClick: () => print("Flutter Egypt"),
+            photoSize: 150.0,
+            //onClick: () => print("Flutter Egypt"),
             loaderColor: new Color(0xFFFF4F10)));
   }
 }
 
-class AfterSplash extends State<MyApp> {
-  @override
-  Widget build(BuildContext context) {
-    return LoginScreen();
-  }
-}
