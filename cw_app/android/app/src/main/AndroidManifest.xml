@@ -8,7 +8,7 @@
 	-->
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.USE_FINGERPRINT" />
-	<application android:name="io.flutter.app.FlutterApplication" android:label="cw_app" android:icon="@mipmap/ic_launcher">
+	<application android:name="io.flutter.app.FlutterApplication" android:label="CredinetWeb" android:icon="@mipmap/ic_launcher">
 		<activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
 			<meta-data android:name="io.flutter.app.android.SplashScreenUntilFirstFrame" android:value="true" />
 			<intent-filter>

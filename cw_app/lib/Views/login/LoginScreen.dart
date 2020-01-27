@@ -241,7 +241,7 @@ class _LoginScreen extends State<LoginScreen> {
                     children: <Widget>[
                       //horizontalLine(),
                       Image.asset(
-                        "assets/images/logo4.png",
+                        'assets/images/logo4.png',
                         width: ScreenUtil.getInstance().setWidth(350),
                         height: ScreenUtil.getInstance().setHeight(350),
                       ),
@@ -252,10 +252,10 @@ class _LoginScreen extends State<LoginScreen> {
                     children: <Widget>[
                       Expanded(
                           child: AutoSizeText(
-                        "¿Es tu primera vez en Credinet Web? Genera tu clave ingresando",
+                        '¿Es tu primera vez en Credinet Web? Genera tu clave ingresando',
                         maxLines: 5,
                         style: TextStyle(
-                            fontFamily: "Poppins-Medium",
+                            fontFamily: 'Poppins-Medium',
                             color: Color(0xFFf57328)),
                       )),
                     ],
