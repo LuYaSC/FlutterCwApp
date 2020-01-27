@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cw_app/Views/login/FormCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
@@ -46,6 +49,19 @@ class _LoginScreen extends State<LoginScreen> {
   Future<void> _getListOfBiometricTypes() async {
     List<BiometricType> listofBiometrics;
     try {
+      if (Platform.isIOS) {
+        if (listofBiometrics.contains(BiometricType.face)) {
+          
+          // Face ID.
+        } else if (listofBiometrics.contains(BiometricType.fingerprint)) {
+          // Touch ID.
+          const iosStrings = const IOSAuthMessages(
+              cancelButton: 'cancel',
+              goToSettingsButton: 'settings',
+              goToSettingsDescription: 'Please set up your Touch ID.',
+              lockOut: 'Please reenable your Touch ID');
+        }
+      }
       listofBiometrics = await _localAuthentication.getAvailableBiometrics();
     } on PlatformException catch (e) {
       print(e);
