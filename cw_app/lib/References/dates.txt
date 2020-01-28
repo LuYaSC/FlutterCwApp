@@ -30,3 +30,17 @@ https://stackoverflow.com/questions/57180036/flutter-android-error-how-to-extend
 https://github.com/blackmenthor/flutter-android-lifecycle-plugin/pull/3
 https://stackoverflow.com/questions/53652167/get-v4-app-fragmentmanager-from-flutter-plugin
 https://flutter.dev/docs/development/androidx-migration
+
+API REST
+https://github.com/flutter/flutter/issues/21421
+https://github.com/flutter/flutter/issues/21321
+https://pub.dev/packages/image_picker
+http://appsbuilders.org/guides/how-to-create-login-system-in-flutter-with-rest-api-flutter-tutorial-for-integration-of-rest-api/
+https://flutterappdev.com/2019/01/31/100-shared-code-android-ios-login-example-json-api/
+https://github.com/rodydavis/flutter_login Probar este 
+https://github.com/GeekyAnts/FlatApp-Flutter Probar este
+https://medium.com/@kashifmin/flutter-login-app-using-rest-api-and-sqflite-b4815aed2149
+https://inducesmile.com/google-flutter/how-to-create-flutter-login-system-using-json-restful-api/
+https://stackoverflow.com/questions/53537774/how-to-login-with-rest-api-using-flutter-dart
+https://flutterawesome.com/how-to-integrate-rest-api-in-flutter/
+https://github.com/junaiddurrani/login_app

@@ -66,6 +66,7 @@ class _LoginScreen extends State<LoginScreen> {
     try {
       isAuthorized = await _localAuthentication.authenticateWithBiometrics(
         localizedReason: 'Please authenticate to complete your transaction',
+        
         iOSAuthStrings: const IOSAuthMessages(
             cancelButton: 'cancel',
             goToSettingsButton: 'settings',
