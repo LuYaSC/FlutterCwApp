@@ -27,11 +27,6 @@ class _MyAppState extends State<MyApp> {
                   fontWeight: FontWeight.bold,
                   fontSize: 20.0),
             ),
-            /*loadingText: Text(
-          'Iniciando Cw',
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15.0),
-        ),*/
             image: Image(
                 image: AssetImage('assets/images/logobcpcircle-removebg.png'),
                 height: 310,
