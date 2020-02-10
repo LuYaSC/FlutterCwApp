@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cw_app/Views/Models/product.dart';
 import 'package:cw_app/Views/login/FormCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,8 +6,6 @@ import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 void main() {
   runApp(LoginScreen());
@@ -25,25 +22,13 @@ class _LoginScreen extends State<LoginScreen> {
   bool _canCheckBiometric = false;
   String _authorizedOrNot = "Not Authorized";
   List<BiometricType> _availableBiometricTypes = List<BiometricType>();
+  Widget screenView;
+  AnimationController sliderAnimationController;
 
   void _radio() {
     setState(() {
       isSelected = !isSelected;
     });
-  }
-
-  List<Product> parseProducts(String responseBody) {
-    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    return parsed.map<Product>((json) => Product.fromJson(json)).toList();
-  }
-
-  Future<List<Product>> login() async {
-    final response = await http.get('http://192.168.1.2:8000/products.json');
-    if (response.statusCode == 200) {
-      return parseProducts(response.body);
-    } else {
-      throw Exception('Unable to fetch products from the REST API');
-    }
   }
 
   Future<void> _checkBiometric() async {
@@ -55,7 +40,6 @@ class _LoginScreen extends State<LoginScreen> {
     }
 
     if (!mounted) return;
-
     setState(() {
       _canCheckBiometric = canCheckBiometric;
     });
@@ -126,7 +110,8 @@ class _LoginScreen extends State<LoginScreen> {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance =
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
-    return new Scaffold(
+    return new 
+    Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,
       body: Stack(
@@ -193,37 +178,37 @@ class _LoginScreen extends State<LoginScreen> {
                                   fontFamily: "Poppins-Medium"))
                         ],
                       ),
-                      RaisedButton(
-                        onPressed: () {},
-                        child: InkWell(
-                          child: Container(
-                            width: ScreenUtil.getInstance().setWidth(330),
-                            height: ScreenUtil.getInstance().setHeight(100),
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(colors: [
-                                  Color(0xFFf57328),
-                                  Color(0xFFf57328)
-                                  //Color(0xFFFF4F10)
-                                ]),
-                                borderRadius: BorderRadius.circular(6.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color(0xFF6078ea).withOpacity(.3),
-                                      offset: Offset(0.0, 8.0),
-                                      blurRadius: 8.0)
-                                ]),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () {print("Presionando boton");},
-                                child: Center(
-                                  child: Text("INGRESAR",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: "Poppins-Bold",
-                                          fontSize: 18,
-                                          letterSpacing: 1.0)),
-                                ),
+                      InkWell(
+                        child: Container(
+                          width: ScreenUtil.getInstance().setWidth(330),
+                          height: ScreenUtil.getInstance().setHeight(100),
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Color(0xFFf57328),
+                                Color(0xFFf57328)
+                                //Color(0xFFFF4F10)
+                              ]),
+                              borderRadius: BorderRadius.circular(6.0),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color(0xFF6078ea).withOpacity(.3),
+                                    offset: Offset(0.0, 8.0),
+                                    blurRadius: 8.0)
+                              ]),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                print("Presionando boton");
+                                Navigator.pushNamed(context, '/page');
+                              },
+                              child: Center(
+                                child: Text("INGRESAR",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: "Poppins-Bold",
+                                        fontSize: 18,
+                                        letterSpacing: 1.0)),
                               ),
                             ),
                           ),
