@@ -18,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreen extends State<LoginScreen> {
   bool isSelected = false;
+  bool isAuthorized = false;
   final LocalAuthentication _localAuthentication = LocalAuthentication();
   bool _canCheckBiometric = false;
   String _authorizedOrNot = "Not Authorized";
@@ -61,7 +62,6 @@ class _LoginScreen extends State<LoginScreen> {
   }
 
   Future<void> _authorizeNow() async {
-    bool isAuthorized = false;
     try {
       isAuthorized = await _localAuthentication.authenticateWithBiometrics(
         localizedReason: 'Please authenticate to complete your transaction',
@@ -76,9 +76,13 @@ class _LoginScreen extends State<LoginScreen> {
     } on PlatformException catch (e) {
       print(e);
     }
-
     if (!mounted) return;
-
+    if (isAuthorized) {
+      isAuthorized = true;
+      Navigator.pushNamed(context, '/page');
+    } else {
+      isAuthorized = false;
+    }
     setState(() {
       if (isAuthorized) {
         _authorizedOrNot = "Authorized";
@@ -86,6 +90,7 @@ class _LoginScreen extends State<LoginScreen> {
         _authorizedOrNot = "Not Authorized";
       }
     });
+    //return isAuthorized;
   }
 
   Widget radioButton(bool isSelected) => Container(
@@ -110,8 +115,7 @@ class _LoginScreen extends State<LoginScreen> {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance =
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
-    return new 
-    Scaffold(
+    return new Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,
       body: Stack(
@@ -200,7 +204,7 @@ class _LoginScreen extends State<LoginScreen> {
                             child: InkWell(
                               onTap: () {
                                 print("Presionando boton");
-                                Navigator.pushNamed(context, '/page');
+                                _authorizeNow();
                               },
                               child: Center(
                                 child: Text("INGRESAR",

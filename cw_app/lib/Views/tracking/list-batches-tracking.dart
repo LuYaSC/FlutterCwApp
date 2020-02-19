@@ -391,8 +391,8 @@ class ListBatchesTracking extends StatelessWidget {
                                                           left: 4, bottom: 10),
                                                   child: Text(
                                                     this.rotation ? 
-                                                    'TRANSFERENCIA ENTRE CUENTAS PROPIAS':
-                                                    'PAGO A PROVEEDORES OTRO BANCO (ACH)', //'${(102 * animation.value).toInt()}',
+                                                    'TRANSFERENCIA ENTRE CUENTAS':
+                                                    'PAGO A PROVEEDORES OTRO BANCO', //'${(102 * animation.value).toInt()}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:

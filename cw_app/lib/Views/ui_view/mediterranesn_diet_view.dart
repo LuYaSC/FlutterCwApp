@@ -337,7 +337,7 @@ class MediterranesnDietView extends StatelessWidget {
                                                       const EdgeInsets.only(
                                                           left: 4, bottom: 10),
                                                   child: Text(
-                                                    'Pago a proveedores otro banco (Cheque)123123123', //'${(102 * animation.value).toInt()}',
+                                                    'Pago a proveedores otro banco', //'${(102 * animation.value).toInt()}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:
