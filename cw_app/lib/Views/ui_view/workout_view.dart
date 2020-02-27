@@ -25,10 +25,11 @@ class WorkoutView extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                    Colors.blue[900],
-                    FintnessAppTheme.nearlyDarkBlue,
-                    HexColor("#6F56E8"),
-                     //Colors.orange[900]
+                    //Colors.blue[900],
+                    // FintnessAppTheme.nearlyDarkBlue,
+                    //Color(0xFF014B8E),
+                    HexColor("#014B8E"),
+                    HexColor("#014B8E"),
                   ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8.0),
@@ -65,7 +66,7 @@ class WorkoutView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          '4,028.19 Bs',
+                          '4,028.19',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontFamily: FintnessAppTheme.fontName,
@@ -77,7 +78,7 @@ class WorkoutView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Total en bolivianos',
+                        'Total en BOLIVIANOS',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: FintnessAppTheme.fontName,
@@ -90,7 +91,7 @@ class WorkoutView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          '1,001.27 Dólares',
+                          '1,001.27',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontFamily: FintnessAppTheme.fontName,
@@ -102,7 +103,7 @@ class WorkoutView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Total en dolares',
+                        'Total en DÓLARES',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: FintnessAppTheme.fontName,

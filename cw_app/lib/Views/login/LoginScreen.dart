@@ -39,11 +39,12 @@ class _LoginScreen extends State<LoginScreen> {
     } on PlatformException catch (e) {
       print(e);
     }
-
-    if (!mounted) return;
+    
     setState(() {
       _canCheckBiometric = canCheckBiometric;
     });
+
+    if (!mounted) return;
   }
 
   Future<void> _getListOfBiometricTypes() async {
@@ -54,11 +55,11 @@ class _LoginScreen extends State<LoginScreen> {
       print(e);
     }
 
-    if (!mounted) return;
-
     setState(() {
       _availableBiometricTypes = listofBiometrics;
     });
+
+    if (!mounted) return;
   }
 
   Future<void> _authorizeNow() async {
@@ -203,8 +204,10 @@ class _LoginScreen extends State<LoginScreen> {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
-                                print("Presionando boton");
-                                _authorizeNow();
+                                _checkBiometric();
+                                if (_canCheckBiometric) {
+                                  _authorizeNow();
+                                }
                               },
                               child: Center(
                                 child: Text("INGRESAR",
@@ -223,7 +226,7 @@ class _LoginScreen extends State<LoginScreen> {
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(40),
                   ),
-                  Text("Can we check Biometric : $_canCheckBiometric"),
+                  /*Text("Can we check Biometric : $_canCheckBiometric"),
                   RaisedButton(
                     onPressed: _checkBiometric,
                     child: Text("Check Biometric"),
@@ -250,7 +253,7 @@ class _LoginScreen extends State<LoginScreen> {
                     child: Text("Authorize now"),
                     color: Colors.red,
                     colorBrightness: Brightness.light,
-                  ),
+                  ),*/
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[

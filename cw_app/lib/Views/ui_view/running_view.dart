@@ -1,3 +1,4 @@
+import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -66,7 +67,7 @@ class RunningView extends StatelessWidget {
                                     children: <Widget>[
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                          left: 100,
+                                          left: 45,
                                           right: 16,
                                           top: 16,
                                         ),
@@ -79,7 +80,7 @@ class RunningView extends StatelessWidget {
                                             fontWeight: FontWeight.w500,
                                             fontSize: 20,
                                             letterSpacing: 0.0,
-                                            color: Colors.blue[900],
+                                            color: HexColor("#014B8E"),
                                             //FintnessAppTheme.nearlyDarkBlue,
                                           ),
                                         ),
@@ -90,7 +91,7 @@ class RunningView extends StatelessWidget {
                                     children: <Widget>[
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                          left: 100,
+                                          left: 45,
                                           right: 16,
                                           top: 1,
                                         ),
@@ -103,7 +104,7 @@ class RunningView extends StatelessWidget {
                                             fontWeight: FontWeight.w500,
                                             fontSize: 12,
                                             letterSpacing: 0.0,
-                                            color: Colors.blue[900],
+                                            color: HexColor("#014B8E"),
                                             //FintnessAppTheme.nearlyDarkBlue,
                                           ),
                                         ),
@@ -112,10 +113,10 @@ class RunningView extends StatelessWidget {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                      left: 100,
+                                      left: 45,
                                       bottom: 12,
                                       top: 1,
-                                      right: 16,
+                                      right: 5,
                                     ),
                                     child: Text(
                                       this.isBol ? "Saldo: 6697.57" : "Saldo: 10097.57",
@@ -125,7 +126,7 @@ class RunningView extends StatelessWidget {
                                         fontWeight: FontWeight.w500,
                                         fontSize: 15,
                                         letterSpacing: 0.0,
-                                        color: Colors.orange[900],
+                                        color: HexColor("#f57328"),
                                         /*FintnessAppTheme.nearlyBlack
                                             .withOpacity(0.9),*/
                                       ),
@@ -137,7 +138,7 @@ class RunningView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Positioned(
+                      /*Positioned(
                         top: -20,
                         left: 30,
                         child: SizedBox(
@@ -145,7 +146,7 @@ class RunningView extends StatelessWidget {
                           height: 150,
                           child: Image.asset("assets/images/logoTT.png"),
                         ),
-                      )
+                      )*/
                     ],
                   ),
                 ),

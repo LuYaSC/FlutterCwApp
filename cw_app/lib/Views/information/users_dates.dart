@@ -1,6 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_responsive/flutter_responsive.dart';
 import 'dart:math' as math;
+
+import 'package:responsive_ui/responsive_ui.dart';
 
 class UsersDates extends StatelessWidget {
   final AnimationController animationController;
@@ -39,6 +44,39 @@ class UsersDates extends StatelessWidget {
                 ),
                 child: Column(
                   children: <Widget>[
+                    Responsive(
+                        defaultColS: 12, //defaults to 12
+                        defaultColM: 6, //defaults to 12
+                        defaultColL: 4, //defaults to 12
+                        children: <ResponsiveChild>[
+                          ResponsiveChild(
+                            colS:
+                                10, // colS & ColL override the defaultCol size
+                            colL: 3,
+                            offsetS: 2, // added offset
+                            child: Container(
+                              color: Colors.amber,
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('child 1'),
+                              ),
+                            ),
+                          ),
+                          ResponsiveChild(
+                            // as colM not mentioned, it takes the defaulColM size
+                            colS: 6,
+                            colL: 3,
+                            child: Container(
+                              alignment: Alignment.center,
+                              color: Colors.redAccent,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Child 2'),
+                              ),
+                            ),
+                          ),
+                        ]),
                     Padding(
                       padding:
                           const EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -56,7 +94,8 @@ class UsersDates extends StatelessWidget {
                                         height: 48,
                                         width: 2,
                                         decoration: BoxDecoration(
-                                          color: Colors.orange[900]//HexColor('#87A0E5')
+                                          color: Colors
+                                              .orange[900] //HexColor('#87A0E5')
                                               .withOpacity(0.5),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(4.0)),
@@ -73,20 +112,52 @@ class UsersDates extends StatelessWidget {
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 4, bottom: 2),
-                                              child: Text(
+                                              child: ResponsiveChild(
+                                                // as colM not mentioned, it takes the defaulColM size
+                                                colS: 4,
+                                                colL: 4,
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  color: Colors.redAccent,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(
+                                                      'Titularqweeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            FintnessAppTheme
+                                                                .fontName,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 13,
+                                                        letterSpacing: -0.1,
+                                                        color: FintnessAppTheme
+                                                            .grey
+                                                            .withOpacity(0.5),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            /*child: Text(
                                                 'Titular',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   fontFamily:
                                                       FintnessAppTheme.fontName,
                                                   fontWeight: FontWeight.w500,
-                                                  fontSize: 16,
+                                                  fontSize: 13,
                                                   letterSpacing: -0.1,
                                                   color: FintnessAppTheme.grey
                                                       .withOpacity(0.5),
                                                 ),
                                               ),
-                                            ),
+                                            ),*/
                                             /*mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               crossAxisAlignment:
@@ -110,7 +181,7 @@ class UsersDates extends StatelessWidget {
                                                   fontFamily:
                                                       FintnessAppTheme.fontName,
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 12,
+                                                  fontSize: 14,
                                                   color: FintnessAppTheme
                                                       .darkerText,
                                                 ),
@@ -151,7 +222,8 @@ class UsersDates extends StatelessWidget {
                                         height: 48,
                                         width: 2,
                                         decoration: BoxDecoration(
-                                          color: Colors.orange[900] //HexColor('#F56E98')
+                                          color: Colors
+                                              .orange[900] //HexColor('#F56E98')
                                               .withOpacity(0.5),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(4.0)),
@@ -175,7 +247,7 @@ class UsersDates extends StatelessWidget {
                                                   fontFamily:
                                                       FintnessAppTheme.fontName,
                                                   fontWeight: FontWeight.w500,
-                                                  fontSize: 16,
+                                                  fontSize: 13,
                                                   letterSpacing: -0.1,
                                                   color: FintnessAppTheme.grey
                                                       .withOpacity(0.5),
@@ -207,7 +279,7 @@ class UsersDates extends StatelessWidget {
                                                               .fontName,
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      fontSize: 16,
+                                                      fontSize: 14,
                                                       color: FintnessAppTheme
                                                           .darkerText,
                                                     ),
@@ -360,7 +432,8 @@ class UsersDates extends StatelessWidget {
                                         height: 48,
                                         width: 2,
                                         decoration: BoxDecoration(
-                                          color: Colors.blue[900] //HexColor('#87A0E5')
+                                          color: Colors
+                                              .blue[900] //HexColor('#87A0E5')
                                               .withOpacity(0.5),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(4.0)),
@@ -403,18 +476,20 @@ class UsersDates extends StatelessWidget {
                                                       "assets/fitness_app/eaten.png"),
                                                 ),*/
                                             Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 4, bottom: 3),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 0.85),
+                                              /*padding: const EdgeInsets.only(
+                                                  left: 4, bottom: 3),*/
                                               child: Text(
-                                                'Carlos Enrique Moring',
+                                                'Carlos Enrique Moring Campos',
                                                 textAlign: TextAlign.justify,
                                                 maxLines: 2,
-                                                overflow: TextOverflow.clip,
+                                                //overflow: TextOverflow.clip,
                                                 style: TextStyle(
                                                   fontFamily:
                                                       FintnessAppTheme.fontName,
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 12,
+                                                  fontSize: 14,
                                                   color: FintnessAppTheme
                                                       .darkerText,
                                                 ),
@@ -452,7 +527,8 @@ class UsersDates extends StatelessWidget {
                                         height: 48,
                                         width: 2,
                                         decoration: BoxDecoration(
-                                          color: Colors.blue[900]// HexColor('#F56E98')
+                                          color: Colors
+                                              .blue[900] // HexColor('#F56E98')
                                               .withOpacity(0.5),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(4.0)),
@@ -566,9 +642,9 @@ class UsersDates extends StatelessWidget {
                                         ),
                                         border: new Border.all(
                                             width: 4,
-                                            color:  Colors.blue[900]
-                                            //FintnessAppTheme
-                                              //  .nearlyDarkBlue
+                                            color: HexColor("#014B8E")
+                                                //FintnessAppTheme
+                                                //  .nearlyDarkBlue
                                                 .withOpacity(0.2)),
                                       ),
                                       child: Column(
@@ -613,8 +689,8 @@ class UsersDates extends StatelessWidget {
                                     child: CustomPaint(
                                       painter: CurvePainter(
                                           colors: [
-                                            Colors.blue[900],
-                                            Colors.blue[900],
+                                            HexColor("#014B8E"),
+                                            HexColor("#014B8E")
                                             /*FintnessAppTheme.nearlyDarkBlue,
                                             HexColor("#8A98E8"),
                                             HexColor("#8A98E8")*/
@@ -664,7 +740,7 @@ class UsersDates extends StatelessWidget {
                                         height: 48,
                                         width: 2,
                                         decoration: BoxDecoration(
-                                          color: Colors.blue[900]//HexColor('#87A0E5')
+                                          color: HexColor("#014B8E")
                                               .withOpacity(0.5),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(4.0)),
@@ -756,7 +832,7 @@ class UsersDates extends StatelessWidget {
                                         height: 48,
                                         width: 2,
                                         decoration: BoxDecoration(
-                                          color: Colors.blue[900]//HexColor('#F56E98')
+                                          color: HexColor("#014B8E")
                                               .withOpacity(0.5),
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(4.0)),
@@ -870,9 +946,9 @@ class UsersDates extends StatelessWidget {
                                         ),
                                         border: new Border.all(
                                             width: 4,
-                                            color: Colors.blue[900]
-                                            //FintnessAppTheme
-                                              //  .nearlyDarkBlue
+                                            color: HexColor("#014B8E")
+                                                //FintnessAppTheme
+                                                //  .nearlyDarkBlue
                                                 .withOpacity(0.2)),
                                       ),
                                       child: Column(
@@ -917,8 +993,8 @@ class UsersDates extends StatelessWidget {
                                     child: CustomPaint(
                                       painter: CurvePainter(
                                           colors: [
-                                            Colors.blue[900],
-                                            Colors.blue[900],
+                                            HexColor("#014B8E"),
+                                            HexColor("#014B8E"),
                                             /*FintnessAppTheme.nearlyDarkBlue,
                                             HexColor("#8A98E8"),
                                             HexColor("#8A98E8")*/

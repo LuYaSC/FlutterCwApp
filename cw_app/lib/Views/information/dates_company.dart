@@ -1,3 +1,4 @@
+import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -24,8 +25,10 @@ class DatesCompany extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                    Colors.blue[900],
-                    FintnessAppTheme.nearlyDarkBlue,
+                    // Colors.blue[900],
+                    HexColor("#014B8E"),
+                    HexColor("#014B8E"),
+                    //FintnessAppTheme.nearlyDarkBlue,
                     //HexColor("#6F56E8"),
                     //Colors.orange[900]
                   ], begin: Alignment.topLeft, end: Alignment.bottomRight),
