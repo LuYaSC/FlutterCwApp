@@ -39,7 +39,7 @@ class _LoginScreen extends State<LoginScreen> {
     } on PlatformException catch (e) {
       print(e);
     }
-    
+
     setState(() {
       _canCheckBiometric = canCheckBiometric;
     });
@@ -207,6 +207,8 @@ class _LoginScreen extends State<LoginScreen> {
                                 _checkBiometric();
                                 if (_canCheckBiometric) {
                                   _authorizeNow();
+                                } else {
+                                  Navigator.pushNamed(context, '/page');
                                 }
                               },
                               child: Center(

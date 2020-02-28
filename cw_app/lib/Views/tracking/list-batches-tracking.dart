@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -7,7 +8,8 @@ class ListBatchesTracking extends StatelessWidget {
   final Animation animation;
   final bool rotation;
 
-  const ListBatchesTracking({Key key, this.animationController, this.animation, this.rotation})
+  const ListBatchesTracking(
+      {Key key, this.animationController, this.animation, this.rotation})
       : super(key: key);
 
   @override
@@ -57,12 +59,7 @@ class ListBatchesTracking extends StatelessWidget {
                                         height: 48,
                                         width: 2,
                                         decoration: BoxDecoration(
-                                            color: Colors.orange[
-                                                900] /*HexColor('#87A0E5')
-                                              .withOpacity(0.5),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4.0)),*/
-                                            ),
+                                            color: Colors.orange[900]),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -95,12 +92,6 @@ class ListBatchesTracking extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.end,
                                               children: <Widget>[
-                                                /*SizedBox(
-                                                  width: 28,
-                                                  height: 28,
-                                                  child: Image.asset(
-                                                      "assets/fitness_app/eaten.png"),
-                                                ),*/
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
@@ -120,27 +111,6 @@ class ListBatchesTracking extends StatelessWidget {
                                                     ),
                                                   ),
                                                 ),
-                                                /*Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 4, bottom: 3),
-                                                  child: Text(
-                                                    'Kcal',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          FintnessAppTheme
-                                                              .fontName,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 12,
-                                                      letterSpacing: -0.2,
-                                                      color: FintnessAppTheme
-                                                          .grey
-                                                          .withOpacity(0.5),
-                                                    ),
-                                                  ),
-                                                ),*/
                                               ],
                                             )
                                           ],
@@ -258,10 +228,13 @@ class ListBatchesTracking extends StatelessWidget {
                                                     ),
                                                     border: new Border.all(
                                                         width: 4,
-                                                        color: 
-                                                        this.rotation ? Colors.green.withOpacity(0.2) : 
-                                                              Colors.red
-                                                              .withOpacity(0.2)),
+                                                        color: this.rotation
+                                                            ? Colors.green
+                                                                .withOpacity(
+                                                                    0.2)
+                                                            : Colors.red
+                                                                .withOpacity(
+                                                                    0.2)),
                                                     /*.nearlyDarkBlue
                                                             .withOpacity(0.2)),*/
                                                   ),
@@ -274,16 +247,18 @@ class ListBatchesTracking extends StatelessWidget {
                                                             .center,
                                                     children: <Widget>[
                                                       Icon(
-                                                        !this.rotation ? Icons.cancel : 
-                                                        Icons.check_circle,
-                                                        color:
-                                                            this.rotation ? Colors.green : 
-                                                              Colors.red,
+                                                        !this.rotation
+                                                            ? Icons.cancel
+                                                            : Icons
+                                                                .check_circle,
+                                                        color: this.rotation
+                                                            ? Colors.green
+                                                            : Colors.red,
                                                       ),
                                                       Text(
-                                                        this.rotation ? 
-                                                        'Procesado':
-                                                        'No Procesado',
+                                                        this.rotation
+                                                            ? 'Procesado'
+                                                            : 'No Procesado',
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
@@ -294,47 +269,21 @@ class ListBatchesTracking extends StatelessWidget {
                                                               FontWeight.bold,
                                                           fontSize: 11,
                                                           letterSpacing: 0.0,
-                                                          color:
-                                                              this.rotation ? Colors.green : 
-                                                              Colors.red,
-                                                          //.withOpacity(0.5),
-                                                          /*FintnessAppTheme
-                                                                  .grey
-                                                                  .withOpacity(
-                                                                      0.5),*/
+                                                          color: this.rotation
+                                                              ? Colors.green
+                                                              : Colors.red,
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
                                               ),
-                                              /*Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: CustomPaint(
-                                      painter: CurvePainter(
-                                          colors: [
-                                            FintnessAppTheme.nearlyDarkBlue,
-                                            HexColor("#8A98E8"),
-                                            HexColor("#8A98E8")
-                                          ],
-                                          angle: 140 +
-                                              (360 - 140) *
-                                                  (1.0 - animation.value)),
-                                      child: SizedBox(
-                                        width: 108,
-                                        height: 108,
-                                      ),
-                                    ),
-                                  )*/
                                             ],
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
-                                  /*SizedBox(
-                                    height: 0,
-                                  ),*/
                                   Row(
                                     children: <Widget>[
                                       Container(
@@ -379,20 +328,50 @@ class ListBatchesTracking extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.end,
                                               children: <Widget>[
-                                                /*SizedBox(
-                                                  width: 28,
-                                                  height: 28,
-                                                  child: Image.asset(
-                                                      "assets/fitness_app/burned.png"),
+                                                /*Container(
+                                                  child: ConstrainedBox(
+                                                    constraints: BoxConstraints(
+                                                      minWidth: 300.0,
+                                                      maxWidth: 300.0,
+                                                      minHeight: 30.0,
+                                                      maxHeight: 100.0,
+                                                    ),
+                                                    child: AutoSizeText(
+                                                      "yourTextjkasbckabcjkabckjabcjkbajkcbakjcsbjkabcskjabsckjabscjkabscjkbascjkbacsjkb",
+                                                      style: TextStyle(
+                                                          fontSize: 30.0),
+                                                    ),
+                                                  ),
                                                 ),*/
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 4, bottom: 10),
-                                                  child: Text(
-                                                    this.rotation ? 
-                                                    'TRANSFERENCIA ENTRE CUENTAS':
-                                                    'PAGO A PROVEEDORES OTRO BANCO', //'${(102 * animation.value).toInt()}',
+                                                Container(
+                                                  child: ConstrainedBox(
+                                                    constraints: BoxConstraints(
+                                                      minWidth: 300.0,
+                                                      maxWidth: 300.0,
+                                                      minHeight: 30.0,
+                                                      maxHeight: 100.0,
+                                                    ),
+                                                    child: AutoSizeText(
+                                                      this.rotation
+                                                          ? 'TRANSFERENCIA ENTRE CUENTAS PROPIAS'
+                                                          : 'PAGO A PROVEEDORES OTRO BANCO ACH INTERBANCARIAS',
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            FintnessAppTheme
+                                                                .fontName,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 15,
+                                                        color: FintnessAppTheme
+                                                            .darkerText,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                /*Text(
+                                                    this.rotation
+                                                        ? 'TRANSFERENCIA ENTRE CUENTASqwdqwdwqwdqwd'
+                                                        : 'PAGO A PROVEEDORES OTRO BANCO', //'${(102 * animation.value).toInt()}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:
@@ -404,29 +383,7 @@ class ListBatchesTracking extends StatelessWidget {
                                                       color: FintnessAppTheme
                                                           .darkerText,
                                                     ),
-                                                  ),
-                                                ),
-                                                /*Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 8, bottom: 3),
-                                                  child: Text(
-                                                    'Kcal',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          FintnessAppTheme
-                                                              .fontName,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 12,
-                                                      letterSpacing: -0.2,
-                                                      color: FintnessAppTheme
-                                                          .grey
-                                                          .withOpacity(0.5),
-                                                    ),
-                                                  ),
-                                                ),*/
+                                                  ),*/
                                               ],
                                             )
                                           ],
