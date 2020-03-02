@@ -54,7 +54,7 @@ class RunningView extends StatelessWidget {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8.0)),
                                 child: SizedBox(
-                                  height: 85,
+                                  height: 90,
                                   child: AspectRatio(
                                     aspectRatio: 1.714,
                                     child: this.isBol

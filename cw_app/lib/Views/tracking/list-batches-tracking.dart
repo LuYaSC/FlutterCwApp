@@ -379,16 +379,6 @@ class ListBatchesTracking extends StatelessWidget {
                                             Material(
                                               color: Colors.transparent,
                                               child: InkWell(
-                                                focusColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                hoverColor: Colors.transparent,
-                                                splashColor: Colors.grey
-                                                    .withOpacity(0.2),
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                  Radius.circular(4.0),
-                                                ),
                                                 onTap: () {
                                                   FocusScope.of(context)
                                                       .requestFocus(
@@ -398,44 +388,41 @@ class ListBatchesTracking extends StatelessWidget {
                                                     MaterialPageRoute<dynamic>(
                                                         builder: (BuildContext
                                                                 context) =>
-                                                            ScreenMovements(),
+                                                            ScreenMovements(
+                                                              animationController:
+                                                                  animationController,
+                                                              key: key,
+                                                            ),
                                                         fullscreenDialog: true),
                                                   );
                                                 },
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 8),
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Text(
-                                                        'Ver Det',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          fontFamily:
-                                                              FintnessAppTheme
-                                                                  .fontName,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 9,
-                                                          letterSpacing: 0.0,
-                                                          color:
-                                                              Colors.blue[900],
-                                                          //.withOpacity(0.5),
-                                                          /*FintnessAppTheme
-                                                                  .grey
-                                                                  .withOpacity(
-                                                                      0.5),*/
-                                                        ),
-                                                      ),
-                                                      Icon(
-                                                        Icons
-                                                            .keyboard_arrow_right,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Icon(
+                                                      Icons
+                                                          .keyboard_arrow_right,
+                                                      color: Colors.blue[900],
+                                                    ),
+                                                    Text(
+                                                      'Detalles',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            FintnessAppTheme
+                                                                .fontName,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 12,
+                                                        letterSpacing: 0.0,
                                                         color: Colors.blue[900],
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
@@ -475,37 +462,55 @@ class ListBatchesTracking extends StatelessWidget {
                                           /*.nearlyDarkBlue
                                                             .withOpacity(0.2)),*/
                                         ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Icon(
-                                              !this.rotation
-                                                  ? Icons.cancel
-                                                  : Icons.check_circle,
-                                              color: this.rotation
-                                                  ? Colors.green
-                                                  : Colors.red,
-                                            ),
-                                            Text(
-                                              this.rotation
-                                                  ? 'Procesado'
-                                                  : 'No Procesado',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    FintnessAppTheme.fontName,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 11,
-                                                letterSpacing: 0.0,
+                                        child: InkWell(
+                                          onTap: () {
+                                            FocusScope.of(context)
+                                                .requestFocus(FocusNode());
+                                            Navigator.push<dynamic>(
+                                              context,
+                                              MaterialPageRoute<dynamic>(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          ScreenMovements(
+                                                            animationController:
+                                                                animationController,
+                                                            key: key,
+                                                          ),
+                                                  fullscreenDialog: true),
+                                            );
+                                          },
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Icon(
+                                                !this.rotation
+                                                    ? Icons.cancel
+                                                    : Icons.check_circle,
                                                 color: this.rotation
                                                     ? Colors.green
                                                     : Colors.red,
                                               ),
-                                            ),
-                                          ],
+                                              Text(
+                                                this.rotation
+                                                    ? 'Procesado'
+                                                    : 'No Procesado',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      FintnessAppTheme.fontName,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 11,
+                                                  letterSpacing: 0.0,
+                                                  color: this.rotation
+                                                      ? Colors.green
+                                                      : Colors.red,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),

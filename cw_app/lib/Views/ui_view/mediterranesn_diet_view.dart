@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cw_app/Views/Models/hexColor.dart';
+import 'package:cw_app/Views/movements/screen_movements.dart';
+import 'package:cw_app/Views/authorize_views/screen_authorize.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -417,29 +419,47 @@ class MediterranesnDietView extends StatelessWidget {
                                                 color: Colors.blue[900]
                                                     .withOpacity(0.2)),
                                           ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.keyboard_arrow_right,
-                                                color: Colors.blue[900],
-                                              ),
-                                              Text(
-                                                'Detalles',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      FintnessAppTheme.fontName,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
-                                                  letterSpacing: 0.0,
+                                          child: InkWell(
+                                            onTap: () {
+                                              FocusScope.of(context)
+                                                  .requestFocus(FocusNode());
+                                              Navigator.push<dynamic>(
+                                                context,
+                                                MaterialPageRoute<dynamic>(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        ScreenMovements(
+                                                          animationController:
+                                                              animationController,
+                                                          key: key,
+                                                        ),
+                                                    fullscreenDialog: true),
+                                              );
+                                            },
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: <Widget>[
+                                                Icon(
+                                                  Icons.keyboard_arrow_right,
                                                   color: Colors.blue[900],
                                                 ),
-                                              ),
-                                            ],
+                                                Text(
+                                                  'Detalles',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontFamily: FintnessAppTheme
+                                                        .fontName,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12,
+                                                    letterSpacing: 0.0,
+                                                    color: Colors.blue[900],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -468,29 +488,48 @@ class MediterranesnDietView extends StatelessWidget {
                                                 color: Colors.green
                                                     .withOpacity(0.2)),
                                           ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.check,
-                                                color: Colors.green,
-                                              ),
-                                              Text(
-                                                'Autorizar',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      FintnessAppTheme.fontName,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
-                                                  letterSpacing: 0.0,
+                                          child: InkWell(
+                                            onTap: () {
+                                              FocusScope.of(context)
+                                                  .requestFocus(FocusNode());
+                                              Navigator.push<dynamic>(
+                                                context,
+                                                MaterialPageRoute<dynamic>(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        ScreenAuthorize(),
+                                                    /*ScreenMovements(
+                                                          animationController:
+                                                              animationController,
+                                                          key: key,
+                                                        ),*/
+                                                    fullscreenDialog: true),
+                                              );
+                                            },
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: <Widget>[
+                                                Icon(
+                                                  Icons.check,
                                                   color: Colors.green,
                                                 ),
-                                              ),
-                                            ],
+                                                Text(
+                                                  'Autorizar',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontFamily: FintnessAppTheme
+                                                        .fontName,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12,
+                                                    letterSpacing: 0.0,
+                                                    color: Colors.green,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -519,29 +558,43 @@ class MediterranesnDietView extends StatelessWidget {
                                                 color: Colors.red
                                                     .withOpacity(0.2)),
                                           ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              Icon(
-                                                Icons.clear,
-                                                color: Colors.red,
-                                              ),
-                                              Text(
-                                                'Rechazar',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      FintnessAppTheme.fontName,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
-                                                  letterSpacing: 0.0,
+                                          child: InkWell(
+                                            onTap: () {
+                                              FocusScope.of(context)
+                                                  .requestFocus(FocusNode());
+                                              Navigator.push<dynamic>(
+                                                context,
+                                                MaterialPageRoute<dynamic>(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        ScreenAuthorize(),
+                                                    fullscreenDialog: true),
+                                              );
+                                            },
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: <Widget>[
+                                                Icon(
+                                                  Icons.clear,
                                                   color: Colors.red,
                                                 ),
-                                              ),
-                                            ],
+                                                Text(
+                                                  'Rechazar',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontFamily: FintnessAppTheme
+                                                        .fontName,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12,
+                                                    letterSpacing: 0.0,
+                                                    color: Colors.red,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
