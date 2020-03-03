@@ -8,7 +8,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ScreenAuthorize extends StatefulWidget {
   @override
-  _ScreenAuthorizeState createState() => _ScreenAuthorizeState();
+  _ScreenAuthorizeState createState() => _ScreenAuthorizeState(this.isRejected);
+  final bool isRejected;
+  ScreenAuthorize(this.isRejected);
 }
 
 class _ScreenAuthorizeState extends State<ScreenAuthorize> {
@@ -16,6 +18,9 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
       PopularFilterListData.popularFList;
   List<PopularFilterListData> accomodationListData =
       PopularFilterListData.operationList;
+
+  final bool isRejected;
+  _ScreenAuthorizeState(this.isRejected);
 
   RangeValues _values = const RangeValues(100, 600);
   double distValue = 50.0;
@@ -45,7 +50,7 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
                     const Divider(
                       height: 1,
                     ),*/
-                    allAccommodationUI()
+                    allAccommodationUI(this.isRejected)
                   ],
                 ),
               ),
@@ -97,7 +102,8 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
               child: Container(
                 height: 35,
                 decoration: BoxDecoration(
-                  color: Colors.grey, //HotelAppTheme.buildLightTheme().primaryColor,
+                  color: Colors
+                      .grey, //HotelAppTheme.buildLightTheme().primaryColor,
                   borderRadius: const BorderRadius.all(Radius.circular(24.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
@@ -134,7 +140,7 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
     );
   }
 
-  Widget allAccommodationUI() {
+  Widget allAccommodationUI(bool isRejected) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,7 +192,7 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
                 enabled: false,
                 initialValue: '10 Lineas',
                 decoration: InputDecoration(
-                    icon: new Icon(Icons.wrap_text ),
+                    icon: new Icon(Icons.wrap_text),
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
               ),
               SizedBox(
@@ -207,22 +213,23 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
               SizedBox(
                 height: ScreenUtil.getInstance().setHeight(30),
               ),
-              Text("Motivo de Rechazo",
-                  style: TextStyle(
-                      color: Color(0xFF014B8E),
-                      fontFamily: "Poppins-Medium",
-                      fontSize: ScreenUtil.getInstance().setSp(26))),
-              TextField(
-                obscureText: true,
-                maxLength: 35,
-                decoration: InputDecoration(
-                    icon: new Icon(Icons.bug_report),
-                    hintText: '',
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
-              ),
-              SizedBox(
-                height: ScreenUtil.getInstance().setHeight(35),
-              ),
+              if (isRejected) ...[
+                Text("Motivo de Rechazo",
+                    style: TextStyle(
+                        color: Color(0xFF014B8E),
+                        fontFamily: "Poppins-Medium",
+                        fontSize: ScreenUtil.getInstance().setSp(26))),
+                TextField(
+                  maxLength: 35,
+                  decoration: InputDecoration(
+                      icon: new Icon(Icons.bug_report),
+                      hintText: '',
+                      hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
+                ),
+                SizedBox(
+                  height: ScreenUtil.getInstance().setHeight(35),
+                ),
+              ],
               Text("Clave de Internet",
                   style: TextStyle(
                       color: Color(0xFF014B8E),

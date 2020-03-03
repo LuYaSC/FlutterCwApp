@@ -59,8 +59,10 @@ class MovementsList extends StatelessWidget {
                                   child: AspectRatio(
                                     aspectRatio: 1.714,
                                     child: this.isBol
-                                        ? Image.asset("assets/images/logoTT.png")
-                                        : Image.asset("assets/images/logoTT.png"),
+                                        ? Image.asset(
+                                            "assets/images/logoTT.png")
+                                        : Image.asset(
+                                            "assets/images/logoTT.png"),
                                   ),
                                 ),
                               ),
@@ -87,7 +89,6 @@ class MovementsList extends StatelessWidget {
                                             fontSize: 16,
                                             letterSpacing: 0.0,
                                             color: HexColor("#014B8E"),
-                                            //FintnessAppTheme.nearlyDarkBlue,
                                           ),
                                         ),
                                       ),
@@ -104,7 +105,7 @@ class MovementsList extends StatelessWidget {
                                         child: Text(
                                           this.isBol
                                               ? "Glosa: Saldo Inicial"
-                                              : "Glosa: RET ATM.B201251 OB", //"Saldo: 697.57",
+                                              : "Glosa: RET ATM.B201251 OB",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontFamily:
@@ -113,7 +114,6 @@ class MovementsList extends StatelessWidget {
                                             fontSize: 16,
                                             letterSpacing: 0.0,
                                             color: HexColor("#014B8E"),
-                                            //FintnessAppTheme.nearlyDarkBlue,
                                           ),
                                         ),
                                       ),
@@ -142,7 +142,6 @@ class MovementsList extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  
                                 ],
                               ),
                             ],
@@ -152,7 +151,6 @@ class MovementsList extends StatelessWidget {
                     ],
                   ),
                 ),
-                
               ],
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cw_app/Views/details_views/batch_detail.dart';
 import 'package:cw_app/Views/movements/screen_movements.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
@@ -388,7 +389,7 @@ class ListBatchesTracking extends StatelessWidget {
                                                     MaterialPageRoute<dynamic>(
                                                         builder: (BuildContext
                                                                 context) =>
-                                                            ScreenMovements(
+                                                            Batchdetail(
                                                               animationController:
                                                                   animationController,
                                                               key: key,
