@@ -27,10 +27,6 @@ class API {
     );
   }
 
-  static getToken() async {
-    return await storage.read(key: 'token');
-  }
-
   static Future getAccounts() {
     baseUrl =
         "https://credinetweb.bcp.com.bo/SitiosSegurosCore/balancesandmovements/api/balancesandmovements";
@@ -65,8 +61,8 @@ class API {
     );
   }
 
-  static Future loginCw(String userName, String password) {
-    String url = "http://192.168.56.1:9000/oauth2/token";
+  static Future loginCw(String userName, String password, String ip) {
+    String url = 'https://www99.bancred.com.bo/SitiosSeguros/JwtAuthentication/oauth2/token';
     var map = new Map<String, dynamic>();
     map['grant_type'] = 'password';
     map['client_id'] = 'f82e450ad49e4284a613ed9a4a5deb74';
@@ -74,6 +70,7 @@ class API {
     map['captchaValueToVerify'] = '03AERD8XpvG';
     map['username'] = userName;
     map['password'] = password;
+    map['IpClient'] = ip;
     return http.post(url,
         headers: {
           "Accept": "application/json",

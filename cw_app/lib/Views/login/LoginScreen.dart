@@ -5,10 +5,13 @@ import 'package:cw_app/Services/API.dart';
 import 'package:cw_app/Views/login/FormCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_ip/get_ip.dart';
 import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
+
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() {
   runApp(LoginScreen());
@@ -30,12 +33,39 @@ class _LoginScreen extends State<LoginScreen> {
   AnimationController sliderAnimationController;
   final userName = TextEditingController(text: '90000100000');
   final password = TextEditingController(text: '');
+  String _ip = 'Unknown';
+
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+    _checkBiometric();
+  }
 
   @override
   void dispose() {
     userName.dispose();
     password.dispose();
     super.dispose();
+  }
+
+  Future<void> initPlatformState() async {
+    String ipAddress;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      ipAddress = await GetIp.ipAddress;
+    } on PlatformException {
+      ipAddress = 'Failed to get ipAddress.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _ip = ipAddress;
+    });
   }
 
   void _radio() {
@@ -73,19 +103,52 @@ class _LoginScreen extends State<LoginScreen> {
 
     if (!mounted) return;
   }
+  
 
-  _loginCw() {
-    API.loginCw(userName.text, password.text).then((response) {
+  void _loginCw() {
+    API.loginCw(userName.text, password.text, _ip).then((dynamic response) {
       setState(() {
-        var aux = response.body;
-        Map<String, dynamic> aux2 = jsonDecode(aux);
-        var token = aux2["access_token"];
-        storage.write(key: 'token', value: token);
-        Navigator.pushNamed(context, '/page');
-        /*var a = aux2['body']["accounts"] as List;
-        accounts = a.map((model) => Account.fromJson(model)).toList();*/
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> aux2 = jsonDecode(response.body);
+          final dynamic token = aux2['access_token'];
+          storage.write(key: 'token', value: token);
+          Navigator.pushNamed(context, '/page');
+        } else {
+          _onAlertButtonsPressed(context, response.body);
+          //Text(response.body);
+        }
       });
     });
+  }
+
+ void _onAlertButtonsPressed(BuildContext  context, String description) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "Error",
+      desc: description,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Aceptar",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          //onPressed: () => Navigator.pop(context),
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+        ),
+        /*DialogButton(
+          child: Text(
+            "GRADIENT",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          gradient: LinearGradient(colors: [
+            Color.fromRGBO(116, 116, 191, 1.0),
+            Color.fromRGBO(52, 138, 199, 1.0)
+          ]),
+        )*/
+      ],
+    ).show();
   }
 
   Future<void> _authorizeNow() async {
@@ -316,12 +379,12 @@ class _LoginScreen extends State<LoginScreen> {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
-                                _checkBiometric();
-                                if (_canCheckBiometric) {
+                                /*if (_canCheckBiometric) {
                                   _authorizeNow();
                                 } else {
                                   this._loginCw();
-                                }
+                                }*/
+                                this._loginCw();
                               },
                               child: Center(
                                 child: Text("INGRESAR",
