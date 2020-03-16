@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cw_app/Services/API.dart';
 import 'package:cw_app/Views/login/FormCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,6 +28,15 @@ class _LoginScreen extends State<LoginScreen> {
   List<BiometricType> _availableBiometricTypes = List<BiometricType>();
   Widget screenView;
   AnimationController sliderAnimationController;
+  final userName = TextEditingController(text: '90000100000');
+  final password = TextEditingController(text: '');
+
+  @override
+  void dispose() {
+    userName.dispose();
+    password.dispose();
+    super.dispose();
+  }
 
   void _radio() {
     setState(() {
@@ -60,6 +72,20 @@ class _LoginScreen extends State<LoginScreen> {
     });
 
     if (!mounted) return;
+  }
+
+  _loginCw() {
+    API.loginCw(userName.text, password.text).then((response) {
+      setState(() {
+        var aux = response.body;
+        Map<String, dynamic> aux2 = jsonDecode(aux);
+        var token = aux2["access_token"];
+        storage.write(key: 'token', value: token);
+        Navigator.pushNamed(context, '/page');
+        /*var a = aux2['body']["accounts"] as List;
+        accounts = a.map((model) => Account.fromJson(model)).toList();*/
+      });
+    });
   }
 
   Future<void> _authorizeNow() async {
@@ -159,7 +185,93 @@ class _LoginScreen extends State<LoginScreen> {
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(180),
                   ),
-                  FormCard(),
+                  Container(
+                      width: double.infinity,
+                      height: ScreenUtil.getInstance().setHeight(500),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.0),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(0.0, 15.0),
+                                blurRadius: 15.0),
+                            BoxShadow(
+                                color: Colors.black12,
+                                offset: Offset(0.0, -10.0),
+                                blurRadius: 10.0),
+                          ]),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            /*Text("Ingresar credenciales",
+                style: TextStyle(
+                    fontSize: ScreenUtil.getInstance().setSp(45),
+                    fontFamily: "Poppins-Bold",
+                    letterSpacing: .6)),*/
+                            SizedBox(
+                              height: ScreenUtil.getInstance().setHeight(30),
+                            ),
+                            Text("Numero de acceso o Alias",
+                                style: TextStyle(
+                                    color: Color(0xFF014B8E),
+                                    fontFamily: "Poppins-Medium",
+                                    fontSize:
+                                        ScreenUtil.getInstance().setSp(26))),
+                            Expanded(
+                              child: TextFormField(
+                                controller: userName,
+                                maxLength: 16,
+                                //initialValue: '90000100000',
+                                decoration: InputDecoration(
+                                    icon: new Icon(Icons.credit_card),
+                                    hintStyle: TextStyle(
+                                        color: Colors.grey, fontSize: 12.0)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: ScreenUtil.getInstance().setHeight(30),
+                            ),
+                            Text("Clave de Internet",
+                                style: TextStyle(
+                                    color: Color(0xFF014B8E),
+                                    fontFamily: "Poppins-Medium",
+                                    fontSize:
+                                        ScreenUtil.getInstance().setSp(26))),
+                            Expanded(
+                              child: TextField(
+                                controller: password,
+                                obscureText: true,
+                                maxLength: 35,
+                                decoration: InputDecoration(
+                                    icon: new Icon(Icons.lock_open),
+                                    hintText: '',
+                                    hintStyle: TextStyle(
+                                        color: Colors.grey, fontSize: 12.0)),
+                              ),
+                            ),
+                            SizedBox(
+                              height: ScreenUtil.getInstance().setHeight(35),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Text(
+                                  "Cambiar Clave",
+                                  style: TextStyle(
+                                      color: Color(0xFF014B8E),
+                                      fontFamily: "Poppins-Medium",
+                                      fontSize:
+                                          ScreenUtil.getInstance().setSp(28)),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      )),
                   SizedBox(height: ScreenUtil.getInstance().setHeight(40)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -208,7 +320,7 @@ class _LoginScreen extends State<LoginScreen> {
                                 if (_canCheckBiometric) {
                                   _authorizeNow();
                                 } else {
-                                  Navigator.pushNamed(context, '/page');
+                                  this._loginCw();
                                 }
                               },
                               child: Center(

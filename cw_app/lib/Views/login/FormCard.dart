@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class FormCard extends StatelessWidget {
+class FormCard extends StatefulWidget {
+  @override
+  _FormCardState createState() => _FormCardState();
+}
+
+class _FormCardState extends State<FormCard> {
+  final userName = TextEditingController(text: '90000100000');
+  final password = TextEditingController(text: '');
+
+  @override
+  void dispose() {
+    userName.dispose();
+    password.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -40,8 +55,9 @@ class FormCard extends StatelessWidget {
                       fontSize: ScreenUtil.getInstance().setSp(26))),
               Expanded(
                 child: TextFormField(
+                  controller: userName,
                   maxLength: 16,
-                  initialValue: '90000100000',
+                  //initialValue: '90000100000',
                   decoration: InputDecoration(
                       icon: new Icon(Icons.credit_card),
                       hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
@@ -57,6 +73,7 @@ class FormCard extends StatelessWidget {
                       fontSize: ScreenUtil.getInstance().setSp(26))),
               Expanded(
                 child: TextField(
+                  controller: password,
                   obscureText: true,
                   maxLength: 35,
                   decoration: InputDecoration(
