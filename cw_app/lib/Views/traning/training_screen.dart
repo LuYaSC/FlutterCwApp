@@ -40,13 +40,12 @@ class _TrainingScreenState extends State<TrainingScreen>
   }
 
   Future<void> _getAccounts() {
-    API.getAccounts(_token).then((response) {
+    API.getAccounts(_token).then((dynamic response) {
       setState(() {
-        var aux = response.body;
-        Map<String, dynamic> aux2 = jsonDecode(aux);
-        var isOk = aux2["isOk"];
+        Map<String, dynamic> aux2 = jsonDecode(response.body);
+        dynamic isOk = aux2["isOk"];
         var a = aux2['body']["accounts"] as List;
-        accounts = a.map((model) => Account.fromJson(model)).toList();
+        accounts = a.map((dynamic model) => Account.fromJson(model)).toList();
       });
     });
   }

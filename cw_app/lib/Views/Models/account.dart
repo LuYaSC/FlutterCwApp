@@ -77,8 +77,8 @@ class Account {
         applicationDescription = json['applicationDescription'],
         documentAccount = json['documentAccount'];
 
-  Map toJson() {
-    return {
+  dynamic toJson() {
+    return { 
       'id': id,
       'formattedNumber': formattedNumber,
       'number': number,

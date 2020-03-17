@@ -39,11 +39,11 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
   }
 
   Future<void> _getPendings() {
-    API.getPendings(_token).then((response) {
+    API.getPendings(_token).then((dynamic response) {
       setState(() {
-        var aux = response.body;
+        dynamic aux = response.body;
         Map<String, dynamic> aux2 = jsonDecode(aux);
-        var isOk = aux2["isOk"];
+        dynamic isOk = aux2["isOk"];
         //var a = aux2['body']["accounts"] as List;
         //accounts = a.map((model) => Account.fromJson(model)).toList();
       });
