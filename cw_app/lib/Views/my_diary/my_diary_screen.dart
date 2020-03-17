@@ -1,10 +1,13 @@
+import 'dart:convert';
 
+import 'package:cw_app/Services/API.dart';
 import 'package:cw_app/Views/Models/filters_screen.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:cw_app/Views/tracking/screen_accepted.dart';
 import 'package:cw_app/Views/ui_view/glass_view.dart';
 import 'package:cw_app/Views/ui_view/mediterranesn_diet_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class MyDiaryScreen extends StatefulWidget {
   const MyDiaryScreen({Key key, this.animationController}) : super(key: key);
@@ -20,7 +23,32 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
 
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
+  String _token = '';
   double topBarOpacity = 0.0;
+
+  Future<void> _getToken() async {
+    final storage = new FlutterSecureStorage();
+    String value = await storage.read(key: 'token');
+
+    if (!mounted) return;
+
+    setState(() {
+      _token = value;
+      _getPendings();
+    });
+  }
+
+  Future<void> _getPendings() {
+    API.getPendings(_token).then((response) {
+      setState(() {
+        var aux = response.body;
+        Map<String, dynamic> aux2 = jsonDecode(aux);
+        var isOk = aux2["isOk"];
+        //var a = aux2['body']["accounts"] as List;
+        //accounts = a.map((model) => Account.fromJson(model)).toList();
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -52,23 +80,12 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
         }
       }
     });
+    this._getToken();
     super.initState();
   }
 
   void addAllListData() {
     const int count = 9;
-
-    /*listViews.add(
-      TitleView(
-        titleTxt: 'Mediterranean diet',
-        subTxt: 'Details',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );*/
     listViews.add(
       GlassView(
           animation: Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -91,76 +108,6 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
         ),
       );
     }
-
-    /* Texto antes de los iconos con frutas
-    listViews.add(
-      TitleView(
-        titleTxt: 'Meals today',
-        subTxt: 'Customize',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );*/
-
-    /*iconos con frutas
-    listViews.add(
-      MealsListView(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController,
-                curve: Interval((1 / count) * 3, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
-      ),
-    );*/
-
-/*cody measurmente cuerpo
-    listViews.add(
-      TitleView(
-        titleTxt: 'Body measurement',
-        subTxt: 'Today',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );*/
-
-    /*listViews.add(
-      BodyMeasurementView(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 5, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );
-    listViews.add(
-      TitleView(
-        titleTxt: 'Water',
-        subTxt: 'Aqua SmartBottle',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );*/
-
-    /*listViews.add(
-      WaterView(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController,
-                curve: Interval((1 / count) * 7, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
-      ),
-    );*/
   }
 
   Future<bool> getData() async {
@@ -269,35 +216,6 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                 ),
                               ),
                             ),
-                            /*Padding(
-                              padding: const EdgeInsets.only(
-                                left: 8,
-                                right: 8,
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: Icon(
-                                      Icons.calendar_today,
-                                      color: FintnessAppTheme.grey,
-                                      size: 18,
-                                    ),
-                                  ),
-                                  Text(
-                                    '15 May',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: FintnessAppTheme.fontName,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 18,
-                                      letterSpacing: -0.2,
-                                      color: FintnessAppTheme.darkerText,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),*/
                             Material(
                               color: Colors.transparent,
                               child: InkWell(

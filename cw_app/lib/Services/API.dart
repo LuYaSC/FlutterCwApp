@@ -27,7 +27,7 @@ class API {
     );
   }
 
-  static Future getAccounts() {
+  static Future getAccounts(String token) {
     baseUrl =
         "https://credinetweb.bcp.com.bo/SitiosSegurosCore/balancesandmovements/api/balancesandmovements";
     var url = baseUrl + "/GetBalances";
@@ -42,21 +42,22 @@ class API {
       body: bodyEncoded,
       headers: {
         "Content-Type": "application/json",
-        HttpHeaders.authorizationHeader: 'Bearer ' +
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1laWQiOiIxMDIyMSIsInVuaXF1ZV9uYW1lIjoiOTAwMDAxMDAwMDEzMDc2NSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYWNjZXNzY29udHJvbHNlcnZpY2UvMjAxMC8wNy9jbGFpbXMvaWRlbnRpdHlwcm92aWRlciI6IkFTUC5ORVQgSWRlbnRpdHkiLCJBc3BOZXQuSWRlbnRpdHkuU2VjdXJpdHlTdGFtcCI6ImE5ZGQwZWY2LTczOGMtNDU2Yi04ZTI5LTVhMDQ3MThlYTQyNyIsInJvbGUiOlsiQVVUT1JJWkFET1IiLCJDT05TVUxUT1IiLCJDT05UUk9MQURPUiIsIklOSUNJQURPUiJdLCJjb21wYW55X2lkIjoiMjI5NSIsImNvbXBhbnlfc3RhdGUiOnRydWUsImNvbXBhbnlfbmFtZSI6IlNJTExFUklDTyBORUdBTkVaIFJPRE9MRk8gQU5EUkVTICIsImNvbnRyb2xsZXJfc2NoZW1lIjpmYWxzZSwidXNlcl90eXBlIjoiUCIsInVzZXJfbmFtZSI6IlJFTUJFUlRPIEhJTEFRVUlUQSBNQU1BTkkiLCJ1c2VyX2RvY3VtZW50X251bWJlciI6IjQ4NTAxNDciLCJ1c2VyX2RvY3VtZW50X2V4dGVuc2lvbiI6IkxQIiwidXNlcl9kb2N1bWVudF90eXBlIjoiUSIsImV4Y2hhbmdlX2J1eSI6IjYuODUiLCJleGNoYW5nZV9zYWxlIjoiNi45NyIsImlzX3NpZ25hdHVyZSI6ZmFsc2UsImF1dGhvcml6ZV9vcGVyYXRpb24iOnRydWUsImF1dGhvcml6ZV9waW4iOmZhbHNlLCJhdXRob3JpemVfZnRwIjp0cnVlLCJpc192YWxpZGJhdGNodG9rZW4iOnRydWUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTM3OTMiLCJhdWQiOiJmODJlNDUwYWQ0OWU0Mjg0YTYxM2VkOWE0YTVkZWI3NCIsImV4cCI6MTU4NDA3NDEwNCwibmJmIjoxNTg0MDYyMTA0fQ.a20ryzrYAw_1T0Ns_h--8TGkyRFhYq1tlVbMaNUz0Ko'
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
       },
     );
   }
 
-  static Future login() {
-    var url =
-        "https://credinetweb.bcp.com.bo/SitiosSeguros/JwtAuthentication/oauth2/token";
+  static Future getPendings(String token) {
+    baseUrl =
+        "https://credinetweb.bcp.com.bo/SitiosSegurosCore/authorization/api/authorization";
+    var url = baseUrl + "/GetPendingBatches";
+    var bodyEncoded = '';
     return http.post(
       url,
-      body: '',
+      body: bodyEncoded,
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer " +
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1laWQiOiIxMDIyMSIsInVuaXF1ZV9uYW1lIjoiOTAwMDAxMDAwMDEzMDc2NSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYWNjZXNzY29udHJvbHNlcnZpY2UvMjAxMC8wNy9jbGFpbXMvaWRlbnRpdHlwcm92aWRlciI6IkFTUC5ORVQgSWRlbnRpdHkiLCJBc3BOZXQuSWRlbnRpdHkuU2VjdXJpdHlTdGFtcCI6ImE5ZGQwZWY2LTczOGMtNDU2Yi04ZTI5LTVhMDQ3MThlYTQyNyIsInJvbGUiOlsiQVVUT1JJWkFET1IiLCJDT05TVUxUT1IiLCJDT05UUk9MQURPUiIsIklOSUNJQURPUiJdLCJjb21wYW55X2lkIjoiMjI5NSIsImNvbXBhbnlfc3RhdGUiOnRydWUsImNvbXBhbnlfbmFtZSI6IlNJTExFUklDTyBORUdBTkVaIFJPRE9MRk8gQU5EUkVTICIsImNvbnRyb2xsZXJfc2NoZW1lIjpmYWxzZSwidXNlcl90eXBlIjoiUCIsInVzZXJfbmFtZSI6IlJFTUJFUlRPIEhJTEFRVUlUQSBNQU1BTkkiLCJ1c2VyX2RvY3VtZW50X251bWJlciI6IjQ4NTAxNDciLCJ1c2VyX2RvY3VtZW50X2V4dGVuc2lvbiI6IkxQIiwidXNlcl9kb2N1bWVudF90eXBlIjoiUSIsImV4Y2hhbmdlX2J1eSI6IjYuODUiLCJleGNoYW5nZV9zYWxlIjoiNi45NyIsImlzX3NpZ25hdHVyZSI6ZmFsc2UsImF1dGhvcml6ZV9vcGVyYXRpb24iOnRydWUsImF1dGhvcml6ZV9waW4iOmZhbHNlLCJhdXRob3JpemVfZnRwIjp0cnVlLCJpc192YWxpZGJhdGNodG9rZW4iOnRydWUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTM3OTMiLCJhdWQiOiJmODJlNDUwYWQ0OWU0Mjg0YTYxM2VkOWE0YTVkZWI3NCIsImV4cCI6MTU4Mzc3OTYwNywibmJmIjoxNTgzNzY3NjA3fQ.d8fgVASCsr4S0cxmXlynkcV32dcnymf13Wz9qhR9SOw'
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
       },
     );
   }

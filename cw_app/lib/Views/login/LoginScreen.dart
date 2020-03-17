@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cw_app/Services/API.dart';
-import 'package:cw_app/Views/login/FormCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_ip/get_ip.dart';
@@ -27,6 +25,7 @@ class _LoginScreen extends State<LoginScreen> {
   bool isAuthorized = false;
   final LocalAuthentication _localAuthentication = LocalAuthentication();
   bool _canCheckBiometric = false;
+  bool isSaveFingerprint = false;
   String _authorizedOrNot = "Not Authorized";
   List<BiometricType> _availableBiometricTypes = List<BiometricType>();
   Widget screenView;
@@ -34,11 +33,13 @@ class _LoginScreen extends State<LoginScreen> {
   final userName = TextEditingController(text: '90000100000');
   final password = TextEditingController(text: '');
   String _ip = 'Unknown';
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
     initPlatformState();
+    _getListOfBiometricTypes();
     _checkBiometric();
   }
 
@@ -51,16 +52,12 @@ class _LoginScreen extends State<LoginScreen> {
 
   Future<void> initPlatformState() async {
     String ipAddress;
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       ipAddress = await GetIp.ipAddress;
     } on PlatformException {
       ipAddress = 'Failed to get ipAddress.';
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     setState(() {
@@ -103,25 +100,27 @@ class _LoginScreen extends State<LoginScreen> {
 
     if (!mounted) return;
   }
-  
 
   void _loginCw() {
     API.loginCw(userName.text, password.text, _ip).then((dynamic response) {
       setState(() {
+        final Map<String, dynamic> result = jsonDecode(response.body);
         if (response.statusCode == 200) {
-          final Map<String, dynamic> aux2 = jsonDecode(response.body);
-          final dynamic token = aux2['access_token'];
+          final dynamic token = result['access_token'];
           storage.write(key: 'token', value: token);
           Navigator.pushNamed(context, '/page');
         } else {
-          _onAlertButtonsPressed(context, response.body);
-          //Text(response.body);
+          _onAlertButtonsPressed(context, result['error_description']);
         }
       });
     });
   }
 
- void _onAlertButtonsPressed(BuildContext  context, String description) {
+  void closeModal() {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
+  void _onAlertButtonsPressed(BuildContext context, String description) {
     Alert(
       context: context,
       type: AlertType.error,
@@ -133,20 +132,9 @@ class _LoginScreen extends State<LoginScreen> {
             "Aceptar",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          //onPressed: () => Navigator.pop(context),
-          color: Color.fromRGBO(0, 179, 134, 1.0),
+          onPressed: () => this.closeModal(),
+          color: Color(0xFFf57328),
         ),
-        /*DialogButton(
-          child: Text(
-            "GRADIENT",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.pop(context),
-          gradient: LinearGradient(colors: [
-            Color.fromRGBO(116, 116, 191, 1.0),
-            Color.fromRGBO(52, 138, 199, 1.0)
-          ]),
-        )*/
       ],
     ).show();
   }
@@ -379,12 +367,11 @@ class _LoginScreen extends State<LoginScreen> {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
-                                /*if (_canCheckBiometric) {
+                                if (_canCheckBiometric && isSaveFingerprint) {
                                   _authorizeNow();
                                 } else {
-                                  this._loginCw();
-                                }*/
-                                this._loginCw();
+                                  _loginCw();
+                                }
                               },
                               child: Center(
                                 child: Text("INGRESAR",

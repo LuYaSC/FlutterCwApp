@@ -1,7 +1,12 @@
+import 'dart:convert';
+
+import 'package:cw_app/Services/API.dart';
+import 'package:cw_app/Views/Models/account.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:cw_app/Views/ui_view/running_view.dart';
 import 'package:cw_app/Views/ui_view/workout_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TrainingScreen extends StatefulWidget {
   const TrainingScreen({Key key, this.animationController}) : super(key: key);
@@ -17,7 +22,34 @@ class _TrainingScreenState extends State<TrainingScreen>
 
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
+  var accounts = new List<Account>();
+  String _token = '';
   double topBarOpacity = 0.0;
+
+   Future<void> _getToken() async {
+    // Create storage
+    final storage = new FlutterSecureStorage();
+    String value = await storage.read(key: 'token');
+
+    if (!mounted) return;
+
+    setState(() {
+      _token = value;
+      this._getAccounts();
+    });
+  }
+
+  Future<void> _getAccounts() {
+    API.getAccounts(_token).then((response) {
+      setState(() {
+        var aux = response.body;
+        Map<String, dynamic> aux2 = jsonDecode(aux);
+        var isOk = aux2["isOk"];
+        var a = aux2['body']["accounts"] as List;
+        accounts = a.map((model) => Account.fromJson(model)).toList();
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -49,23 +81,13 @@ class _TrainingScreenState extends State<TrainingScreen>
         }
       }
     });
+    _getToken();
+    //_getAccounts();
     super.initState();
   }
 
   void addAllListData() {
     const int count = 5;
-
-    /*listViews.add(
-      TitleView(
-        titleTxt: 'Your program',
-        subTxt: 'Details',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );*/
 
     listViews.add(
       WorkoutView(
@@ -221,67 +243,6 @@ class _TrainingScreenState extends State<TrainingScreen>
                                 ),
                               ),
                             ),
-                            /*SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_left,
-                                    color: FintnessAppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),*/
-                            /*Padding(
-                              padding: const EdgeInsets.only(
-                                left: 8,
-                                right: 8,
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: Icon(
-                                      Icons.calendar_today,
-                                      color: FintnessAppTheme.grey,
-                                      size: 18,
-                                    ),
-                                  ),
-                                  Text(
-                                    '15 May',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: FintnessAppTheme.fontName,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 18,
-                                      letterSpacing: -0.2,
-                                      color: FintnessAppTheme.darkerText,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),*/
-                            /*SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_right,
-                                    color: FintnessAppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),*/
                           ],
                         ),
                       )
