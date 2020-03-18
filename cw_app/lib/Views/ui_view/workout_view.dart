@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 class WorkoutView extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
+  final String quantityAccounts;
+  final String totalBol;
+  final String totalUsd;
 
-  const WorkoutView({Key key, this.animationController, this.animation})
+  const WorkoutView({Key key, this.animationController, this.animation, this.quantityAccounts, this.totalBol, this.totalUsd})
       : super(key: key);
 
   @override
@@ -52,7 +55,7 @@ class WorkoutView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          '20 Cuentas',
+                          '${this.quantityAccounts} Cuentas',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontFamily: FintnessAppTheme.fontName,
@@ -66,7 +69,7 @@ class WorkoutView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          '4,028.19',
+                          this.totalBol,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontFamily: FintnessAppTheme.fontName,
@@ -91,7 +94,7 @@ class WorkoutView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          '1,001.27',
+                          this.totalUsd,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontFamily: FintnessAppTheme.fontName,

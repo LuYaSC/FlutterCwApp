@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cw_app/Services/API.dart';
 import 'package:cw_app/Views/Models/account.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
@@ -22,12 +21,14 @@ class _TrainingScreenState extends State<TrainingScreen>
 
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
-  var accounts = new List<Account>();
+  List<Account> accounts = new List<Account>();
   String _token = '';
   double topBarOpacity = 0.0;
+  double totalBol = 0;
+  double totalUsd = 0;
+  String quantityAccounts = '';
 
-   Future<void> _getToken() async {
-    // Create storage
+  Future<void> _getToken() async {
     final storage = new FlutterSecureStorage();
     String value = await storage.read(key: 'token');
 
@@ -35,17 +36,27 @@ class _TrainingScreenState extends State<TrainingScreen>
 
     setState(() {
       _token = value;
-      this._getAccounts();
     });
   }
 
-  Future<void> _getAccounts() {
+  Future<dynamic> _getAccounts() {
     API.getAccounts(_token).then((dynamic response) {
       setState(() {
         Map<String, dynamic> aux2 = jsonDecode(response.body);
         dynamic isOk = aux2["isOk"];
         var a = aux2['body']["accounts"] as List;
         accounts = a.map((dynamic model) => Account.fromJson(model)).toList();
+        quantityAccounts = accounts.length.toString();
+        double totalBol = 0;
+        double totalUsd = 0;
+        for (var i = 0; i < accounts.length; i++) {
+          if (accounts[i].currency == 'BOL') {
+            totalBol = accounts[i].accountingBalance + totalBol;
+          } else {
+            totalUsd = accounts[i].accountingBalance + totalUsd;
+          }
+        }
+        addAllListData();
       });
     });
   }
@@ -56,7 +67,7 @@ class _TrainingScreenState extends State<TrainingScreen>
         CurvedAnimation(
             parent: widget.animationController,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
-    addAllListData();
+    //addAllListData();
 
     scrollController.addListener(() {
       if (scrollController.offset >= 24) {
@@ -81,7 +92,6 @@ class _TrainingScreenState extends State<TrainingScreen>
       }
     });
     _getToken();
-    //_getAccounts();
     super.initState();
   }
 
@@ -95,10 +105,13 @@ class _TrainingScreenState extends State<TrainingScreen>
             curve:
                 Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController,
+        quantityAccounts: this.quantityAccounts,
+        totalBol: this.totalBol.toString(),
+        totalUsd: this.totalUsd.toString(),
       ),
     );
 
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < accounts.length; i++) {
       listViews.add(
         RunningView(
           animation: Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -107,33 +120,10 @@ class _TrainingScreenState extends State<TrainingScreen>
                   curve: Interval((1 / count) * 3, 1.0,
                       curve: Curves.fastOutSlowIn))),
           animationController: widget.animationController,
-          isBol: (i % 2 == 0) ? true : false,
+          account: accounts[i],
         ),
       );
     }
-
-    /*listViews.add(
-      TitleView(
-        titleTxt: 'Area of focus',
-        subTxt: 'more',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );*/
-
-    /*listViews.add(
-      AreaListView(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController,
-                curve: Interval((1 / count) * 5, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
-      ),
-    );*/
   }
 
   Future<bool> getData() async {

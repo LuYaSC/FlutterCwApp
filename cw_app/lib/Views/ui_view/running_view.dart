@@ -1,3 +1,4 @@
+import 'package:cw_app/Views/Models/account.dart';
 import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/movements/screen_movements.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
@@ -6,10 +7,13 @@ import 'package:flutter/material.dart';
 class RunningView extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
-  final bool isBol;
+  final Account account;
 
   const RunningView(
-      {Key key, this.animationController, this.animation, this.isBol})
+      {Key key,
+      this.animationController,
+      this.animation,
+      this.account})
       : super(key: key);
 
   @override
@@ -57,7 +61,7 @@ class RunningView extends StatelessWidget {
                                   height: 90,
                                   child: AspectRatio(
                                     aspectRatio: 1.714,
-                                    child: this.isBol
+                                    child: this.account.currency == 'BOL'
                                         ? Image.asset("assets/images/BOL2.png")
                                         : Image.asset("assets/images/USD2.png"),
                                   ),
@@ -75,9 +79,7 @@ class RunningView extends StatelessWidget {
                                           top: 16,
                                         ),
                                         child: Text(
-                                          this.isBol
-                                              ? "201-50173212-3-94"
-                                              : "201-50738949-2-44",
+                                          this.account.formattedNumber,
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontFamily:
@@ -101,9 +103,7 @@ class RunningView extends StatelessWidget {
                                           top: 1,
                                         ),
                                         child: Text(
-                                          this.isBol
-                                              ? "Remberto Hilaquita Mamani"
-                                              : "Luis Jose Jimenez Peña", //"Saldo: 697.57",
+                                          this.account.owner, //"Saldo: 697.57",
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontFamily:
@@ -126,9 +126,7 @@ class RunningView extends StatelessWidget {
                                       right: 5,
                                     ),
                                     child: Text(
-                                      this.isBol
-                                          ? "Saldo: 6697.57"
-                                          : "Saldo: 10097.57",
+                                      this.account.accountingBalance.toString(),
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         fontFamily: FintnessAppTheme.fontName,
