@@ -51,10 +51,9 @@ class API {
     baseUrl =
         "https://credinetweb.bcp.com.bo/SitiosSegurosCore/authorization/api/authorization";
     var url = baseUrl + "/GetPendingBatches";
-    var bodyEncoded = '';
     return http.post(
       url,
-      body: bodyEncoded,
+      body: '',
       headers: {
         "Content-Type": "application/json",
         HttpHeaders.authorizationHeader: 'Bearer ' + token

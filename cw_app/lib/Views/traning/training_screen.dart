@@ -36,6 +36,7 @@ class _TrainingScreenState extends State<TrainingScreen>
 
     setState(() {
       _token = value;
+      _getAccounts();
     });
   }
 
@@ -47,13 +48,11 @@ class _TrainingScreenState extends State<TrainingScreen>
         var a = aux2['body']["accounts"] as List;
         accounts = a.map((dynamic model) => Account.fromJson(model)).toList();
         quantityAccounts = accounts.length.toString();
-        double totalBol = 0;
-        double totalUsd = 0;
         for (var i = 0; i < accounts.length; i++) {
           if (accounts[i].currency == 'BOL') {
-            totalBol = accounts[i].accountingBalance + totalBol;
+            this.totalBol = accounts[i].accountingBalance + totalBol;
           } else {
-            totalUsd = accounts[i].accountingBalance + totalUsd;
+            this.totalUsd = accounts[i].accountingBalance + totalUsd;
           }
         }
         addAllListData();
