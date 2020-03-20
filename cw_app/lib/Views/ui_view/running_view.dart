@@ -10,10 +10,7 @@ class RunningView extends StatelessWidget {
   final Account account;
 
   const RunningView(
-      {Key key,
-      this.animationController,
-      this.animation,
-      this.account})
+      {Key key, this.animationController, this.animation, this.account})
       : super(key: key);
 
   @override
@@ -88,7 +85,6 @@ class RunningView extends StatelessWidget {
                                             fontSize: 20,
                                             letterSpacing: 0.0,
                                             color: HexColor("#014B8E"),
-                                            //FintnessAppTheme.nearlyDarkBlue,
                                           ),
                                         ),
                                       ),
@@ -103,7 +99,7 @@ class RunningView extends StatelessWidget {
                                           top: 1,
                                         ),
                                         child: Text(
-                                          this.account.owner, //"Saldo: 697.57",
+                                          this.account.owner,
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontFamily:
@@ -112,7 +108,6 @@ class RunningView extends StatelessWidget {
                                             fontSize: 12,
                                             letterSpacing: 0.0,
                                             color: HexColor("#014B8E"),
-                                            //FintnessAppTheme.nearlyDarkBlue,
                                           ),
                                         ),
                                       ),
@@ -134,8 +129,6 @@ class RunningView extends StatelessWidget {
                                         fontSize: 15,
                                         letterSpacing: 0.0,
                                         color: HexColor("#f57328"),
-                                        /*FintnessAppTheme.nearlyBlack
-                                            .withOpacity(0.9),*/
                                       ),
                                     ),
                                   ),
@@ -159,16 +152,6 @@ class RunningView extends StatelessWidget {
                                   child: Container(
                                     width: 75,
                                     height: 75,
-                                    /*decoration: BoxDecoration(
-                                      color: FintnessAppTheme.white,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(100.0),
-                                      ),
-                                      border: new Border.all(
-                                          width: 4,
-                                          color: Colors.blue[900]
-                                              .withOpacity(0.2)),
-                                    ),*/
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -198,6 +181,7 @@ class RunningView extends StatelessWidget {
                                                         ScreenMovements(
                                                             animationController:
                                                                 animationController,
+                                                                account: this.account,
                                                             key: key),
                                                     fullscreenDialog: true),
                                               );

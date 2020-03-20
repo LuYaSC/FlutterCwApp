@@ -47,6 +47,26 @@ class API {
     );
   }
 
+  static Future getMovements(String token, int accountId) {
+    baseUrl =
+        "https://credinetweb.bcp.com.bo/SitiosSegurosCore/balancesandmovements/api/balancesandmovements";
+    var url = baseUrl + "/GetMovements";
+    var bodyEncoded = json.encode({
+      "accountId": accountId,
+    });
+    return http.post(
+      url,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
+
+  
+
   static Future getPendings(String token) {
     baseUrl =
         "https://credinetweb.bcp.com.bo/SitiosSegurosCore/authorization/api/authorization";

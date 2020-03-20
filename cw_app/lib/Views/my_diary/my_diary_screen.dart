@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:cw_app/Services/API.dart';
+import 'package:cw_app/Views/Models/batch_pendings.dart';
 import 'package:cw_app/Views/Models/filters_screen.dart';
+import 'package:cw_app/Views/Models/total_batches_pending.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:cw_app/Views/tracking/screen_accepted.dart';
 import 'package:cw_app/Views/ui_view/glass_view.dart';
@@ -25,6 +27,10 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
   final ScrollController scrollController = ScrollController();
   String _token = '';
   double topBarOpacity = 0.0;
+  TotalBatchesPending list = new TotalBatchesPending();
+  List<BatchPendings> totalListPending = new List<BatchPendings>();
+  List<BatchPendings> batchesListControlled = new List<BatchPendings>();
+  List<BatchPendings> batchesListAuthorized = new List<BatchPendings>();
 
   Future<void> _getToken() async {
     final storage = new FlutterSecureStorage();
@@ -44,8 +50,14 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
         dynamic aux = response.body;
         Map<String, dynamic> aux2 = jsonDecode(aux);
         dynamic isOk = aux2["isOk"];
-        //var a = aux2['body']["accounts"] as List;
-        //accounts = a.map((model) => Account.fromJson(model)).toList();
+        var listControl = aux2['body']['batchesToControl'] as List;
+        var listAuthorize = aux2['body']['batchesToAuthorize'] as List;
+        batchesListControlled = listControl.map((model) => BatchPendings.fromJson(model)).toList();
+        batchesListControlled.forEach((x) => x.isBatchControl = true);
+        batchesListAuthorized = listAuthorize.map((model) => BatchPendings.fromJson(model)).toList();
+        batchesListAuthorized.forEach((x) => x.isBatchControl = false);
+        totalListPending = batchesListControlled + batchesListAuthorized;
+        addAllListData();
       });
     });
   }
@@ -56,7 +68,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
         CurvedAnimation(
             parent: widget.animationController,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
-    addAllListData();
+    //addAllListData();
 
     scrollController.addListener(() {
       if (scrollController.offset >= 24) {
@@ -93,10 +105,12 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                   parent: widget.animationController,
                   curve: Interval((1 / count) * 8, 1.0,
                       curve: Curves.fastOutSlowIn))),
-          animationController: widget.animationController),
+          animationController: widget.animationController,
+          batchforAuthorize: batchesListAuthorized.length.toString(),
+          batchforControl: batchesListControlled.length.toString()),
     );
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < this.totalListPending.length; i++) {
       listViews.add(
         MediterranesnDietView(
           animation: Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -105,6 +119,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                   curve: Interval((1 / count) * 1, 1.0,
                       curve: Curves.fastOutSlowIn))),
           animationController: widget.animationController,
+          list: this.totalListPending[i],
         ),
       );
     }

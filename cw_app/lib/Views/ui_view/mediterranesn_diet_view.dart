@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cw_app/Views/Models/hexColor.dart';
+import 'package:cw_app/Views/Models/batch_pendings.dart';
 import 'package:cw_app/Views/details_views/batch_detail.dart';
-import 'package:cw_app/Views/movements/screen_movements.dart';
 import 'package:cw_app/Views/authorize_views/screen_authorize.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +9,10 @@ import 'dart:math' as math;
 class MediterranesnDietView extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
+  final BatchPendings list;
 
   const MediterranesnDietView(
-      {Key key, this.animationController, this.animation})
+      {Key key, this.animationController, this.animation, this.list})
       : super(key: key);
 
   @override
@@ -62,12 +62,7 @@ class MediterranesnDietView extends StatelessWidget {
                                         height: 48,
                                         width: 2,
                                         decoration: BoxDecoration(
-                                            color: Colors.orange[
-                                                900] /*HexColor('#87A0E5')
-                                              .withOpacity(0.5),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(4.0)),*/
-                                            ),
+                                            color: Colors.orange[900]),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -100,18 +95,12 @@ class MediterranesnDietView extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.end,
                                               children: <Widget>[
-                                                /*SizedBox(
-                                                  width: 28,
-                                                  height: 28,
-                                                  child: Image.asset(
-                                                      "assets/fitness_app/eaten.png"),
-                                                ),*/
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
                                                           left: 4, bottom: 3),
                                                   child: Text(
-                                                    '${(207438 * animation.value).toInt()}',
+                                                    '${(this.list.id * animation.value).toInt()}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:
@@ -125,27 +114,6 @@ class MediterranesnDietView extends StatelessWidget {
                                                     ),
                                                   ),
                                                 ),
-                                                /*Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 4, bottom: 3),
-                                                  child: Text(
-                                                    'Kcal',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          FintnessAppTheme
-                                                              .fontName,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 12,
-                                                      letterSpacing: -0.2,
-                                                      color: FintnessAppTheme
-                                                          .grey
-                                                          .withOpacity(0.5),
-                                                    ),
-                                                  ),
-                                                ),*/
                                               ],
                                             )
                                           ],
@@ -207,7 +175,7 @@ class MediterranesnDietView extends StatelessWidget {
                                                       const EdgeInsets.only(
                                                           left: 4, bottom: 3),
                                                   child: Text(
-                                                    '${(100.00 * animation.value).toInt()}',
+                                                    '${(this.list.amount * animation.value)}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:
@@ -226,7 +194,7 @@ class MediterranesnDietView extends StatelessWidget {
                                                       const EdgeInsets.only(
                                                           left: 4, bottom: 3),
                                                   child: Text(
-                                                    'BOL',
+                                                    this.list.currency,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:
@@ -307,7 +275,7 @@ class MediterranesnDietView extends StatelessWidget {
                                                         maxHeight: 100.0,
                                                       ),
                                                       child: AutoSizeText(
-                                                        'TRANSFERENCIA ENTRE CUENTAS PROPIAS',
+                                                        this.list.operationType,
                                                         style: TextStyle(
                                                           fontFamily:
                                                               FintnessAppTheme
@@ -362,7 +330,11 @@ class MediterranesnDietView extends StatelessWidget {
                                                         maxHeight: 300.0,
                                                       ),
                                                       child: AutoSizeText(
-                                                        'PENDIENTE DE AUTORIZACION',
+                                                        !this
+                                                                .list
+                                                                .isBatchControl
+                                                            ? 'PENDIENTE DE AUTORIZAR'
+                                                            : 'PENDIENTE DE CONTROLAR',
                                                         style: TextStyle(
                                                           fontFamily:
                                                               FintnessAppTheme

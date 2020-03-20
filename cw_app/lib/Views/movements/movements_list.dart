@@ -1,5 +1,5 @@
 import 'package:cw_app/Views/Models/hexColor.dart';
-import 'package:cw_app/Views/movements/screen_movements.dart';
+import 'package:cw_app/Views/Models/movements.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -7,9 +7,10 @@ class MovementsList extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
   final bool isBol;
+  final Movements movement;
 
   const MovementsList(
-      {Key key, this.animationController, this.animation, this.isBol})
+      {Key key, this.animationController, this.animation, this.isBol, this.movement})
       : super(key: key);
 
   @override
@@ -78,9 +79,7 @@ class MovementsList extends StatelessWidget {
                                           top: 16,
                                         ),
                                         child: Text(
-                                          this.isBol
-                                              ? "Fecha: 01/03/2020"
-                                              : "Fecha: 01/04/2020",
+                                              'Fecha: ${this.movement.date}',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontFamily:
@@ -103,9 +102,7 @@ class MovementsList extends StatelessWidget {
                                           top: 1,
                                         ),
                                         child: Text(
-                                          this.isBol
-                                              ? "Glosa: Saldo Inicial"
-                                              : "Glosa: RET ATM.B201251 OB",
+                                              'Glosa: ${this.movement.description}',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontFamily:
@@ -127,9 +124,7 @@ class MovementsList extends StatelessWidget {
                                       right: 5,
                                     ),
                                     child: Text(
-                                      this.isBol
-                                          ? "Importe: 6697.57"
-                                          : "Importe: -197.57",
+                                          'Importe: ${this.movement.amount}',
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         fontFamily: FintnessAppTheme.fontName,

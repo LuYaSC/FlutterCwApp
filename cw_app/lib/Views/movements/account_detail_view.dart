@@ -1,3 +1,4 @@
+import 'package:cw_app/Views/Models/account.dart';
 import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +6,10 @@ import 'package:flutter/material.dart';
 class AccountDetailView extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
+  final Account account;
 
-  const AccountDetailView({Key key, this.animationController, this.animation})
+  const AccountDetailView(
+      {Key key, this.animationController, this.animation, this.account})
       : super(key: key);
 
   @override
@@ -52,7 +55,7 @@ class AccountDetailView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          'Cuenta: 201-50804718-3-78',
+                          'Cuenta: ${this.account.formattedNumber}',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontFamily: FintnessAppTheme.fontName,
@@ -81,7 +84,7 @@ class AccountDetailView extends StatelessWidget {
                         height: 2,
                       ),
                       Text(
-                        'Titular: HILAQUITA MAMANI REMBERTO',
+                        'Titular: ${this.account.owner}',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: FintnessAppTheme.fontName,
@@ -109,7 +112,7 @@ class AccountDetailView extends StatelessWidget {
                         ),
                       ),*/
                       Text(
-                        'Saldo Disponible: 5,320.48',
+                        'Saldo Disponible: ${this.account.accountingBalance.toDouble()}',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: FintnessAppTheme.fontName,
@@ -123,7 +126,7 @@ class AccountDetailView extends StatelessWidget {
                         height: 2,
                       ),
                       Text(
-                        'Moneda: BOLIVIANOS',
+                        'Moneda: ${this.account.currencyDescription}',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: FintnessAppTheme.fontName,
@@ -137,7 +140,7 @@ class AccountDetailView extends StatelessWidget {
                         height: 2,
                       ),
                       Text(
-                        'Tipo de Cuenta: CUENTA DE AHORRO',
+                        'Tipo de Cuenta: ${this.account.application == 'AHO' ? 'CUENTA DE AHORRO' : 'CUENTA CORRIENTE'}',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: FintnessAppTheme.fontName,

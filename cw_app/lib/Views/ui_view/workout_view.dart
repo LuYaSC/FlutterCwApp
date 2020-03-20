@@ -9,7 +9,13 @@ class WorkoutView extends StatelessWidget {
   final String totalBol;
   final String totalUsd;
 
-  const WorkoutView({Key key, this.animationController, this.animation, this.quantityAccounts, this.totalBol, this.totalUsd})
+  const WorkoutView(
+      {Key key,
+      this.animationController,
+      this.animation,
+      this.quantityAccounts,
+      this.totalBol,
+      this.totalUsd})
       : super(key: key);
 
   @override

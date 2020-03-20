@@ -18,43 +18,25 @@ class Account {
   String applicationDescription;
   String documentAccount;
 
-  Account(
-      int id,
-      String formattedNumber,
-      String number,
-      String currency,
-      String owner,
-      double inProgressOperations,
-      String application,
-      String type,
-      double withholding,
-      double averageBalance,
-      double availableBalance,
-      double accountingBalance,
-      double position,
-      double overdraftBalance,
-      double overdraftAmount,
-      String currencyDescription,
-      String applicationDescription,
-      String documentAccount) {
-    this.id = id;
-    this.formattedNumber = formattedNumber;
-    this.number = number;
-    this.currency = currency;
-    this.owner = owner;
-    this.inProgressOperations = inProgressOperations;
-    this.application = application;
-    this.type = type;
-    this.withholding = withholding;
-    this.averageBalance = averageBalance;
-    this.availableBalance = availableBalance;
-    this.accountingBalance = accountingBalance;
-    this.position = position;
-    this.overdraftBalance = overdraftBalance;
-    this.overdraftAmount = overdraftAmount;
-    this.currencyDescription = currencyDescription;
-    this.applicationDescription = applicationDescription;
-    this.documentAccount = documentAccount;
+  Account() {
+    this.id = 0;
+    this.formattedNumber = '';
+    this.number = '';
+    this.currency = '';
+    this.owner = '';
+    this.inProgressOperations = 0;
+    this.application = '';
+    this.type = '';
+    this.withholding = 0;
+    this.averageBalance = 0;
+    this.availableBalance = 0;
+    this.accountingBalance = 0;
+    this.position = 0;
+    this.overdraftBalance = 0;
+    this.overdraftAmount = 0;
+    this.currencyDescription = '';
+    this.applicationDescription = '';
+    this.documentAccount = '';
   }
 
   Account.fromJson(Map json)

@@ -1,14 +1,23 @@
+import 'dart:convert';
+
+import 'package:cw_app/Services/API.dart';
+import 'package:cw_app/Views/Models/account.dart';
+import 'package:cw_app/Views/Models/movements.dart';
 import 'package:cw_app/Views/movements/account_detail_view.dart';
 import 'package:cw_app/Views/movements/movements_list.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ScreenMovements extends StatefulWidget {
-  const ScreenMovements({Key key, this.animationController}) : super(key: key);
+  ScreenMovements({Key key, this.animationController, this.account})
+      : super(key: key);
 
   final AnimationController animationController;
+  Account account = new Account();
+
   @override
-  _ScreenMovementsState createState() => _ScreenMovementsState();
+  _ScreenMovementsState createState() => _ScreenMovementsState(this.account);
 }
 
 class _ScreenMovementsState extends State<ScreenMovements>
@@ -18,6 +27,39 @@ class _ScreenMovementsState extends State<ScreenMovements>
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
+  String _token = '';
+  Account account = new Account();
+  List<Movements> movements = new List<Movements>();
+
+  _ScreenMovementsState(Account account) {
+    this.account = account;
+  }
+
+  Future<void> _getToken() async {
+    final storage = new FlutterSecureStorage();
+    String value = await storage.read(key: 'token');
+
+    if (!mounted) return;
+
+    setState(() {
+      _token = value;
+      _getMovements();
+    });
+  }
+
+  Future<void> _getMovements() {
+    API.getMovements(_token, this.account.id).then((dynamic response) {
+      setState(() {
+        dynamic aux = response.body;
+        Map<String, dynamic> aux2 = jsonDecode(aux);
+        dynamic isOk = aux2["isOk"];
+        var movementsResponse = aux2['body']['movements'] as List;
+        movements =
+            movementsResponse.map((model) => Movements.fromJson(model)).toList();
+        addAllListData();
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -25,7 +67,7 @@ class _ScreenMovementsState extends State<ScreenMovements>
         CurvedAnimation(
             parent: widget.animationController,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
-    addAllListData();
+    //addAllListData();
 
     scrollController.addListener(() {
       if (scrollController.offset >= 24) {
@@ -49,23 +91,12 @@ class _ScreenMovementsState extends State<ScreenMovements>
         }
       }
     });
+    _getToken();
     super.initState();
   }
 
   void addAllListData() {
     const int count = 5;
-
-    /*listViews.add(
-      TitleView(
-        titleTxt: 'Your program',
-        subTxt: 'Details',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );*/
 
     listViews.add(
       AccountDetailView(
@@ -74,10 +105,11 @@ class _ScreenMovementsState extends State<ScreenMovements>
             curve:
                 Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController,
+        account:  this.account,
       ),
     );
 
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < movements.length; i++) {
       listViews.add(
         MovementsList(
           animation: Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -86,6 +118,7 @@ class _ScreenMovementsState extends State<ScreenMovements>
                   curve: Interval((1 / count) * 3, 1.0,
                       curve: Curves.fastOutSlowIn))),
           animationController: widget.animationController,
+          movement: this.movements[i],
           isBol: (i % 2 == 0) ? true : false,
         ),
       );

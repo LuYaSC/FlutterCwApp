@@ -2,13 +2,21 @@ import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
 
-
 class GlassView extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
+  final String batchforAuthorize;
+  final String batchforControl;
 
-  const GlassView({Key key, this.animationController, this.animation})
+  GlassView(
+      {Key key,
+      this.animationController,
+      this.animation,
+      this.batchforAuthorize,
+      this.batchforControl})
       : super(key: key);
+
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -37,12 +45,6 @@ class GlassView extends StatelessWidget {
                                 bottomLeft: Radius.circular(8.0),
                                 bottomRight: Radius.circular(8.0),
                                 topRight: Radius.circular(8.0)),
-                            // boxShadow: <BoxShadow>[
-                            //   BoxShadow(
-                            //       color: FintnessAppTheme.grey.withOpacity(0.2),
-                            //       offset: Offset(1.1, 1.1),
-                            //       blurRadius: 10.0),
-                            // ],
                           ),
                           child: Column(
                             children: <Widget>[
@@ -50,14 +52,15 @@ class GlassView extends StatelessWidget {
                                 padding: const EdgeInsets.only(
                                     left: 68, bottom: 12, right: 16, top: 12),
                                 child: Text(
-                                  '10 Lotes por autorizar encontrados',
+                                  '${this.batchforAuthorize} Lotes por autorizar encontrados',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: FintnessAppTheme.fontName,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                     letterSpacing: 0.0,
-                                    color: Colors.blue[900],/*FintnessAppTheme.nearlyDarkBlue
+                                    color: Colors.blue[
+                                        900], /*FintnessAppTheme.nearlyDarkBlue
                                         .withOpacity(0.6),*/
                                   ),
                                 ),
@@ -66,14 +69,15 @@ class GlassView extends StatelessWidget {
                                 padding: const EdgeInsets.only(
                                     left: 68, bottom: 12, right: 16, top: 12),
                                 child: Text(
-                                  '10 Lotes por contorlar encontrados',
+                                  '${this.batchforControl} Lotes por contorlar encontrados',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: FintnessAppTheme.fontName,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                     letterSpacing: 0.0,
-                                    color: Colors.blue[900],/*FintnessAppTheme.nearlyDarkBlue
+                                    color: Colors.blue[
+                                        900], /*FintnessAppTheme.nearlyDarkBlue
                                         .withOpacity(0.6),*/
                                   ),
                                 ),

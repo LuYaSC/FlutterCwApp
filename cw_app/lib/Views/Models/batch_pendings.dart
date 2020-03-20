@@ -1,42 +1,32 @@
 class BatchPendings {
-  String id;
+  int id;
   String operationType;
-  String operationTypeId;
+  int operationTypeId;
   String account;
-  String accountId;
-  String isAuthorizerControl;
-  String amount;
+  int accountId;
+  bool isAuthorizerControl;
+  double amount;
   String currency;
   String creationDate;
-  String isOperationScheduled;
+  bool isOperationScheduled;
   String operationScheduledDate;
   String beneficiary;
+  bool isBatchControl;
 
-  BatchPendings(
-      String id,
-      String operationType,
-      String operationTypeId,
-      String account,
-      String accountId,
-      String isAuthorizerControl,
-      String amount,
-      String currency,
-      String creationDate,
-      String isOperationScheduled,
-      String operationScheduledDate,
-      String beneficiary) {
-    this.id = id;
-    this.operationType = operationType;
-    this.operationTypeId = operationTypeId;
-    this.account = currency;
-    this.accountId = accountId;
-    this.isAuthorizerControl = isAuthorizerControl;
-    this.amount = amount;
-    this.currency = currency;
-    this.creationDate = creationDate;
-    this.isOperationScheduled = isOperationScheduled;
-    this.operationScheduledDate = operationScheduledDate;
-    this.beneficiary = beneficiary;
+  BatchPendings() {
+    this.id = 0;
+    this.operationType = '';
+    this.operationTypeId = 0;
+    this.account = '';
+    this.accountId = 0;
+    this.isAuthorizerControl = false;
+    this.amount = 0;
+    this.currency = '';
+    this.creationDate = '';
+    this.isOperationScheduled = false;
+    this.operationScheduledDate = '';
+    this.beneficiary = '';
+    this.isBatchControl = false;
   }
 
   BatchPendings.fromJson(Map json)
@@ -52,7 +42,6 @@ class BatchPendings {
         isOperationScheduled = json['isOperationScheduled'],
         operationScheduledDate = json['operationScheduledDate'],
         beneficiary = json['beneficiary'];
-        
 
   dynamic toJson() {
     return {
