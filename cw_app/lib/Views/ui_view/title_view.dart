@@ -43,7 +43,7 @@ class TitleView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    InkWell(
+                    /*InkWell(
                       highlightColor: Colors.transparent,
                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
                       onTap: () {},
@@ -74,7 +74,7 @@ class TitleView extends StatelessWidget {
                           ],
                         ),
                       ),
-                    )
+                    )*/
                   ],
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cw_app/Views/Models/tracking_batch.dart';
 import 'package:cw_app/Views/details_views/batch_detail.dart';
 import 'package:cw_app/Views/movements/screen_movements.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
@@ -9,9 +10,14 @@ class ListBatchesTracking extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
   final bool rotation;
+  final TrackingBatch list;
 
-  const ListBatchesTracking(
-      {Key key, this.animationController, this.animation, this.rotation})
+  ListBatchesTracking(
+      {Key key,
+      this.animationController,
+      this.animation,
+      this.rotation,
+      this.list})
       : super(key: key);
 
   @override
@@ -99,7 +105,7 @@ class ListBatchesTracking extends StatelessWidget {
                                                       const EdgeInsets.only(
                                                           left: 4, bottom: 3),
                                                   child: Text(
-                                                    '${(207438 * animation.value).toInt()}',
+                                                    '${(this.list.id * animation.value).toInt()}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:
@@ -163,7 +169,7 @@ class ListBatchesTracking extends StatelessWidget {
                                                       const EdgeInsets.only(
                                                           left: 4, bottom: 3),
                                                   child: Text(
-                                                    '${(100000 * animation.value).toInt()}',
+                                                    '${(this.list.amount * animation.value).toDouble()}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:
@@ -232,9 +238,7 @@ class ListBatchesTracking extends StatelessWidget {
                                                       maxHeight: 100.0,
                                                     ),
                                                     child: AutoSizeText(
-                                                      this.rotation
-                                                          ? 'TRANSFERENCIA ENTRE CUENTAS PROPIAS'
-                                                          : 'PAGO A PROVEEDORES OTRO BANCO ACH INTERBANCARIAS',
+                                                      this.list.name,
                                                       style: TextStyle(
                                                         fontFamily:
                                                             FintnessAppTheme
@@ -303,9 +307,7 @@ class ListBatchesTracking extends StatelessWidget {
                                                       maxHeight: 100.0,
                                                     ),
                                                     child: AutoSizeText(
-                                                      this.rotation
-                                                          ? '31/12/2019 15:07'
-                                                          : '29/02/2020 12:00',
+                                                      this.list.dateProcess,
                                                       style: TextStyle(
                                                         fontFamily:
                                                             FintnessAppTheme
@@ -333,17 +335,6 @@ class ListBatchesTracking extends StatelessWidget {
                         ],
                       ),
                     ),
-                    /*Padding(
-                      padding: const EdgeInsets.only(
-                          left: 24, right: 24, top: 8, bottom: 8),
-                      child: Container(
-                        height: 2,
-                        decoration: BoxDecoration(
-                          color: FintnessAppTheme.background,
-                          borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                        ),
-                      ),
-                    ),*/
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 24, right: 24, top: 8, bottom: 16),
@@ -455,11 +446,9 @@ class ListBatchesTracking extends StatelessWidget {
                                           ),
                                           border: new Border.all(
                                               width: 4,
-                                              color: this.rotation
-                                                  ? Colors.green
-                                                      .withOpacity(0.2)
-                                                  : Colors.red
-                                                      .withOpacity(0.2)),
+                                              color: getColor(
+                                                      this.list.description)
+                                                  .withOpacity(0.2)),
                                           /*.nearlyDarkBlue
                                                             .withOpacity(0.2)),*/
                                         ),
@@ -487,28 +476,21 @@ class ListBatchesTracking extends StatelessWidget {
                                                 CrossAxisAlignment.center,
                                             children: <Widget>[
                                               Icon(
-                                                !this.rotation
-                                                    ? Icons.cancel
-                                                    : Icons.check_circle,
-                                                color: this.rotation
-                                                    ? Colors.green
-                                                    : Colors.red,
-                                              ),
+                                                  getIcons(
+                                                      this.list.description),
+                                                  color: getColor(
+                                                      this.list.description)),
                                               Text(
-                                                this.rotation
-                                                    ? 'Procesado'
-                                                    : 'No Procesado',
+                                                this.list.description,
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                  fontFamily:
-                                                      FintnessAppTheme.fontName,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 11,
-                                                  letterSpacing: 0.0,
-                                                  color: this.rotation
-                                                      ? Colors.green
-                                                      : Colors.red,
-                                                ),
+                                                    fontFamily: FintnessAppTheme
+                                                        .fontName,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 11,
+                                                    letterSpacing: 0.0,
+                                                    color: getColor(
+                                                        this.list.description)),
                                               ),
                                             ],
                                           ),
@@ -532,6 +514,56 @@ class ListBatchesTracking extends StatelessWidget {
       },
     );
   }
+}
+
+IconData getIcons(String description) {
+  var iconresult;
+  switch (description) {
+    case 'Procesado':
+      iconresult = Icons.check_circle;
+      break;
+    case 'No procesado':
+      iconresult = Icons.cancel;
+      break;
+    case 'Rechazado':
+      iconresult = Icons.cancel;
+      break;
+    case 'Solicitado':
+      iconresult = Icons.library_add;
+      break;
+    case 'Controlado':
+      iconresult = Icons.offline_pin;
+      break;
+    case 'En Procesp':
+      iconresult = Icons.swap_vertical_circle;
+      break;
+  }
+  return iconresult;
+}
+
+Color getColor(String description) {
+  var colorResult;
+  switch (description) {
+    case 'Procesado':
+      colorResult = Colors.green;
+      break;
+    case 'No procesado':
+      colorResult = Colors.red;
+      break;
+    case 'Rechazado':
+      colorResult = Colors.red;
+      break;
+    case 'Solicitado':
+      colorResult = Colors.blue;
+      break;
+    case 'Controlado':
+      colorResult = Colors.orange;
+      break;
+    case 'En Procesp':
+      colorResult = Colors.yellow;
+      break;
+  }
+  return colorResult;
 }
 
 class CurvePainter extends CustomPainter {

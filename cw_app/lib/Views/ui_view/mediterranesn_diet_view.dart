@@ -164,12 +164,6 @@ class MediterranesnDietView extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.end,
                                               children: <Widget>[
-                                                /*SizedBox(
-                                                  width: 28,
-                                                  height: 28,
-                                                  child: Image.asset(
-                                                      "assets/fitness_app/eaten.png"),
-                                                ),*/
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
@@ -470,7 +464,7 @@ class MediterranesnDietView extends StatelessWidget {
                                                 MaterialPageRoute<dynamic>(
                                                     builder: (BuildContext
                                                             context) =>
-                                                        ScreenAuthorize(false),
+                                                        ScreenAuthorize(false, list, this.list.isBatchControl ? 'Controlar' : 'Autorizar'),
                                                     /*ScreenMovements(
                                                           animationController:
                                                               animationController,
@@ -540,7 +534,7 @@ class MediterranesnDietView extends StatelessWidget {
                                                 MaterialPageRoute<dynamic>(
                                                     builder: (BuildContext
                                                             context) =>
-                                                        ScreenAuthorize(true),
+                                                        ScreenAuthorize(true, list, 'Rechazar'),
                                                     fullscreenDialog: true),
                                               );
                                             },

@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 class DatesCompany extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
+  final String companyName;
+  final String companyDocument;
+  final double companyLimit;
 
-  const DatesCompany({Key key, this.animationController, this.animation})
+  const DatesCompany({Key key, this.animationController, this.animation, this.companyName, this.companyDocument, this.companyLimit})
       : super(key: key);
 
   @override
@@ -67,7 +70,7 @@ class DatesCompany extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          'SILLERICO NEGANEZ RODOLFO ANDRES',
+                          this.companyName,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontFamily: FintnessAppTheme.fontName,
@@ -79,7 +82,18 @@ class DatesCompany extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'NIT/CI: 261684 LP',
+                        'NIT/CI: ${this.companyDocument}',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontFamily: FintnessAppTheme.fontName,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14,
+                          letterSpacing: 0.0,
+                          color: FintnessAppTheme.white,
+                        ),
+                      ),
+                      Text(
+                        'Limite en USD: ${this.companyLimit}',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: FintnessAppTheme.fontName,

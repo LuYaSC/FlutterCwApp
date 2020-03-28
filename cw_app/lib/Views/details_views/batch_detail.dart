@@ -1,7 +1,5 @@
 import 'package:cw_app/Views/details_views/header_detail.dart';
 import 'package:cw_app/Views/details_views/list_detail.dart';
-import 'package:cw_app/Views/movements/account_detail_view.dart';
-import 'package:cw_app/Views/movements/movements_list.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -233,51 +231,6 @@ class _BatchdetailState extends State<Batchdetail>
                                 ),
                               ),
                             ),
-                            /*Padding(
-                              padding: const EdgeInsets.only(
-                                left: 8,
-                                right: 8,
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: Icon(
-                                      Icons.calendar_today,
-                                      color: FintnessAppTheme.grey,
-                                      size: 18,
-                                    ),
-                                  ),
-                                  Text(
-                                    '15 May',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: FintnessAppTheme.fontName,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 18,
-                                      letterSpacing: -0.2,
-                                      color: FintnessAppTheme.darkerText,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),*/
-                            /*SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_right,
-                                    color: FintnessAppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),*/
                           ],
                         ),
                       )

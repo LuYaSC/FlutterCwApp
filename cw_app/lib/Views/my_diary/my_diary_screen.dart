@@ -31,6 +31,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
   List<BatchPendings> totalListPending = new List<BatchPendings>();
   List<BatchPendings> batchesListControlled = new List<BatchPendings>();
   List<BatchPendings> batchesListAuthorized = new List<BatchPendings>();
+  String operationDescription = '';
 
   Future<void> _getToken() async {
     final storage = new FlutterSecureStorage();

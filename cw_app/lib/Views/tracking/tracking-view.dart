@@ -1,9 +1,14 @@
+import 'dart:convert';
+
+import 'package:cw_app/Services/API.dart';
+import 'package:cw_app/Views/Models/tracking_batch.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:cw_app/Views/tracking/filters_screen_tracking.dart';
 import 'package:cw_app/Views/tracking/list-batches-tracking.dart';
 import 'package:cw_app/Views/tracking/screen_donwloads.dart';
 import 'package:cw_app/Views/tracking/total-batches-tracking.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TrackingView extends StatefulWidget {
   const TrackingView({Key key, this.animationController}) : super(key: key);
@@ -16,10 +21,39 @@ class TrackingView extends StatefulWidget {
 class _MyDiaryScreenState extends State<TrackingView>
     with TickerProviderStateMixin {
   Animation<double> topBarAnimation;
+  String _token = '';
+  List<TrackingBatch> list = new List<TrackingBatch>();
 
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
+
+  Future<void> _getToken() async {
+    final storage = new FlutterSecureStorage();
+    String value = await storage.read(key: 'token');
+
+    if (!mounted) return;
+
+    setState(() {
+      _token = value;
+      _getMovements();
+    });
+  }
+
+  Future<void> _getMovements() {
+    API.getTrackingBatches(_token).then((dynamic response) {
+      setState(() {
+        dynamic aux = response.body;
+        Map<String, dynamic> aux2 = jsonDecode(aux);
+        dynamic isOk = aux2["isOk"];
+        var listResponse = aux2['body'] as List;
+        list = listResponse
+            .map((model) => TrackingBatch.fromJson(model))
+            .toList();
+        addAllListData();
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -27,8 +61,6 @@ class _MyDiaryScreenState extends State<TrackingView>
         CurvedAnimation(
             parent: widget.animationController,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
-    addAllListData();
-
     scrollController.addListener(() {
       if (scrollController.offset >= 24) {
         if (topBarOpacity != 1.0) {
@@ -52,22 +84,11 @@ class _MyDiaryScreenState extends State<TrackingView>
       }
     });
     super.initState();
+    _getToken();
   }
 
   void addAllListData() {
     const int count = 9;
-
-    /*listViews.add(
-      TitleView(
-        titleTxt: 'Mediterranean diet',
-        subTxt: 'Details',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );*/
     listViews.add(
       TotalBatchesTracking(
           animation: Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -75,10 +96,11 @@ class _MyDiaryScreenState extends State<TrackingView>
                   parent: widget.animationController,
                   curve: Interval((1 / count) * 8, 1.0,
                       curve: Curves.fastOutSlowIn))),
-          animationController: widget.animationController),
+          animationController: widget.animationController, 
+          totalOperation: list.length,),
     );
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < list.length; i++) {
       bool rotation = false;
       if (i % 2 == 0) {
         rotation = true;
@@ -92,79 +114,10 @@ class _MyDiaryScreenState extends State<TrackingView>
                   curve: Interval((1 / count) * 1, 1.0,
                       curve: Curves.fastOutSlowIn))),
           animationController: widget.animationController,
+          list: this.list[i],
         ),
       );
     }
-
-    /* Texto antes de los iconos con frutas
-    listViews.add(
-      TitleView(
-        titleTxt: 'Meals today',
-        subTxt: 'Customize',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );*/
-
-    /*iconos con frutas
-    listViews.add(
-      MealsListView(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController,
-                curve: Interval((1 / count) * 3, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
-      ),
-    );*/
-
-/*cody measurmente cuerpo
-    listViews.add(
-      TitleView(
-        titleTxt: 'Body measurement',
-        subTxt: 'Today',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );*/
-
-    /*listViews.add(
-      BodyMeasurementView(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 5, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );
-    listViews.add(
-      TitleView(
-        titleTxt: 'Water',
-        subTxt: 'Aqua SmartBottle',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 6, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );*/
-
-    /*listViews.add(
-      WaterView(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController,
-                curve: Interval((1 / count) * 7, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
-      ),
-    );*/
   }
 
   Future<bool> getData() async {
@@ -273,35 +226,6 @@ class _MyDiaryScreenState extends State<TrackingView>
                                 ),
                               ),
                             ),
-                            /*Padding(
-                              padding: const EdgeInsets.only(
-                                left: 8,
-                                right: 8,
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: Icon(
-                                      Icons.calendar_today,
-                                      color: FintnessAppTheme.grey,
-                                      size: 18,
-                                    ),
-                                  ),
-                                  Text(
-                                    '15 May',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: FintnessAppTheme.fontName,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 18,
-                                      letterSpacing: -0.2,
-                                      color: FintnessAppTheme.darkerText,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),*/
                             Material(
                               color: Colors.transparent,
                               child: InkWell(

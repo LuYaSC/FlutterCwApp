@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'package:cw_app/Services/API.dart';
+import 'package:cw_app/Views/Models/authorize_batch.dart';
+import 'package:cw_app/Views/Models/authorize_response.dart';
+import 'package:cw_app/Views/Models/batch_pendings.dart';
 import 'package:cw_app/Views/Models/popular_filter_list.dart';
 import 'package:cw_app/Views/Models/range_slider_view.dart';
 import 'package:cw_app/Views/Models/slider_view.dart';
@@ -5,12 +10,17 @@ import 'package:cw_app/Views/themes/hotel_app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ScreenAuthorize extends StatefulWidget {
   @override
-  _ScreenAuthorizeState createState() => _ScreenAuthorizeState(this.isRejected);
+  _ScreenAuthorizeState createState() => _ScreenAuthorizeState(
+      this.isRejected, this.batch, this.operationDescription);
   final bool isRejected;
-  ScreenAuthorize(this.isRejected);
+  final BatchPendings batch;
+  final String operationDescription;
+  ScreenAuthorize(this.isRejected, this.batch, this.operationDescription);
 }
 
 class _ScreenAuthorizeState extends State<ScreenAuthorize> {
@@ -20,10 +30,129 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
       PopularFilterListData.operationList;
 
   final bool isRejected;
-  _ScreenAuthorizeState(this.isRejected);
+  final BatchPendings batch;
+  final String operationDescription;
+  final password = TextEditingController(text: '');
+  final reasonRejection = TextEditingController(text: '');
+  String _token = '';
+  List<AuthorizeResponse> bathAuthorize = new List<AuthorizeResponse>();
+  AuthorizeBatch dto = new AuthorizeBatch();
+  _ScreenAuthorizeState(this.isRejected, this.batch, this.operationDescription);
 
   RangeValues _values = const RangeValues(100, 600);
   double distValue = 50.0;
+
+  Future<void> _getToken() async {
+    final storage = new FlutterSecureStorage();
+    String value = await storage.read(key: 'token');
+
+    if (!mounted) return;
+
+    setState(() {
+      _token = value;
+    });
+  }
+
+  @override
+  void initState() {
+    this._getToken();
+    super.initState();
+  }
+
+  void _authorizeBatch() {
+    dto = new AuthorizeBatch();
+    dto.batchIds.add(batch.id);
+    dto.password = this.password.text;
+    if (this.isRejected) {
+      dto.operation = 3;
+      dto.rejectionCause = reasonRejection.text;
+      API.rejectedBatch(_token, dto).then((dynamic response) {
+        setState(() {
+          final Map<String, dynamic> result = jsonDecode(response.body);
+          if (response.statusCode == 200) {
+            if (result['isOk'] == true) {
+              var listAuthorize = result['body'] as List;
+              bathAuthorize = listAuthorize
+                  .map((model) => AuthorizeResponse.fromJson(model))
+                  .toList();
+              _isAhorizedCorrectly(context, bathAuthorize[0].result);
+            } else {
+              _isAhorizedInCorrectly(context, result['message']);
+            }
+          } else {
+            _isAhorizedInCorrectly(context, result['error_description']);
+          }
+        });
+      });
+    } else {
+      dto.operation = batch.isBatchControl ? 1 : 2;
+      API.authorizeBatch(_token, dto).then((dynamic response) {
+        setState(() {
+          final Map<String, dynamic> result = jsonDecode(response.body);
+          if (response.statusCode == 200) {
+            if (result['isOk'] == true) {
+              var listAuthorize = result['body'] as List;
+              bathAuthorize = listAuthorize
+                  .map((model) => AuthorizeResponse.fromJson(model))
+                  .toList();
+              _isAhorizedCorrectly(context, bathAuthorize[0].result);
+            } else {
+              _isAhorizedInCorrectly(context, result['message']);
+            }
+          } else {
+            _isAhorizedInCorrectly(context, result['error_description']);
+          }
+        });
+      });
+    }
+  }
+
+  closeModal() {
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
+  void _isAhorizedInCorrectly(BuildContext context, String description) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "Error",
+      desc: description,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Aceptar",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => closeModal(),
+          color: Color(0xFFf57328),
+        ),
+      ],
+    ).show();
+  }
+
+  void closeAccModal() {
+    Navigator.pushNamed(context, '/page');
+    Navigator.of(context, rootNavigator: true).pop();
+  }
+
+  void _isAhorizedCorrectly(BuildContext context, String description) {
+    Alert(
+      context: context,
+      type: AlertType.success,
+      title: "Valid",
+      desc: description,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Aceptar",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => closeAccModal(),
+          color: Color(0xFFf57328),
+        ),
+      ],
+    ).show();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,21 +166,7 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
-                  children: <Widget>[
-                    /*priceBarFilter(),
-                    const Divider(
-                      height: 1,
-                    ),*/
-                    /*popularFilter(),
-                    const Divider(
-                      height: 1,
-                    ),*/
-                    /*distanceViewUI(),
-                    const Divider(
-                      height: 1,
-                    ),*/
-                    allAccommodationUI(this.isRejected)
-                  ],
+                  children: <Widget>[allAccommodationUI(this.isRejected)],
                 ),
               ),
             ),
@@ -64,8 +179,8 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
               child: Container(
                 height: 35,
                 decoration: BoxDecoration(
-                  color: Colors.orange[
-                      900], //HotelAppTheme.buildLightTheme().primaryColor,
+                  color: Color(
+                      0xFFf57328), 
                   borderRadius: const BorderRadius.all(Radius.circular(24.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
@@ -81,11 +196,12 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
                     borderRadius: const BorderRadius.all(Radius.circular(24.0)),
                     highlightColor: Colors.transparent,
                     onTap: () {
-                      Navigator.pop(context);
+                      this._authorizeBatch();
+                      //Navigator.pop(context);
                     },
                     child: Center(
                       child: Text(
-                        'Aceptar',
+                        this.operationDescription,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 18,
@@ -150,23 +266,20 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                height: ScreenUtil.getInstance().setHeight(30),
-              ),
-              Text("Lote a Autorizarce",
+              Text("Lote",
                   style: TextStyle(
                       color: Color(0xFF014B8E),
                       fontFamily: "Poppins-Medium",
                       fontSize: ScreenUtil.getInstance().setSp(26))),
               TextFormField(
                 enabled: false,
-                initialValue: '125478',
+                initialValue: this.batch.id.toString(),
                 decoration: InputDecoration(
-                    icon: new Icon(Icons.line_style),
+                    icon: new Icon(Icons.offline_pin),
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(30),
+                height: ScreenUtil.getInstance().setHeight(1),
               ),
               Text("Tipo de Operación",
                   style: TextStyle(
@@ -175,43 +288,59 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
                       fontSize: ScreenUtil.getInstance().setSp(26))),
               TextFormField(
                 enabled: false,
-                initialValue: 'Pago de Haberes',
+                initialValue: this.batch.operationType,
                 decoration: InputDecoration(
                     icon: new Icon(Icons.radio_button_checked),
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(30),
+                height: ScreenUtil.getInstance().setHeight(1),
               ),
-              Text("Nro de Registros",
+              Text("Cuenta Origen",
                   style: TextStyle(
                       color: Color(0xFF014B8E),
                       fontFamily: "Poppins-Medium",
                       fontSize: ScreenUtil.getInstance().setSp(26))),
               TextFormField(
                 enabled: false,
-                initialValue: '10 Lineas',
-                decoration: InputDecoration(
-                    icon: new Icon(Icons.wrap_text),
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
-              ),
-              SizedBox(
-                height: ScreenUtil.getInstance().setHeight(30),
-              ),
-              Text("Número de acceso",
-                  style: TextStyle(
-                      color: Color(0xFF014B8E),
-                      fontFamily: "Poppins-Medium",
-                      fontSize: ScreenUtil.getInstance().setSp(26))),
-              TextFormField(
-                enabled: false,
-                initialValue: '9000010000130765',
+                initialValue: this.batch.account,
                 decoration: InputDecoration(
                     icon: new Icon(Icons.credit_card),
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
               ),
               SizedBox(
-                height: ScreenUtil.getInstance().setHeight(30),
+                height: ScreenUtil.getInstance().setHeight(1),
+              ),
+              Text("Importe",
+                  style: TextStyle(
+                      color: Color(0xFF014B8E),
+                      fontFamily: "Poppins-Medium",
+                      fontSize: ScreenUtil.getInstance().setSp(26))),
+              TextFormField(
+                enabled: false,
+                initialValue: '${this.batch.amount} '
+                    '${(this.batch.currency == 'BOL' ? 'Bolivianos' : 'Dolares')}',
+                decoration: InputDecoration(
+                    icon: new Icon(Icons.monetization_on),
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
+              ),
+              SizedBox(
+                height: ScreenUtil.getInstance().setHeight(1),
+              ),
+              Text("Beneficiarios",
+                  style: TextStyle(
+                      color: Color(0xFF014B8E),
+                      fontFamily: "Poppins-Medium",
+                      fontSize: ScreenUtil.getInstance().setSp(26))),
+              TextFormField(
+                enabled: false,
+                initialValue: this.batch.beneficiary,
+                decoration: InputDecoration(
+                    icon: new Icon(Icons.person),
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
+              ),
+              SizedBox(
+                height: ScreenUtil.getInstance().setHeight(1),
               ),
               if (isRejected) ...[
                 Text("Motivo de Rechazo",
@@ -221,13 +350,14 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
                         fontSize: ScreenUtil.getInstance().setSp(26))),
                 TextField(
                   maxLength: 35,
+                  controller: reasonRejection,
                   decoration: InputDecoration(
                       icon: new Icon(Icons.bug_report),
                       hintText: '',
                       hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
                 ),
                 SizedBox(
-                  height: ScreenUtil.getInstance().setHeight(35),
+                  height: ScreenUtil.getInstance().setHeight(1),
                 ),
               ],
               Text("Clave de Internet",
@@ -238,6 +368,7 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
               TextField(
                 obscureText: true,
                 maxLength: 35,
+                controller: password,
                 decoration: InputDecoration(
                     icon: new Icon(Icons.lock_open),
                     hintText: '',
@@ -246,12 +377,6 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
             ],
           ),
         ),
-        /*Padding(
-          padding: const EdgeInsets.only(right: 16, left: 16),
-          child: Column(
-            children: getAccomodationListUI(),
-          ),
-        ),*/
         const SizedBox(
           height: 8,
         ),
@@ -521,6 +646,7 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
                     Radius.circular(32.0),
                   ),
                   onTap: () {
+                    //this._authorizeBatch();
                     Navigator.pop(context);
                   },
                   child: Padding(
@@ -533,18 +659,18 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
             Expanded(
               child: Center(
                 child: Text(
-                  'Autorizacion',
+                  operationDescription,
                   style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 22,
-                  ),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 22,
+                      color: Colors.blue[900]),
                 ),
               ),
             ),
             Container(
               width: AppBar().preferredSize.height + 40,
               height: AppBar().preferredSize.height,
-            )
+            ),
           ],
         ),
       ),

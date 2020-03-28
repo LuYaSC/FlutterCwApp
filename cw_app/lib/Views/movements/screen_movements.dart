@@ -14,7 +14,7 @@ class ScreenMovements extends StatefulWidget {
       : super(key: key);
 
   final AnimationController animationController;
-  Account account = new Account();
+  final Account account;
 
   @override
   _ScreenMovementsState createState() => _ScreenMovementsState(this.account);

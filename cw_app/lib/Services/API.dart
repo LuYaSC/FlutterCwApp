@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:cw_app/Views/Models/authorize_batch.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -64,15 +65,11 @@ class API {
     );
   }
 
-
-  
-
-  static Future getPendings(String token) {
+  static Future getInformation(String token) {
     baseUrl =
-        "https://credinetweb.bcp.com.bo/SitiosSegurosCore/authorization/api/authorization";
-    var url = baseUrl + "/GetPendingBatches";
+        "https://www99.bancred.com.bo/SitiosSegurosCore/VPN/api/AppInformation/GetInformation";
     return http.post(
-      url,
+      baseUrl,
       body: '',
       headers: {
         "Content-Type": "application/json",
@@ -81,8 +78,84 @@ class API {
     );
   }
 
+  static Future getPendings(String token) {
+    baseUrl =
+        "https://www99.bancred.com.bo/SitiosSegurosCore/authorization/api/authorization";
+    var url = baseUrl + "/GetPendingBatches";
+    var bodyEncoded = json.encode({
+      "rowIniAuthorize": -1,
+      "numberRowAuthorize": 100,
+      "rowIniController": -1,
+      "numberRowController": 10,
+      "rowIniPreSave": -1,
+      "numberRowPreSave": 10
+    });
+    return http.post(
+      url,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
+  static Future authorizeBatch(String token, AuthorizeBatch dto) {
+    baseUrl =
+        "https://www99.bancred.com.bo/SitiosSegurosCore/authorization/api/authorization";
+    var url = baseUrl + "/ProcessBatches";
+    var bodyEncoded = json.encode(dto);
+    return http.post(
+      url,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
+  static Future rejectedBatch(String token, AuthorizeBatch dto) {
+    baseUrl =
+        "https://www99.bancred.com.bo/SitiosSegurosCore/authorization/api/authorization";
+    var url = baseUrl + "/RejectBatches";
+    var bodyEncoded = json.encode(dto);
+    return http.post(
+      url,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
+  static Future getTrackingBatches(String token) {
+    baseUrl =
+        "https://credinetweb.bcp.com.bo/SitiosSegurosCore/TrackTransfers/api/TrackTransfers";
+    var url = baseUrl + "/TrackingListParameters";
+    var bodyEncoded = json.encode({
+      "OperationStatusId": 0,
+      "OperationTypeId": 0,
+      "Beneficiary": "",
+      "batchId": "",
+      "EndDate": "2020-03-21T04:00:00.000Z",
+      "InitialDate": "2020-03-02T04:00:00.000Z",
+      "OrderByAsc": false
+    });
+    return http.post(
+      url,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
   static Future loginCw(String userName, String password, String ip) {
-    String url = 'https://www99.bancred.com.bo/SitiosSeguros/JwtAuthentication/oauth2/token';
+    String url =
+        'https://www99.bancred.com.bo/SitiosSeguros/JwtAuthentication/oauth2/token';
     var map = new Map<String, dynamic>();
     map['grant_type'] = 'password';
     map['client_id'] = 'f82e450ad49e4284a613ed9a4a5deb74';

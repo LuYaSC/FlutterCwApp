@@ -1,3 +1,8 @@
+import 'dart:convert';
+
+import 'package:cw_app/Services/API.dart';
+import 'package:cw_app/Views/Models/company_information.dart';
+import 'package:cw_app/Views/Models/meals_list_data.dart';
 import 'package:cw_app/Views/information/dates_company.dart';
 import 'package:cw_app/Views/information/users_dates.dart';
 import 'package:cw_app/Views/my_diary/meals_list_view.dart';
@@ -5,6 +10,7 @@ import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:cw_app/Views/ui_view/title_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Information extends StatefulWidget {
   const Information({Key key, this.animationController}) : super(key: key);
@@ -17,10 +23,37 @@ class Information extends StatefulWidget {
 class _TrainingScreenState extends State<Information>
     with TickerProviderStateMixin {
   Animation<double> topBarAnimation;
+  String _token = '';
+  CompanyInformation companyDates = new CompanyInformation();
+  List<MealsListData> roles = new List<MealsListData>();
 
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
+
+  Future<void> _getToken() async {
+    final storage = new FlutterSecureStorage();
+    String value = await storage.read(key: 'token');
+
+    if (!mounted) return;
+
+    setState(() {
+      _token = value;
+      _getInformation();
+    });
+  }
+
+  Future<void> _getInformation() {
+    API.getInformation(_token).then((dynamic response) {
+      setState(() {
+        dynamic aux = response.body;
+        Map<String, dynamic> aux2 = jsonDecode(aux);
+        dynamic isOk = aux2["isOk"];
+        companyDates = CompanyInformation.fromJson(aux2['body']);
+        addAllListData();
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -28,7 +61,6 @@ class _TrainingScreenState extends State<Information>
         CurvedAnimation(
             parent: widget.animationController,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
-    addAllListData();
 
     scrollController.addListener(() {
       if (scrollController.offset >= 24) {
@@ -52,23 +84,12 @@ class _TrainingScreenState extends State<Information>
         }
       }
     });
+    _getToken();
     super.initState();
   }
 
   void addAllListData() {
     const int count = 5;
-
-    /*listViews.add(
-      TitleView(
-        titleTxt: 'Your program',
-        subTxt: 'Details',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );*/
 
     listViews.add(
       TitleView(
@@ -88,6 +109,9 @@ class _TrainingScreenState extends State<Information>
             curve:
                 Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController,
+        companyName: this.companyDates.companyName,
+        companyDocument: this.companyDates.companyDocument,
+        companyLimit: this.companyDates.companyLimit
       ),
     );
 
@@ -102,16 +126,6 @@ class _TrainingScreenState extends State<Information>
         animationController: widget.animationController,
       ),
     );
-    listViews.add(
-      MealsListView(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController,
-                curve: Interval((1 / count) * 3, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController,
-      ),
-    );
 
     listViews.add(
       UsersDates(
@@ -120,45 +134,61 @@ class _TrainingScreenState extends State<Information>
             curve:
                 Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
         animationController: widget.animationController,
+        userName: this.companyDates.userName,
+        userDocument: this.companyDates.userDocument,
+        userLimit: this.companyDates.userLimit
       ),
     );
 
-    /*for (var i = 0; i < 20; i++) {
-      listViews.add(
-        RunningView(
-          animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-              CurvedAnimation(
-                  parent: widget.animationController,
-                  curve: Interval((1 / count) * 3, 1.0,
-                      curve: Curves.fastOutSlowIn))),
-          animationController: widget.animationController,
-          isBol: (i % 2 == 0) ? true : false,
-        ),
-      );
-    }*/
-
-    /*listViews.add(
-      TitleView(
-        titleTxt: 'Area of focus',
-        subTxt: 'more',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 4, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-      ),
-    );
-
-    listViews.add(
-      AreaListView(
+     listViews.add(
+      MealsListView(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController,
-                curve: Interval((1 / count) * 5, 1.0,
+                curve: Interval((1 / count) * 3, 1.0,
                     curve: Curves.fastOutSlowIn))),
         mainScreenAnimationController: widget.animationController,
+        roles: getRoles(),
       ),
-    );*/
+    );
+  }
+
+  List<MealsListData> getRoles() {
+   this.roles = new List<MealsListData>();
+   var role = new MealsListData();
+    if(this.companyDates.isConsultant) {
+      role = new MealsListData();
+       role.imagePath= 'assets/images/consulter2.png';
+      role.titleTxt= 'Consultor';
+      role.startColor= '#014B8E';
+      role.endColor= '#014B8E';
+        this.roles.add(role);
+    }
+    if(this.companyDates.isPreparer) {
+      role = new MealsListData();
+      role.imagePath= 'assets/images/initiator.png';
+      role.titleTxt= 'Iniciador';
+      role.startColor= '#014B8E';
+      role.endColor= '#014B8E';
+        this.roles.add(role);
+    }
+    if(this.companyDates.isController) {
+      role = new MealsListData();
+      role.imagePath= 'assets/images/controller3.png';
+      role.titleTxt= 'Controlador';
+      role.startColor= '#014B8E';
+      role.endColor= '#014B8E';
+        this.roles.add(role);
+    }
+    if(this.companyDates.isAuthorizer) {
+      role = new MealsListData();
+      role.imagePath= 'assets/images/autorizer.png';
+      role.titleTxt= 'Autorizador';
+      role.startColor= '#014B8E';
+      role.endColor= '#014B8E';
+        this.roles.add(role);
+    }
+    return this.roles;
   }
 
   Future<bool> getData() async {
@@ -267,67 +297,6 @@ class _TrainingScreenState extends State<Information>
                                 ),
                               ),
                             ),
-                            /*SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_left,
-                                    color: FintnessAppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),*/
-                            /*Padding(
-                              padding: const EdgeInsets.only(
-                                left: 8,
-                                right: 8,
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: Icon(
-                                      Icons.calendar_today,
-                                      color: FintnessAppTheme.grey,
-                                      size: 18,
-                                    ),
-                                  ),
-                                  Text(
-                                    '15 May',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: FintnessAppTheme.fontName,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 18,
-                                      letterSpacing: -0.2,
-                                      color: FintnessAppTheme.darkerText,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),*/
-                            /*SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_right,
-                                    color: FintnessAppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),*/
                           ],
                         ),
                       )

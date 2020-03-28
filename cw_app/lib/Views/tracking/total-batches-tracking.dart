@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 class TotalBatchesTracking extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
+  final int totalOperation;
 
-  const TotalBatchesTracking({Key key, this.animationController, this.animation})
+  TotalBatchesTracking(
+      {Key key, this.animationController, this.animation, this.totalOperation})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -49,14 +51,15 @@ class TotalBatchesTracking extends StatelessWidget {
                                 padding: const EdgeInsets.only(
                                     left: 68, bottom: 12, right: 16, top: 12),
                                 child: Text(
-                                  'Total de operaciones en el periodo: 15',
+                                  'Total de operaciones en el periodo: ${this.totalOperation}',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: FintnessAppTheme.fontName,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                     letterSpacing: 0.0,
-                                    color: Colors.blue[900],/*FintnessAppTheme.nearlyDarkBlue
+                                    color: Colors.blue[
+                                        900], /*FintnessAppTheme.nearlyDarkBlue
                                         .withOpacity(0.6),*/
                                   ),
                                 ),

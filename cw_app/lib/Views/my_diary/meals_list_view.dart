@@ -5,21 +5,28 @@ import 'package:flutter/material.dart';
 
 class MealsListView extends StatefulWidget {
   const MealsListView(
-      {Key key, this.mainScreenAnimationController, this.mainScreenAnimation})
+      {Key key,
+      this.mainScreenAnimationController,
+      this.mainScreenAnimation,
+      this.roles})
       : super(key: key);
 
   final AnimationController mainScreenAnimationController;
   final Animation<dynamic> mainScreenAnimation;
+  final List<MealsListData> roles;
 
   @override
-  _MealsListViewState createState() => _MealsListViewState();
+  _MealsListViewState createState() => _MealsListViewState(this.roles);
 }
 
 class _MealsListViewState extends State<MealsListView>
     with TickerProviderStateMixin {
   AnimationController animationController;
-  List<MealsListData> mealsListData = MealsListData.tabIconsList;
+  List<MealsListData> roles;
 
+  _MealsListViewState(List<MealsListData> roles) {
+    this.roles = roles;
+  }
   @override
   void initState() {
     animationController = AnimationController(
@@ -54,11 +61,10 @@ class _MealsListViewState extends State<MealsListView>
               child: ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: mealsListData.length,
+                itemCount: roles.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  final int count =
-                      mealsListData.length > 10 ? 10 : mealsListData.length;
+                  final int count = roles.length > 10 ? 10 : roles.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -68,7 +74,7 @@ class _MealsListViewState extends State<MealsListView>
                   animationController.forward();
 
                   return MealsView(
-                    mealsListData: mealsListData[index],
+                    mealsListData: roles[index],
                     animation: animation,
                     animationController: animationController,
                   );

@@ -66,20 +66,6 @@ class AccountDetailView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      /*Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          'Titular: HILQUITA MAMANI REMBERTO',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontFamily: FintnessAppTheme.fontName,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 20,
-                            letterSpacing: 0.0,
-                            color: FintnessAppTheme.white,
-                          ),
-                        ),
-                      ),*/
                       SizedBox(
                         height: 2,
                       ),
@@ -97,20 +83,6 @@ class AccountDetailView extends StatelessWidget {
                       SizedBox(
                         height: 2,
                       ),
-                      /*Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          '1,001.27',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontFamily: FintnessAppTheme.fontName,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 20,
-                            letterSpacing: 0.0,
-                            color: FintnessAppTheme.white,
-                          ),
-                        ),
-                      ),*/
                       Text(
                         'Saldo Disponible: ${this.account.accountingBalance.toDouble()}',
                         textAlign: TextAlign.left,
@@ -164,61 +136,6 @@ class AccountDetailView extends StatelessWidget {
                           color: FintnessAppTheme.white,
                         ),
                       ),
-                      /*Padding(
-                        padding: const EdgeInsets.only(right: 4),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(left: 4),
-                              child: Icon(
-                                Icons.timer,
-                                color: FintnessAppTheme.white,
-                                size: 16,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 4.0),
-                              child: Text(
-                                '68 min',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: FintnessAppTheme.fontName,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  letterSpacing: 0.0,
-                                  color: FintnessAppTheme.white,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: SizedBox(),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: FintnessAppTheme.nearlyWhite,
-                                shape: BoxShape.circle,
-                                boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                      color: FintnessAppTheme.nearlyBlack
-                                          .withOpacity(0.4),
-                                      offset: Offset(8.0, 8.0),
-                                      blurRadius: 8.0),
-                                ],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: Icon(
-                                  Icons.arrow_right,
-                                  color: HexColor("#6F56E8"),
-                                  size: 44,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      )*/
                     ],
                   ),
                 ),
