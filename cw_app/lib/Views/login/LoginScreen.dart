@@ -335,11 +335,6 @@ class _LoginScreen extends State<LoginScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            /*Text("Ingresar credenciales",
-                style: TextStyle(
-                    fontSize: ScreenUtil.getInstance().setSp(45),
-                    fontFamily: "Poppins-Bold",
-                    letterSpacing: .6)),*/
                             SizedBox(
                               height: ScreenUtil.getInstance().setHeight(30),
                             ),
@@ -353,7 +348,6 @@ class _LoginScreen extends State<LoginScreen> {
                               child: TextFormField(
                                 controller: userName,
                                 maxLength: 16,
-                                //initialValue: '90000100000',
                                 decoration: InputDecoration(
                                     icon: new Icon(Icons.credit_card),
                                     hintStyle: TextStyle(

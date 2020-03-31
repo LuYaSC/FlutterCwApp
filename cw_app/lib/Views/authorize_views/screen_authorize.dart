@@ -139,7 +139,7 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
     Alert(
       context: context,
       type: AlertType.success,
-      title: "Valid",
+      title: "Operacion Exitosa",
       desc: description,
       buttons: [
         DialogButton(

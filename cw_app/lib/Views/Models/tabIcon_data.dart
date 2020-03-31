@@ -6,6 +6,7 @@ class TabIconData {
     this.index = 0,
     this.selectedImagePath = '',
     this.isSelected = false,
+    this.name ='',
     this.animationController,
   });
 
@@ -13,15 +14,16 @@ class TabIconData {
   String selectedImagePath;
   bool isSelected;
   int index;
-
+  String name;
   AnimationController animationController;
 
   static List<TabIconData> tabIconsList = <TabIconData>[
      TabIconData(
       imagePath: 'assets/images/companyDates2.png',
-      selectedImagePath: 'assets/images/companyDates.png',
+      selectedImagePath: 'assets/images/companyDatesnewor.png',
       index: 0,
-      isSelected: true,
+      isSelected: false,
+      name: 'Informacion',
       animationController: null,
     ),
     TabIconData(
@@ -29,20 +31,23 @@ class TabIconData {
       selectedImagePath: 'assets/images/accountsTabOr.png',
       index: 1,
       isSelected: false,
+      name: 'Cuentas',
       animationController: null,
     ),
     TabIconData(
       imagePath: 'assets/images/batches2.png',
-      selectedImagePath: 'assets/images/batches.png',
+      selectedImagePath: 'assets/images/batches4newor.png',
       index: 2,
-      isSelected: false,
+      isSelected: true,
+      name: 'Pendientes',
       animationController: null,
     ),
     TabIconData(
       imagePath: 'assets/images/IconNewAcc2.png',
-      selectedImagePath: 'assets/images/Tracking.png',
+      selectedImagePath: 'assets/images/accountsTabnewor.png',
       index: 3,
       isSelected: false,
+      name: 'Seguimiento',
       animationController: null,
     ),
     /*TabIconData(

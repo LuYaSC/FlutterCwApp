@@ -27,7 +27,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
     tabIconsList.forEach((TabIconData tab) {
       tab.isSelected = false;
     });
-    tabIconsList[0].isSelected = true;
+    tabIconsList[2].isSelected = true;
 
     animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
@@ -128,32 +128,11 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
                     return;
                   }
                   setState(() {
-                    tabBody = Information(animationController: animationController);
+                    tabBody = MyDiaryScreen(animationController: animationController);
                   });
                 });
                 break;
             }
-            /*if (index == 0 || index == 2) {
-              animationController.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                setState(() {
-                  tabBody =
-                      MyDiaryScreen(animationController: animationController);
-                });
-              });
-            } else if (index == 1 || index == 3) {
-              animationController.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                setState(() {
-                  tabBody =
-                      TrainingScreen(animationController: animationController);
-                });
-              });
-            }*/
           },
         ),
       ],

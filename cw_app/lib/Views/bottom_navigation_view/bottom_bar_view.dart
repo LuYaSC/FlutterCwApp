@@ -41,18 +41,18 @@ class _BottomBarViewState extends State<BottomBarView>
               transform: Matrix4.translationValues(0.0, 0.0, 0.0),
               child: PhysicalShape(
                 color: FintnessAppTheme.white,
-                elevation: 16.0,
+                elevation: 20.0,
                 clipper: TabClipper(
                     radius: Tween<double>(begin: 0.0, end: 1.0)
                             .animate(CurvedAnimation(
                                 parent: animationController,
                                 curve: Curves.fastOutSlowIn))
                             .value *
-                        38.0),
+                        45.0),
                 child: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: 45,
+                      height: 52,
                       child: Padding(
                         padding:
                             const EdgeInsets.only(left: 8, right: 8, top: 4),
