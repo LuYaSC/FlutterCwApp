@@ -132,16 +132,18 @@ class API {
 
   static Future getTrackingBatches(String token) {
     baseUrl =
-        "https://credinetweb.bcp.com.bo/SitiosSegurosCore/TrackTransfers/api/TrackTransfers";
+        "https://www99.bancred.com.bo/SitiosSegurosCore/TrackTransfers/api/TrackTransfers";
     var url = baseUrl + "/TrackingListParameters";
     var bodyEncoded = json.encode({
       "OperationStatusId": 0,
       "OperationTypeId": 0,
       "Beneficiary": "",
       "batchId": "",
-      "EndDate": "2020-03-21T04:00:00.000Z",
-      "InitialDate": "2020-03-02T04:00:00.000Z",
-      "OrderByAsc": false
+      "EndDate": null,
+      "InitialDate": null,
+      "OrderByAsc": false,
+      "rowIni": -1,
+      "numberRow": 100,
     });
     return http.post(
       url,

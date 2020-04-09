@@ -4,6 +4,7 @@ import 'package:cw_app/Views/Models/account.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:cw_app/Views/ui_view/running_view.dart';
 import 'package:cw_app/Views/ui_view/workout_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -27,6 +28,7 @@ class _TrainingScreenState extends State<TrainingScreen>
   double totalBol = 0;
   double totalUsd = 0;
   String quantityAccounts = '';
+  bool _isFetching = false;
 
   Future<void> _getToken() async {
     final storage = new FlutterSecureStorage();
@@ -36,6 +38,7 @@ class _TrainingScreenState extends State<TrainingScreen>
 
     setState(() {
       _token = value;
+      _isFetching = true;
       _getAccounts();
     });
   }
@@ -43,6 +46,7 @@ class _TrainingScreenState extends State<TrainingScreen>
   Future<dynamic> _getAccounts() {
     API.getAccounts(_token).then((dynamic response) {
       setState(() {
+        _isFetching = false;
         Map<String, dynamic> aux2 = jsonDecode(response.body);
         dynamic isOk = aux2["isOk"];
         var a = aux2['body']["accounts"] as List;
@@ -130,6 +134,15 @@ class _TrainingScreenState extends State<TrainingScreen>
     return true;
   }
 
+  Widget viewCharge() {
+    return _isFetching
+        ? Positioned.fill(
+            child: Container(
+            child: CupertinoActivityIndicator(radius: 15),
+          ))
+        : Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -140,6 +153,7 @@ class _TrainingScreenState extends State<TrainingScreen>
           children: <Widget>[
             getMainListViewUI(),
             getAppBarUI(),
+            viewCharge(),
             SizedBox(
               height: MediaQuery.of(context).padding.bottom,
             )

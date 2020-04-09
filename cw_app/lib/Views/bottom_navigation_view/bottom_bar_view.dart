@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/models/tabIcon_data.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,35 @@ class _BottomBarViewState extends State<BottomBarView>
       duration: const Duration(milliseconds: 1000),
     );
     animationController.forward();
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500))
+          ..addListener(() {
+            setState(() {});
+          });
+    _animateIcon =
+        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+    _buttonColor = ColorTween(
+      begin: HexColor('014B8E'),
+      end: HexColor('fb7437'),
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Interval(
+        0.00,
+        1.00,
+        curve: Curves.linear,
+      ),
+    ));
+    _translateButton = Tween<double>(
+      begin: _fabHeight,
+      end: -14.0,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Interval(
+        0.0,
+        0.75,
+        curve: _curve,
+      ),
+    ));
     super.initState();
   }
 
@@ -115,72 +145,114 @@ class _BottomBarViewState extends State<BottomBarView>
             );
           },
         ),
-        Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-          child: SizedBox(
-            width: 38 * 2.0,
-            height: 38 + 62.0,
-            child: Container(
-              alignment: Alignment.topCenter,
-              color: Colors.transparent,
-              child: SizedBox(
-                width: 38 * 3.5,
-                height: 38 * 3.5,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ScaleTransition(
-                    alignment: Alignment.center,
-                    scale: Tween<double>(begin: 0.0, end: 1.0).animate(
-                        CurvedAnimation(
-                            parent: animationController,
-                            curve: Curves.fastOutSlowIn)),
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: FintnessAppTheme.nearlyDarkBlue,
-                        gradient: LinearGradient(
-                            colors: [
-                              Colors.blue[900],
-                              Colors.blue[900],
-                              //FintnessAppTheme.nearlyDarkBlue,
-                              //HexColor('#6A88E5'),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight),
-                        shape: BoxShape.circle,
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                              color: FintnessAppTheme.nearlyDarkBlue
-                                  .withOpacity(0.4),
-                              offset: const Offset(8.0, 16.0),
-                              blurRadius: 16.0),
-                        ],
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          splashColor: Colors.white.withOpacity(0.1),
-                          highlightColor: Colors.transparent,
-                          focusColor: Colors.transparent,
-                          onTap: () {
-                            widget.addClick();
-                          },
-                          child: Icon(
-                            Icons.check_circle,
-                            color: FintnessAppTheme.white,
-                            size: 50,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+        Container(
+          alignment: Alignment.topCenter,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Transform(
+                transform: Matrix4.translationValues(
+                  0.0,
+                  _translateButton.value * 3.0,
+                  0.0,
                 ),
+                child: add(),
               ),
-            ),
+              Transform(
+                transform: Matrix4.translationValues(
+                  0.0,
+                  _translateButton.value * 2.0,
+                  0.0,
+                ),
+                child: image(),
+              ),
+              Transform(
+                transform: Matrix4.translationValues(
+                  0.0,
+                  _translateButton.value,
+                  0.0,
+                ),
+                child: inbox(),
+              ),
+              toggle(),
+            ],
           ),
         ),
       ],
+    );
+  }
+
+  bool isOpened = false;
+  AnimationController _animationController;
+  Animation<Color> _buttonColor;
+  Animation<double> _animateIcon;
+  Animation<double> _translateButton;
+  Curve _curve = Curves.easeOut;
+  double _fabHeight = 56.0;
+
+  @override
+  dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  animate() {
+    if (!isOpened) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+    isOpened = !isOpened;
+  }
+
+  Widget add() {
+    return Container(
+      child: FloatingActionButton(
+        heroTag: 'btn3',
+        onPressed: null,
+        backgroundColor: HexColor('014B8E'),
+        tooltip: 'Add',
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+
+  Widget image() {
+    return Container(
+      child: FloatingActionButton(
+        heroTag: 'btn2',
+        onPressed: null,
+        backgroundColor: HexColor('014B8E'),
+        tooltip: 'Image',
+        child: Icon(Icons.image),
+      ),
+    );
+  }
+
+  Widget inbox() {
+    return Container(
+      child: FloatingActionButton(
+        heroTag: 'btn1',
+        onPressed: null,
+        backgroundColor: HexColor('014B8E'),
+        tooltip: 'Inbox',
+        child: Icon(Icons.inbox),
+      ),
+    );
+  }
+
+  Widget toggle() {
+    return Container(
+      child: FloatingActionButton(
+        heroTag: 'btn0',
+        backgroundColor: _buttonColor.value,
+        onPressed: animate,
+        tooltip: 'Toggle',
+        child: AnimatedIcon(
+          icon: AnimatedIcons.menu_close,
+          progress: _animateIcon,
+        ),
+      ),
     );
   }
 

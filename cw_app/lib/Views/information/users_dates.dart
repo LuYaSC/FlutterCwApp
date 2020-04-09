@@ -289,17 +289,17 @@ class UsersDates extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 24, right: 24, top: 8, bottom: 8),
-                      child: Container(
-                        height: 2,
-                        decoration: BoxDecoration(
-                          color: FintnessAppTheme.background,
-                          borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(
+                    //       left: 24, right: 24, top: 8, bottom: 8),
+                    //   child: Container(
+                    //     height: 2,
+                    //     decoration: BoxDecoration(
+                    //       color: FintnessAppTheme.background,
+                    //       borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                    //     ),
+                    //   ),
+                    // ),
                     //user2
                     /*Padding(
                       padding:
@@ -574,10 +574,10 @@ class UsersDates extends StatelessWidget {
                           left: 24, right: 24, top: 8, bottom: 8),
                       child: Container(
                         height: 2,
-                        decoration: BoxDecoration(
+                        /*decoration: BoxDecoration(
                           color: FintnessAppTheme.background,
                           borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                        ),
+                        ),*/
                       ),
                     ),
                   ],

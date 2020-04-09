@@ -1,3 +1,5 @@
+import 'package:date_format/date_format.dart';
+
 class TrackingBatch {
   int id;
   String name;
@@ -45,13 +47,13 @@ class TrackingBatch {
         formattedAccount = json['formattedAccount'],
         amount = json['amount'],
         currency = json['currency'],
-        dateCreation = json['dateCreation'],
-        dateProcess = json['dateProcess'],
+        dateCreation = formatDate(DateTime.parse(json['dateCreation']), [yyyy, '-', mm, '-', dd ,' ', HH, ':', nn, ':', ss, ' ', am]),
+        dateProcess = formatDate(DateTime.parse(json['dateProcess']), [yyyy, '-', mm, '-', dd ,' ', HH, ':', nn, ':', ss, ' ', am]),
         description = json['description'],
         isAuth = json['isAuth'],
         isCtrl = json['isCtrl'],
         isScheduledProcess = json['isScheduledProcess'],
-        scheduledProcess = json['scheduledProcess'],
+        scheduledProcess = formatDate(DateTime.parse(json['scheduledProcess']), [yyyy, '-', mm, '-', dd ,' ', HH, ':', nn, ':', ss, ' ', am]),
         beneficiary = json['beneficiary'],
         isAuthorizerControl = json['isAuthorizerControl'],
         isSignerScheme = json['isSignerScheme'];

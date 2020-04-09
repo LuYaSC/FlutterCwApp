@@ -10,6 +10,7 @@ import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -28,6 +29,7 @@ class _LoginScreen extends State<LoginScreen> {
   final LocalAuthentication _localAuthentication = LocalAuthentication();
   bool _canCheckBiometric = false;
   bool isSaveFingerprint = false;
+  bool isFetching = false;
   String _authorizedOrNot = "Not Authorized";
   List<BiometricType> _availableBiometricTypes = List<BiometricType>();
   Widget screenView;
@@ -178,9 +180,10 @@ class _LoginScreen extends State<LoginScreen> {
     if (!mounted) return;
   }
 
-  void _loginCw() {
+  Future<void> _loginCw() async {
     API.loginCw(userName.text, password.text, _ip).then((dynamic response) {
       setState(() {
+        isFetching = false;
         final Map<String, dynamic> result = jsonDecode(response.body);
         if (response.statusCode == 200) {
           final dynamic token = result['access_token'];
@@ -276,6 +279,12 @@ class _LoginScreen extends State<LoginScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
+          isFetching
+              ? Positioned.fill(
+                  child: Container(
+                  child: CupertinoActivityIndicator(radius: 15),
+                ))
+              : Container(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[

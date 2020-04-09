@@ -169,7 +169,7 @@ class MediterranesnDietView extends StatelessWidget {
                                                       const EdgeInsets.only(
                                                           left: 4, bottom: 3),
                                                   child: Text(
-                                                    '${(this.list.amount * animation.value)}',
+                                                    '${(this.list.amount * animation.value.toInt()).toDouble()}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:

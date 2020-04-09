@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cw_app/Views/Models/tracking_batch.dart';
 import 'package:cw_app/Views/details_views/batch_detail.dart';
-import 'package:cw_app/Views/movements/screen_movements.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
+import 'package:cw_app/Views/tracking/screen_status_tracking.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -169,7 +169,7 @@ class ListBatchesTracking extends StatelessWidget {
                                                       const EdgeInsets.only(
                                                           left: 4, bottom: 3),
                                                   child: Text(
-                                                    '${(this.list.amount * animation.value).toDouble()}',
+                                                    '${(this.list.amount * animation.value.toInt()).toDouble()}',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontFamily:
@@ -461,10 +461,11 @@ class ListBatchesTracking extends StatelessWidget {
                                               MaterialPageRoute<dynamic>(
                                                   builder:
                                                       (BuildContext context) =>
-                                                          ScreenMovements(
+                                                          ScreenStatusTracking(
                                                             animationController:
                                                                 animationController,
                                                             key: key,
+                                                            batch: this.list,
                                                           ),
                                                   fullscreenDialog: true),
                                             );
@@ -534,7 +535,10 @@ IconData getIcons(String description) {
     case 'Controlado':
       iconresult = Icons.offline_pin;
       break;
-    case 'En Procesp':
+    case 'En Proceso':
+      iconresult = Icons.swap_vertical_circle;
+      break;
+    case 'Autorizado':
       iconresult = Icons.swap_vertical_circle;
       break;
   }
@@ -559,8 +563,11 @@ Color getColor(String description) {
     case 'Controlado':
       colorResult = Colors.orange;
       break;
-    case 'En Procesp':
-      colorResult = Colors.yellow;
+    case 'En Proceso':
+      colorResult = Colors.yellow[900];
+      break;
+    case 'Autorizado':
+      colorResult = Colors.black;
       break;
   }
   return colorResult;

@@ -30,6 +30,7 @@ class _TrainingScreenState extends State<Information>
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
+  bool _isFetching = false;
 
   Future<void> _getToken() async {
     final storage = new FlutterSecureStorage();
@@ -39,6 +40,7 @@ class _TrainingScreenState extends State<Information>
 
     setState(() {
       _token = value;
+      _isFetching = true;
       _getInformation();
     });
   }
@@ -51,8 +53,18 @@ class _TrainingScreenState extends State<Information>
         dynamic isOk = aux2["isOk"];
         companyDates = CompanyInformation.fromJson(aux2['body']);
         addAllListData();
+        _isFetching = false;
       });
     });
+  }
+
+  Widget viewCharge() {
+    return _isFetching
+        ? Positioned.fill(
+            child: Container(
+            child: CupertinoActivityIndicator(radius: 15, animating: true,),
+          ))
+        : Container();
   }
 
   @override
@@ -104,15 +116,15 @@ class _TrainingScreenState extends State<Information>
     );
     listViews.add(
       DatesCompany(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-        companyName: this.companyDates.companyName,
-        companyDocument: this.companyDates.companyDocument,
-        companyLimit: this.companyDates.companyLimit
-      ),
+          animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                  parent: widget.animationController,
+                  curve: Interval((1 / count) * 2, 1.0,
+                      curve: Curves.fastOutSlowIn))),
+          animationController: widget.animationController,
+          companyName: this.companyDates.companyName,
+          companyDocument: this.companyDates.companyDocument,
+          companyLimit: this.companyDates.companyLimit),
     );
 
     listViews.add(
@@ -129,18 +141,18 @@ class _TrainingScreenState extends State<Information>
 
     listViews.add(
       UsersDates(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-        userName: this.companyDates.userName,
-        userDocument: this.companyDates.userDocument,
-        userLimit: this.companyDates.userLimit
-      ),
+          animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                  parent: widget.animationController,
+                  curve: Interval((1 / count) * 2, 1.0,
+                      curve: Curves.fastOutSlowIn))),
+          animationController: widget.animationController,
+          userName: this.companyDates.userName,
+          userDocument: this.companyDates.userDocument,
+          userLimit: this.companyDates.userLimit),
     );
 
-     listViews.add(
+    listViews.add(
       MealsListView(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
@@ -154,39 +166,39 @@ class _TrainingScreenState extends State<Information>
   }
 
   List<MealsListData> getRoles() {
-   this.roles = new List<MealsListData>();
-   var role = new MealsListData();
-    if(this.companyDates.isConsultant) {
+    this.roles = new List<MealsListData>();
+    var role = new MealsListData();
+    if (this.companyDates.isConsultant) {
       role = new MealsListData();
-       role.imagePath= 'assets/images/consulter2.png';
-      role.titleTxt= 'Consultor';
-      role.startColor= '#014B8E';
-      role.endColor= '#014B8E';
-        this.roles.add(role);
+      role.imagePath = 'assets/images/consulter2.png';
+      role.titleTxt = 'Consultor';
+      role.startColor = '#014B8E';
+      role.endColor = '#014B8E';
+      this.roles.add(role);
     }
-    if(this.companyDates.isPreparer) {
+    if (this.companyDates.isPreparer) {
       role = new MealsListData();
-      role.imagePath= 'assets/images/initiator.png';
-      role.titleTxt= 'Iniciador';
-      role.startColor= '#014B8E';
-      role.endColor= '#014B8E';
-        this.roles.add(role);
+      role.imagePath = 'assets/images/initiator.png';
+      role.titleTxt = 'Iniciador';
+      role.startColor = '#014B8E';
+      role.endColor = '#014B8E';
+      this.roles.add(role);
     }
-    if(this.companyDates.isController) {
+    if (this.companyDates.isController) {
       role = new MealsListData();
-      role.imagePath= 'assets/images/controller3.png';
-      role.titleTxt= 'Controlador';
-      role.startColor= '#014B8E';
-      role.endColor= '#014B8E';
-        this.roles.add(role);
+      role.imagePath = 'assets/images/controller3.png';
+      role.titleTxt = 'Controlador';
+      role.startColor = '#014B8E';
+      role.endColor = '#014B8E';
+      this.roles.add(role);
     }
-    if(this.companyDates.isAuthorizer) {
+    if (this.companyDates.isAuthorizer) {
       role = new MealsListData();
-      role.imagePath= 'assets/images/autorizer.png';
-      role.titleTxt= 'Autorizador';
-      role.startColor= '#014B8E';
-      role.endColor= '#014B8E';
-        this.roles.add(role);
+      role.imagePath = 'assets/images/autorizer.png';
+      role.titleTxt = 'Autorizador';
+      role.startColor = '#014B8E';
+      role.endColor = '#014B8E';
+      this.roles.add(role);
     }
     return this.roles;
   }
@@ -206,6 +218,7 @@ class _TrainingScreenState extends State<Information>
           children: <Widget>[
             getMainListViewUI(),
             getAppBarUI(),
+            viewCharge(),
             SizedBox(
               height: MediaQuery.of(context).padding.bottom,
             )

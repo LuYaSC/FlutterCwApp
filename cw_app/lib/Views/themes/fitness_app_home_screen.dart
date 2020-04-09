@@ -1,7 +1,7 @@
 import 'package:cw_app/Views/bottom_navigation_view/bottom_bar_view.dart';
 import 'package:cw_app/Views/information/information.dart';
 import 'package:cw_app/Views/models/tabIcon_data.dart';
-import 'package:cw_app/Views/my_diary/my_diary_screen.dart';
+import 'package:cw_app/Views/my_diary/pending_batches_screen.dart';
 import 'package:cw_app/Views/tracking/tracking-view.dart';
 import 'package:cw_app/Views/traning/training_screen.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
 
     animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
-    tabBody = MyDiaryScreen(animationController: animationController);
+    tabBody = PendingBatchesScreen(animationController: animationController);
     super.initState();
   }
 
@@ -108,7 +108,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
                     return;
                   }
                   setState(() {
-                    tabBody = MyDiaryScreen(animationController: animationController);
+                    tabBody = PendingBatchesScreen(animationController: animationController);
                   });
                 });
                 break;
@@ -128,7 +128,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
                     return;
                   }
                   setState(() {
-                    tabBody = MyDiaryScreen(animationController: animationController);
+                    tabBody = PendingBatchesScreen(animationController: animationController);
                   });
                 });
                 break;

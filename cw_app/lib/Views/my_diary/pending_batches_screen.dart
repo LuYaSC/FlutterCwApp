@@ -1,33 +1,41 @@
 import 'dart:convert';
 
 import 'package:cw_app/Services/API.dart';
-import 'package:cw_app/Views/Models/tracking_batch.dart';
+import 'package:cw_app/Views/Models/batch_pendings.dart';
+import 'package:cw_app/Views/Models/filters_screen.dart';
+import 'package:cw_app/Views/Models/hexColor.dart';
+import 'package:cw_app/Views/Models/total_batches_pending.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
-import 'package:cw_app/Views/tracking/filters_screen_tracking.dart';
-import 'package:cw_app/Views/tracking/list-batches-tracking.dart';
-import 'package:cw_app/Views/tracking/screen_donwloads.dart';
-import 'package:cw_app/Views/tracking/total-batches-tracking.dart';
+import 'package:cw_app/Views/tracking/screen_accepted.dart';
+import 'package:cw_app/Views/ui_view/glass_view.dart';
+import 'package:cw_app/Views/ui_view/mediterranesn_diet_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class TrackingView extends StatefulWidget {
-  const TrackingView({Key key, this.animationController}) : super(key: key);
+class PendingBatchesScreen extends StatefulWidget {
+  const PendingBatchesScreen({Key key, this.animationController})
+      : super(key: key);
 
   final AnimationController animationController;
   @override
-  _MyDiaryScreenState createState() => _MyDiaryScreenState();
+  _PendingBatchesState createState() => _PendingBatchesState();
 }
 
-class _MyDiaryScreenState extends State<TrackingView>
+class _PendingBatchesState extends State<PendingBatchesScreen>
     with TickerProviderStateMixin {
   Animation<double> topBarAnimation;
-  String _token = '';
-  List<TrackingBatch> list = new List<TrackingBatch>();
-  bool _isFetching = false;
+
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
+  String _token = '';
+  bool _isFetching = false;
   double topBarOpacity = 0.0;
+  TotalBatchesPending list = new TotalBatchesPending();
+  List<BatchPendings> totalListPending = new List<BatchPendings>();
+  List<BatchPendings> batchesListControlled = new List<BatchPendings>();
+  List<BatchPendings> batchesListAuthorized = new List<BatchPendings>();
+  String operationDescription = '';
 
   Future<void> _getToken() async {
     final storage = new FlutterSecureStorage();
@@ -37,22 +45,28 @@ class _MyDiaryScreenState extends State<TrackingView>
 
     setState(() {
       _token = value;
-_isFetching = true;
-      _getTrackingBatches();
+      _isFetching = true;
+      _getPendings();
     });
   }
 
-  Future<void> _getTrackingBatches() {
-    API.getTrackingBatches(_token).then((dynamic response) {
+  Future<void> _getPendings() {
+    API.getPendings(_token).then((dynamic response) {
       setState(() {
         _isFetching = false;
         dynamic aux = response.body;
         Map<String, dynamic> aux2 = jsonDecode(aux);
         dynamic isOk = aux2["isOk"];
-        var listResponse = aux2['body'] as List;
-        list = listResponse
-            .map((model) => TrackingBatch.fromJson(model))
+        var listControl = aux2['body']['batchesToControl'] as List;
+        var listAuthorize = aux2['body']['batchesToAuthorize'] as List;
+        batchesListControlled =
+            listControl.map((model) => BatchPendings.fromJson(model)).toList();
+        batchesListControlled.forEach((x) => x.isBatchControl = true);
+        batchesListAuthorized = listAuthorize
+            .map((model) => BatchPendings.fromJson(model))
             .toList();
+        batchesListAuthorized.forEach((x) => x.isBatchControl = false);
+        totalListPending = batchesListControlled + batchesListAuthorized;
         addAllListData();
       });
     });
@@ -64,6 +78,8 @@ _isFetching = true;
         CurvedAnimation(
             parent: widget.animationController,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
+    //addAllListData();
+
     scrollController.addListener(() {
       if (scrollController.offset >= 24) {
         if (topBarOpacity != 1.0) {
@@ -86,38 +102,34 @@ _isFetching = true;
         }
       }
     });
+    this._getToken();
     super.initState();
-    _getToken();
   }
 
   void addAllListData() {
     const int count = 9;
-    listViews.add(
-      TotalBatchesTracking(
+    /*listViews.add(
+      GlassView(
           animation: Tween<double>(begin: 0.0, end: 1.0).animate(
               CurvedAnimation(
                   parent: widget.animationController,
                   curve: Interval((1 / count) * 8, 1.0,
                       curve: Curves.fastOutSlowIn))),
-          animationController: widget.animationController, 
-          totalOperation: list.length,),
-    );
+          animationController: widget.animationController,
+          batchforAuthorize: batchesListAuthorized.length.toString(),
+          batchforControl: batchesListControlled.length.toString()),
+    );*/
 
-    for (int i = 0; i < list.length; i++) {
-      bool rotation = false;
-      if (i % 2 == 0) {
-        rotation = true;
-      }
+    for (int i = 0; i < this.totalListPending.length; i++) {
       listViews.add(
-        ListBatchesTracking(
-          rotation: rotation,
+        MediterranesnDietView(
           animation: Tween<double>(begin: 0.0, end: 1.0).animate(
               CurvedAnimation(
                   parent: widget.animationController,
                   curve: Interval((1 / count) * 1, 1.0,
                       curve: Curves.fastOutSlowIn))),
           animationController: widget.animationController,
-          list: this.list[i],
+          list: this.totalListPending[i],
         ),
       );
     }
@@ -130,11 +142,54 @@ _isFetching = true;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: FintnessAppTheme.background,
+    final ktabPages = <Widget>[
+      Stack(
+        children: <Widget>[
+          getMainListViewUI(),
+          getAppBarUI(),
+          viewCharge(),
+          SizedBox(
+            height: MediaQuery.of(context).padding.bottom,
+          )
+        ],
+      ),
+      Stack(
+        children: <Widget>[
+          //getMainListViewUI(),
+          getAppBarUI(),
+          viewCharge(),
+          SizedBox(
+            height: MediaQuery.of(context).padding.bottom,
+          )
+        ],
+      ),
+    ];
+    final kTabs = <Tab>[
+      Tab(
+        //icon: Icon(Icons.cloud),
+        text: 'Lotes por Autorizar',
+      ),
+      Tab(
+        //icon: Icon(Icons.cloud),
+        text: 'Lotes por Controlar',
+      )
+    ];
+
+    return DefaultTabController(
+      length: kTabs.length,
+      //color: FintnessAppTheme.background,
       child: Scaffold(
+        appBar: AppBar(
+          title: Text('Pendientes'),
+          backgroundColor: HexColor('014B8E'),
+          bottom: TabBar(tabs: kTabs),
+
+          actions: <Widget>[],
+        ),
         backgroundColor: Colors.transparent,
-        body: Stack(
+        body: TabBarView(
+          children: ktabPages,
+        ), /*Stack(
           children: <Widget>[
             getMainListViewUI(),
             getAppBarUI(),
@@ -143,7 +198,7 @@ _isFetching = true;
               height: MediaQuery.of(context).padding.bottom,
             )
           ],
-        ),
+        ),*/
       ),
     );
   }
@@ -227,14 +282,14 @@ _isFetching = true;
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Seguimiento',
+                                  '${this.batchesListAuthorized.length} Lotes encontrados',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: FintnessAppTheme.fontName,
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 22 + 6 - 6 * topBarOpacity,
-                                    letterSpacing: 1.2,
-                                    color: FintnessAppTheme.darkerText,
+                                    fontSize: 8 + 4 - 4 * topBarOpacity,
+                                    letterSpacing: 0.8,
+                                    color: Colors.orange[900],
                                   ),
                                 ),
                               ),
@@ -256,7 +311,7 @@ _isFetching = true;
                                     context,
                                     MaterialPageRoute<dynamic>(
                                         builder: (BuildContext context) =>
-                                            ScreenDonwloads(),
+                                            ScreenAccepted(),
                                         fullscreenDialog: true),
                                   );
                                 },
@@ -264,10 +319,17 @@ _isFetching = true;
                                   padding: const EdgeInsets.only(left: 8),
                                   child: Row(
                                     children: <Widget>[
+                                      Text(
+                                        'Autorizar varios lotes',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w100,
+                                          fontSize: 12,
+                                        ),
+                                      ),
                                       Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Icon(
-                                            Icons.file_download,
+                                            Icons.check_circle,
                                             color: Colors.orange[900],
                                           ) // HotelAppTheme.buildLightTheme()
                                           //.primaryColor),
@@ -294,7 +356,7 @@ _isFetching = true;
                                     context,
                                     MaterialPageRoute<dynamic>(
                                         builder: (BuildContext context) =>
-                                            FiltersScreenTracking(),
+                                            FiltersScreen(),
                                         fullscreenDialog: true),
                                   );
                                 },
@@ -322,23 +384,6 @@ _isFetching = true;
                                 ),
                               ),
                             ),
-                            /*SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Center(
-                                  child: Icon(
-                                    Icons.filter_list,
-                                    color: Colors
-                                        .orange[900], // FintnessAppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),*/
                           ],
                         ),
                       )

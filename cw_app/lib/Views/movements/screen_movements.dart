@@ -6,6 +6,7 @@ import 'package:cw_app/Views/Models/movements.dart';
 import 'package:cw_app/Views/movements/account_detail_view.dart';
 import 'package:cw_app/Views/movements/movements_list.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -30,6 +31,7 @@ class _ScreenMovementsState extends State<ScreenMovements>
   String _token = '';
   Account account = new Account();
   List<Movements> movements = new List<Movements>();
+  bool _isFetching = false;
 
   _ScreenMovementsState(Account account) {
     this.account = account;
@@ -43,8 +45,18 @@ class _ScreenMovementsState extends State<ScreenMovements>
 
     setState(() {
       _token = value;
+      _isFetching = true;
       _getMovements();
     });
+  }
+
+  Widget viewCharge() {
+    return _isFetching
+        ? Positioned.fill(
+            child: Container(
+            child: CupertinoActivityIndicator(radius: 15, animating: true,),
+          ))
+        : Container();
   }
 
   Future<void> _getMovements() {
@@ -57,6 +69,7 @@ class _ScreenMovementsState extends State<ScreenMovements>
         movements =
             movementsResponse.map((model) => Movements.fromJson(model)).toList();
         addAllListData();
+        _isFetching = false;
       });
     });
   }
@@ -140,6 +153,7 @@ class _ScreenMovementsState extends State<ScreenMovements>
           children: <Widget>[
             getMainListViewUI(),
             getAppBarUI(),
+            viewCharge(),
             SizedBox(
               height: MediaQuery.of(context).padding.bottom,
             ),
