@@ -58,7 +58,7 @@ class WorkoutView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Padding(
+                      /*Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
                           '${this.quantityAccounts} Cuentas',
@@ -71,7 +71,7 @@ class WorkoutView extends StatelessWidget {
                             color: FintnessAppTheme.white,
                           ),
                         ),
-                      ),
+                      ),*/
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
@@ -80,7 +80,7 @@ class WorkoutView extends StatelessWidget {
                           style: TextStyle(
                             fontFamily: FintnessAppTheme.fontName,
                             fontWeight: FontWeight.normal,
-                            fontSize: 20,
+                            fontSize: 25,
                             letterSpacing: 0.0,
                             color: FintnessAppTheme.white,
                           ),
@@ -105,7 +105,7 @@ class WorkoutView extends StatelessWidget {
                           style: TextStyle(
                             fontFamily: FintnessAppTheme.fontName,
                             fontWeight: FontWeight.normal,
-                            fontSize: 20,
+                            fontSize: 25,
                             letterSpacing: 0.0,
                             color: FintnessAppTheme.white,
                           ),

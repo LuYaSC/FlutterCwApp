@@ -5,15 +5,13 @@ import 'package:flutter/material.dart';
 class GlassView extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
-  final String batchforAuthorize;
-  final String batchforControl;
-
+  final String message;
+  
   GlassView(
       {Key key,
       this.animationController,
       this.animation,
-      this.batchforAuthorize,
-      this.batchforControl})
+      this.message})
       : super(key: key);
 
 
@@ -31,28 +29,28 @@ class GlassView extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: 24, right: 24, top: 0, bottom: 24),
+                      left: 24, right: 24, top: 5, bottom: 24),
                   child: Stack(
                     overflow: Overflow.visible,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(top: 16),
+                        padding: const EdgeInsets.only(top: 28),
                         child: Container(
                           decoration: BoxDecoration(
                             color: HexColor("#D7E0F9"),
                             borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8.0),
-                                bottomLeft: Radius.circular(8.0),
-                                bottomRight: Radius.circular(8.0),
-                                topRight: Radius.circular(8.0)),
+                                topLeft: Radius.circular(10.0),
+                                bottomLeft: Radius.circular(10.0),
+                                bottomRight: Radius.circular(10.0),
+                                topRight: Radius.circular(10.0)),
                           ),
                           child: Column(
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 68, bottom: 12, right: 16, top: 12),
+                                    left: 68, bottom: 20, right: 16, top: 20),
                                 child: Text(
-                                  '${this.batchforAuthorize} Lotes por autorizar encontrados',
+                                  this.message,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: FintnessAppTheme.fontName,
@@ -65,7 +63,7 @@ class GlassView extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Padding(
+                              /*Padding(
                                 padding: const EdgeInsets.only(
                                     left: 68, bottom: 12, right: 16, top: 12),
                                 child: Text(
@@ -81,13 +79,13 @@ class GlassView extends StatelessWidget {
                                         .withOpacity(0.6),*/
                                   ),
                                 ),
-                              ),
+                              ),*/
                             ],
                           ),
                         ),
                       ),
                       Positioned(
-                        top: 12,
+                        top: 20,
                         left: 0,
                         child: SizedBox(
                           width: 70,

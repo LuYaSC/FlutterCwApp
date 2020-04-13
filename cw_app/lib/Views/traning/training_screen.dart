@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cw_app/Services/API.dart';
 import 'package:cw_app/Views/Models/account.dart';
+import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:cw_app/Views/ui_view/running_view.dart';
 import 'package:cw_app/Views/ui_view/workout_view.dart';
@@ -148,6 +149,10 @@ class _TrainingScreenState extends State<TrainingScreen>
     return Container(
       color: FintnessAppTheme.background,
       child: Scaffold(
+        appBar: AppBar(
+          title: Text('Cuentas'),
+          backgroundColor: HexColor('014B8E'),
+        ),
         backgroundColor: Colors.transparent,
         body: Stack(
           children: <Widget>[
@@ -233,14 +238,14 @@ class _TrainingScreenState extends State<TrainingScreen>
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Cuentas',
+                                    '${this.accounts.length} cuentas encontradas',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: FintnessAppTheme.fontName,
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 22 + 6 - 6 * topBarOpacity,
-                                    letterSpacing: 1.2,
-                                    color: FintnessAppTheme.darkerText,
+                                     fontSize: 20 + 4 - 4 * topBarOpacity,
+                                    letterSpacing: 1.5,
+                                    color: Colors.orange[900],
                                   ),
                                 ),
                               ),

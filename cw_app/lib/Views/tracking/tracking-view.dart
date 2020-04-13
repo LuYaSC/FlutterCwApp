@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cw_app/Services/API.dart';
+import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/Models/tracking_batch.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:cw_app/Views/tracking/filters_screen_tracking.dart';
@@ -37,7 +38,7 @@ class _MyDiaryScreenState extends State<TrackingView>
 
     setState(() {
       _token = value;
-_isFetching = true;
+      _isFetching = true;
       _getTrackingBatches();
     });
   }
@@ -50,9 +51,8 @@ _isFetching = true;
         Map<String, dynamic> aux2 = jsonDecode(aux);
         dynamic isOk = aux2["isOk"];
         var listResponse = aux2['body'] as List;
-        list = listResponse
-            .map((model) => TrackingBatch.fromJson(model))
-            .toList();
+        list =
+            listResponse.map((model) => TrackingBatch.fromJson(model)).toList();
         addAllListData();
       });
     });
@@ -92,16 +92,16 @@ _isFetching = true;
 
   void addAllListData() {
     const int count = 9;
-    listViews.add(
+    /*listViews.add(
       TotalBatchesTracking(
-          animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-              CurvedAnimation(
-                  parent: widget.animationController,
-                  curve: Interval((1 / count) * 8, 1.0,
-                      curve: Curves.fastOutSlowIn))),
-          animationController: widget.animationController, 
-          totalOperation: list.length,),
-    );
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 8, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+        totalOperation: list.length,
+      ),
+    );*/
 
     for (int i = 0; i < list.length; i++) {
       bool rotation = false;
@@ -133,6 +133,10 @@ _isFetching = true;
     return Container(
       color: FintnessAppTheme.background,
       child: Scaffold(
+        appBar: AppBar(
+          title: Text('Seguimiento'),
+          backgroundColor: HexColor('014B8E'),
+        ),
         backgroundColor: Colors.transparent,
         body: Stack(
           children: <Widget>[
@@ -227,19 +231,19 @@ _isFetching = true;
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Seguimiento',
+                                  '${this.list.length} operaciones en el periodo',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: FintnessAppTheme.fontName,
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 22 + 6 - 6 * topBarOpacity,
-                                    letterSpacing: 1.2,
-                                    color: FintnessAppTheme.darkerText,
+                                    fontSize: 8 + 4 - 4 * topBarOpacity,
+                                    letterSpacing: 0.8,
+                                    color: Colors.orange[900],
                                   ),
                                 ),
                               ),
                             ),
-                            Material(
+                            /*Material(
                               color: Colors.transparent,
                               child: InkWell(
                                 focusColor: Colors.transparent,
@@ -276,7 +280,7 @@ _isFetching = true;
                                   ),
                                 ),
                               ),
-                            ),
+                            ),*/
                             Material(
                               color: Colors.transparent,
                               child: InkWell(

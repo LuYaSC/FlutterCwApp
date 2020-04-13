@@ -26,8 +26,10 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
     with TickerProviderStateMixin {
   Animation<double> topBarAnimation;
 
-  List<Widget> listViews = <Widget>[];
-  final ScrollController scrollController = ScrollController();
+  List<Widget> listViewsAut = <Widget>[];
+  List<Widget> listViewsCtr = <Widget>[];
+  final ScrollController scrollControllerAut = ScrollController();
+  final ScrollController scrollControllerCtr = ScrollController();
   String _token = '';
   bool _isFetching = false;
   double topBarOpacity = 0.0;
@@ -78,23 +80,45 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
         CurvedAnimation(
             parent: widget.animationController,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
-    //addAllListData();
 
-    scrollController.addListener(() {
-      if (scrollController.offset >= 24) {
+    scrollControllerAut.addListener(() {
+      if (scrollControllerAut.offset >= 24) {
         if (topBarOpacity != 1.0) {
           setState(() {
             topBarOpacity = 1.0;
           });
         }
-      } else if (scrollController.offset <= 24 &&
-          scrollController.offset >= 0) {
-        if (topBarOpacity != scrollController.offset / 24) {
+      } else if (scrollControllerAut.offset <= 24 &&
+          scrollControllerAut.offset >= 0) {
+        if (topBarOpacity != scrollControllerAut.offset / 24) {
           setState(() {
-            topBarOpacity = scrollController.offset / 24;
+            topBarOpacity = scrollControllerAut.offset / 24;
           });
         }
-      } else if (scrollController.offset <= 0) {
+      } else if (scrollControllerAut.offset <= 0) {
+        if (topBarOpacity != 0.0) {
+          setState(() {
+            topBarOpacity = 0.0;
+          });
+        }
+      }
+    });
+
+    scrollControllerCtr.addListener(() {
+      if (scrollControllerCtr.offset >= 24) {
+        if (topBarOpacity != 1.0) {
+          setState(() {
+            topBarOpacity = 1.0;
+          });
+        }
+      } else if (scrollControllerCtr.offset <= 24 &&
+          scrollControllerCtr.offset >= 0) {
+        if (topBarOpacity != scrollControllerCtr.offset / 24) {
+          setState(() {
+            topBarOpacity = scrollControllerCtr.offset / 24;
+          });
+        }
+      } else if (scrollControllerCtr.offset <= 0) {
         if (topBarOpacity != 0.0) {
           setState(() {
             topBarOpacity = 0.0;
@@ -108,20 +132,9 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
 
   void addAllListData() {
     const int count = 9;
-    /*listViews.add(
-      GlassView(
-          animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-              CurvedAnimation(
-                  parent: widget.animationController,
-                  curve: Interval((1 / count) * 8, 1.0,
-                      curve: Curves.fastOutSlowIn))),
-          animationController: widget.animationController,
-          batchforAuthorize: batchesListAuthorized.length.toString(),
-          batchforControl: batchesListControlled.length.toString()),
-    );*/
 
-    for (int i = 0; i < this.totalListPending.length; i++) {
-      listViews.add(
+    for (int i = 0; i < this.batchesListAuthorized.length; i++) {
+      listViewsAut.add(
         MediterranesnDietView(
           animation: Tween<double>(begin: 0.0, end: 1.0).animate(
               CurvedAnimation(
@@ -129,8 +142,47 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
                   curve: Interval((1 / count) * 1, 1.0,
                       curve: Curves.fastOutSlowIn))),
           animationController: widget.animationController,
-          list: this.totalListPending[i],
+          list: this.batchesListAuthorized[i],
         ),
+      );
+    }
+    if (this.batchesListAuthorized.length == 0) {
+      listViewsAut.add(
+        GlassView(
+            animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                CurvedAnimation(
+                    parent: widget.animationController,
+                    curve: Interval((1 / count) * 8, 1.0,
+                        curve: Curves.fastOutSlowIn))),
+            animationController: widget.animationController,
+            message: 'No se encontraron lotes por autorizar'),
+      );
+    }
+
+    for (int i = 0; i < this.batchesListControlled.length; i++) {
+      listViewsCtr.add(
+        MediterranesnDietView(
+          animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                  parent: widget.animationController,
+                  curve: Interval((1 / count) * 1, 1.0,
+                      curve: Curves.fastOutSlowIn))),
+          animationController: widget.animationController,
+          list: this.batchesListControlled[i],
+        ),
+      );
+    }
+
+    if (this.batchesListControlled.length == 0) {
+      listViewsCtr.add(
+        GlassView(
+            animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                CurvedAnimation(
+                    parent: widget.animationController,
+                    curve: Interval((1 / count) * 8, 1.0,
+                        curve: Curves.fastOutSlowIn))),
+            animationController: widget.animationController,
+            message: 'No se encontraron lotes por autorizar'),
       );
     }
   }
@@ -145,8 +197,8 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
     final ktabPages = <Widget>[
       Stack(
         children: <Widget>[
-          getMainListViewUI(),
-          getAppBarUI(),
+          getMainListViewUIAuthorizer(),
+          getAppBarUI(false),
           viewCharge(),
           SizedBox(
             height: MediaQuery.of(context).padding.bottom,
@@ -155,8 +207,8 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
       ),
       Stack(
         children: <Widget>[
-          //getMainListViewUI(),
-          getAppBarUI(),
+          getMainListViewUIController(),
+          getAppBarUI(true),
           viewCharge(),
           SizedBox(
             height: MediaQuery.of(context).padding.bottom,
@@ -183,7 +235,6 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
           title: Text('Pendientes'),
           backgroundColor: HexColor('014B8E'),
           bottom: TabBar(tabs: kTabs),
-
           actions: <Widget>[],
         ),
         backgroundColor: Colors.transparent,
@@ -212,7 +263,7 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
         : Container();
   }
 
-  Widget getMainListViewUI() {
+  Widget getMainListViewUIAuthorizer() {
     return FutureBuilder<bool>(
       future: getData(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -220,18 +271,18 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
           return const SizedBox();
         } else {
           return ListView.builder(
-            controller: scrollController,
+            controller: scrollControllerAut,
             padding: EdgeInsets.only(
               top: AppBar().preferredSize.height +
                   MediaQuery.of(context).padding.top +
                   24,
               bottom: 62 + MediaQuery.of(context).padding.bottom,
             ),
-            itemCount: listViews.length,
+            itemCount: listViewsAut.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
               widget.animationController.forward();
-              return listViews[index];
+              return listViewsAut[index];
             },
           );
         }
@@ -239,7 +290,34 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
     );
   }
 
-  Widget getAppBarUI() {
+  Widget getMainListViewUIController() {
+    return FutureBuilder<bool>(
+      future: getData(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (!snapshot.hasData) {
+          return const SizedBox();
+        } else {
+          return ListView.builder(
+            controller: scrollControllerCtr,
+            padding: EdgeInsets.only(
+              top: AppBar().preferredSize.height +
+                  MediaQuery.of(context).padding.top +
+                  24,
+              bottom: 62 + MediaQuery.of(context).padding.bottom,
+            ),
+            itemCount: listViewsCtr.length,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (BuildContext context, int index) {
+              widget.animationController.forward();
+              return listViewsCtr[index];
+            },
+          );
+        }
+      },
+    );
+  }
+
+  Widget getAppBarUI(bool isController) {
     return Column(
       children: <Widget>[
         AnimatedBuilder(
@@ -282,7 +360,9 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  '${this.batchesListAuthorized.length} Lotes encontrados',
+                                  isController
+                                      ? '${this.batchesListControlled.length} Lotes encontrados'
+                                      : '${this.batchesListAuthorized.length} Lotes encontrados',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: FintnessAppTheme.fontName,
@@ -320,7 +400,9 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
                                   child: Row(
                                     children: <Widget>[
                                       Text(
-                                        'Autorizar varios lotes',
+                                        isController
+                                            ? 'Controlar varios lotes'
+                                            : 'Autorizar varios lotes',
                                         style: TextStyle(
                                           fontWeight: FontWeight.w100,
                                           fontSize: 12,

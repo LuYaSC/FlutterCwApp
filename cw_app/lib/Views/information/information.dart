@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cw_app/Services/API.dart';
 import 'package:cw_app/Views/Models/company_information.dart';
+import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/Models/meals_list_data.dart';
 import 'package:cw_app/Views/information/dates_company.dart';
 import 'package:cw_app/Views/information/users_dates.dart';
@@ -62,7 +63,10 @@ class _TrainingScreenState extends State<Information>
     return _isFetching
         ? Positioned.fill(
             child: Container(
-            child: CupertinoActivityIndicator(radius: 15, animating: true,),
+            child: CupertinoActivityIndicator(
+              radius: 15,
+              animating: true,
+            ),
           ))
         : Container();
   }
@@ -213,11 +217,15 @@ class _TrainingScreenState extends State<Information>
     return Container(
       color: FintnessAppTheme.background,
       child: Scaffold(
+        appBar: AppBar(
+          title: Text('Informacion'),
+          backgroundColor: HexColor('014B8E'),
+        ),
         backgroundColor: Colors.transparent,
         body: Stack(
           children: <Widget>[
             getMainListViewUI(),
-            getAppBarUI(),
+            //getAppBarUI(),
             viewCharge(),
             SizedBox(
               height: MediaQuery.of(context).padding.bottom,
@@ -240,8 +248,8 @@ class _TrainingScreenState extends State<Information>
             padding: EdgeInsets.only(
               top: AppBar().preferredSize.height +
                   MediaQuery.of(context).padding.top +
-                  24,
-              bottom: 62 + MediaQuery.of(context).padding.bottom,
+                  0,
+              bottom: 0 + MediaQuery.of(context).padding.bottom,
             ),
             itemCount: listViews.length,
             scrollDirection: Axis.vertical,
