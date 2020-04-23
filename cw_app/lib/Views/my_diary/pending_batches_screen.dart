@@ -391,7 +391,11 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
                                     context,
                                     MaterialPageRoute<dynamic>(
                                         builder: (BuildContext context) =>
-                                            ScreenAccepted(),
+                                            ScreenAccepted(
+                                                batches: isController
+                                                    ? this.batchesListControlled
+                                                    : this
+                                                        .batchesListAuthorized),
                                         fullscreenDialog: true),
                                   );
                                 },

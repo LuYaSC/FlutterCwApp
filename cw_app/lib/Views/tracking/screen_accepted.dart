@@ -1,22 +1,37 @@
+import 'package:cw_app/Views/Models/batch_pendings.dart';
+import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/Models/popular_filter_list.dart';
 import 'package:cw_app/Views/Models/range_slider_view.dart';
 import 'package:cw_app/Views/Models/slider_view.dart';
+import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:cw_app/Views/themes/hotel_app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ScreenAccepted extends StatefulWidget {
+  final List<BatchPendings> batches;
+  final bool isController;
+
+  ScreenAccepted({Key key, this.batches, this.isController}) : super(key: key);
+
   @override
-  _FiltersScreenState createState() => _FiltersScreenState();
+  _FiltersScreenState createState() => _FiltersScreenState(batches);
 }
 
 class _FiltersScreenState extends State<ScreenAccepted> {
+  List<BatchPendings> batches = new List<BatchPendings>();
+  bool isController = false;
   List<PopularFilterListData> popularFilterListData =
       PopularFilterListData.popularFList;
   List<PopularFilterListData> accomodationListData =
       PopularFilterListData.accomodationList;
   List<PopularFilterListData> operationListData =
       PopularFilterListData.operationList;
+
+  _FiltersScreenState(List<BatchPendings> batches) {
+    this.batches = batches;
+    this.isController = isController;
+  }
 
   RangeValues _values = const RangeValues(100, 600);
   double distValue = 50.0;
@@ -37,21 +52,21 @@ class _FiltersScreenState extends State<ScreenAccepted> {
                     /*priceBarFilter(),
                     const Divider(
                       height: 1,
-                    ),*/
-                    //popularFilter(),
-                    /*const Divider(
+                    ),
+                    popularFilter(),
+                    const Divider(
                       height: 1,
-                    ),*/
-                    /*distanceViewUI(),*/
-                    /*searchBatchorBeneficiary(),
+                    ),
+                    distanceViewUI(),
+                    searchBatchorBeneficiary(),
                     const Divider(
                       height: 1,
                     ),
                     allAccommodationUI(),
                     const Divider(
                       height: 1,
-                    ),
-                    operations()*/
+                    ),*/
+                    operations(),
                     Container(
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).padding.top,
@@ -159,7 +174,9 @@ class _FiltersScreenState extends State<ScreenAccepted> {
           padding:
               const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 8),
           child: Text(
-            'Tipos de Operaciones',
+            isController
+                ? 'Seleccione uno o  varios lotes para controlarse'
+                : 'Seleccione uno o  varios lotes para autorizarse',
             textAlign: TextAlign.left,
             style: TextStyle(
                 color: Colors.grey,
@@ -246,8 +263,8 @@ class _FiltersScreenState extends State<ScreenAccepted> {
 
   List<Widget> getOperationsListUI() {
     final List<Widget> noList = <Widget>[];
-    for (int i = 0; i < operationListData.length; i++) {
-      final PopularFilterListData date = operationListData[i];
+    for (int i = 0; i < this.batches.length; i++) {
+      final BatchPendings batch = this.batches[i];
       noList.add(
         Material(
           color: Colors.transparent,
@@ -262,14 +279,92 @@ class _FiltersScreenState extends State<ScreenAccepted> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: <Widget>[
-                  Expanded(
+                  /*Expanded(
                     child: Text(
-                      date.titleTxt,
+                      batch.id.toString(),
                       style: TextStyle(color: Colors.black),
                     ),
+                  ),*/
+                  Expanded(
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                              ),
+                              child: Text(
+                                'Lote: ${batch.id}',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: FintnessAppTheme.fontName,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15,
+                                  letterSpacing: 0.0,
+                                  color: HexColor("#014B8E"),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                              ),
+                              child: Text(
+                                'Importe: ${batch.amount}',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: FintnessAppTheme.fontName,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12,
+                                  letterSpacing: 0.0,
+                                  color: HexColor("#014B8E"),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                              ),
+                              child: Text(
+                                '${batch.operationType}',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: FintnessAppTheme.fontName,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12,
+                                  letterSpacing: 0.0,
+                                  color: Colors.orange[900],// HexColor("#014B8E"),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          height: 1,
+                        ),
+                      ],
+                    ),
                   ),
+                  /*Expanded(
+                    child: Text(
+                      batch.id.toString(),
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),*/
                   CupertinoSwitch(
-                    activeColor: date.isSelected
+                    activeColor: batch.isSelected
                         ? Colors.orange[
                             900] /*HotelAppTheme.buildLightTheme().primaryColor*/
                         : Colors.grey.withOpacity(0.6),
@@ -278,7 +373,7 @@ class _FiltersScreenState extends State<ScreenAccepted> {
                         checkAppPositionOperations(i);
                       });
                     },
-                    value: date.isSelected,
+                    value: batch.isSelected,
                   ),
                 ],
               ),
@@ -381,33 +476,32 @@ class _FiltersScreenState extends State<ScreenAccepted> {
 
   void checkAppPositionOperations(int index) {
     if (index == 0) {
-      if (operationListData[0].isSelected) {
-        operationListData.forEach((d) {
+      if (batches[0].isSelected) {
+        batches.forEach((d) {
           d.isSelected = false;
         });
       } else {
-        operationListData.forEach((d) {
+        batches.forEach((d) {
           d.isSelected = true;
         });
       }
     } else {
-      operationListData[index].isSelected =
-          !operationListData[index].isSelected;
+      batches[index].isSelected = !batches[index].isSelected;
 
       int count = 0;
-      for (int i = 0; i < operationListData.length; i++) {
+      for (int i = 0; i < batches.length; i++) {
         if (i != 0) {
-          final PopularFilterListData data = operationListData[i];
-          if (data.isSelected) {
+          final BatchPendings batch = batches[i];
+          if (batch.isSelected) {
             count += 1;
           }
         }
       }
 
-      if (count == operationListData.length - 1) {
-        operationListData[0].isSelected = true;
+      if (count == batches.length - 1) {
+        batches[0].isSelected = true;
       } else {
-        operationListData[0].isSelected = false;
+        batches[0].isSelected = false;
       }
     }
   }

@@ -12,6 +12,7 @@ class BatchPendings {
   String operationScheduledDate;
   String beneficiary;
   bool isBatchControl;
+  bool isSelected;
 
   BatchPendings() {
     this.id = 0;
@@ -27,6 +28,7 @@ class BatchPendings {
     this.operationScheduledDate = '';
     this.beneficiary = '';
     this.isBatchControl = false;
+    this.isSelected = false;
   }
 
   BatchPendings.fromJson(Map json)
@@ -41,7 +43,8 @@ class BatchPendings {
         creationDate = json['creationDate'],
         isOperationScheduled = json['isOperationScheduled'],
         operationScheduledDate = json['operationScheduledDate'],
-        beneficiary = json['beneficiary'];
+        beneficiary = json['beneficiary'],
+        isSelected = false;
 
   dynamic toJson() {
     return {
