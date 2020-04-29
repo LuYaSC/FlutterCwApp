@@ -1,4 +1,4 @@
-class BatchPendings {
+class BatchPendingsCw {
   int id;
   String operationType;
   int operationTypeId;
@@ -14,7 +14,7 @@ class BatchPendings {
   bool isBatchControl;
   bool isSelected;
 
-  BatchPendings() {
+  BatchPendingsCw() {
     this.id = 0;
     this.operationType = '';
     this.operationTypeId = 0;
@@ -31,7 +31,7 @@ class BatchPendings {
     this.isSelected = false;
   }
 
-  BatchPendings.fromJson(Map json)
+  BatchPendingsCw.fromJson(Map json)
       : id = json['id'],
         operationType = json['operationType'],
         operationTypeId = json['operationTypeId'],

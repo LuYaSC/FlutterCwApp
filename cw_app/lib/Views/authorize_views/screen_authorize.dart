@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'package:cw_app/Services/API.dart';
 import 'package:cw_app/Views/Models/authorize_batch.dart';
 import 'package:cw_app/Views/Models/authorize_response.dart';
-import 'package:cw_app/Views/Models/batch_pendings.dart';
+import 'package:cw_app/Views/Models/batch_pendings_cw.dart';
+import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/Models/popular_filter_list.dart';
 import 'package:cw_app/Views/Models/range_slider_view.dart';
 import 'package:cw_app/Views/Models/slider_view.dart';
@@ -18,7 +19,7 @@ class ScreenAuthorize extends StatefulWidget {
   _ScreenAuthorizeState createState() => _ScreenAuthorizeState(
       this.isRejected, this.batch, this.operationDescription);
   final bool isRejected;
-  final BatchPendings batch;
+  final BatchPendingsCw batch;
   final String operationDescription;
   ScreenAuthorize(this.isRejected, this.batch, this.operationDescription);
 }
@@ -30,7 +31,7 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
       PopularFilterListData.operationList;
 
   final bool isRejected;
-  final BatchPendings batch;
+  final BatchPendingsCw batch;
   final String operationDescription;
   final password = TextEditingController(text: '');
   final reasonRejection = TextEditingController(text: '');
@@ -179,8 +180,7 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
               child: Container(
                 height: 35,
                 decoration: BoxDecoration(
-                  color: Color(
-                      0xFFf57328), 
+                  color: HexColor('f57328'), //Color(0xFFf57328),
                   borderRadius: const BorderRadius.all(Radius.circular(24.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
@@ -339,27 +339,32 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
                     icon: new Icon(Icons.person),
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
               ),
-              SizedBox(
-                height: ScreenUtil.getInstance().setHeight(1),
-              ),
-              if (isRejected) ...[
-                Text("Motivo de Rechazo",
-                    style: TextStyle(
-                        color: Color(0xFF014B8E),
-                        fontFamily: "Poppins-Medium",
-                        fontSize: ScreenUtil.getInstance().setSp(26))),
-                TextField(
-                  maxLength: 35,
-                  controller: reasonRejection,
-                  decoration: InputDecoration(
-                      icon: new Icon(Icons.bug_report),
-                      hintText: '',
-                      hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
-                ),
-                SizedBox(
-                  height: ScreenUtil.getInstance().setHeight(1),
-                ),
-              ],
+              isRejected
+                  ? Column(
+                      children: <Widget>[
+                        Text("Motivo de Rechazo",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                color: Color(0xFF014B8E),
+                                fontFamily: "Poppins-Medium",
+                                fontSize: ScreenUtil.getInstance().setSp(26))),
+                        TextField(
+                          maxLength: 35,
+                          controller: reasonRejection,
+                          decoration: InputDecoration(
+                              icon: new Icon(Icons.bug_report),
+                              hintText: '',
+                              hintStyle: TextStyle(
+                                  color: Colors.grey, fontSize: 12.0)),
+                        ),
+                        SizedBox(
+                          height: ScreenUtil.getInstance().setHeight(1),
+                        ),
+                      ],
+                    )
+                  : SizedBox(
+                      height: ScreenUtil.getInstance().setHeight(1),
+                    ),
               Text("Clave de Internet",
                   style: TextStyle(
                       color: Color(0xFF014B8E),

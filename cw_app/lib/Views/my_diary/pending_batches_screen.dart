@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:cw_app/Services/API.dart';
-import 'package:cw_app/Views/Models/batch_pendings.dart';
+import 'package:cw_app/Views/Models/batch_pendings_cw.dart';
 import 'package:cw_app/Views/Models/filters_screen.dart';
 import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/Models/total_batches_pending.dart';
@@ -34,9 +34,9 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
   bool _isFetching = false;
   double topBarOpacity = 0.0;
   TotalBatchesPending list = new TotalBatchesPending();
-  List<BatchPendings> totalListPending = new List<BatchPendings>();
-  List<BatchPendings> batchesListControlled = new List<BatchPendings>();
-  List<BatchPendings> batchesListAuthorized = new List<BatchPendings>();
+  List<BatchPendingsCw> totalListPending = new List<BatchPendingsCw>();
+  List<BatchPendingsCw> batchesListControlled = new List<BatchPendingsCw>();
+  List<BatchPendingsCw> batchesListAuthorized = new List<BatchPendingsCw>();
   String operationDescription = '';
 
   Future<void> _getToken() async {
@@ -62,10 +62,10 @@ class _PendingBatchesState extends State<PendingBatchesScreen>
         var listControl = aux2['body']['batchesToControl'] as List;
         var listAuthorize = aux2['body']['batchesToAuthorize'] as List;
         batchesListControlled =
-            listControl.map((model) => BatchPendings.fromJson(model)).toList();
+            listControl.map((model) => BatchPendingsCw.fromJson(model)).toList();
         batchesListControlled.forEach((x) => x.isBatchControl = true);
         batchesListAuthorized = listAuthorize
-            .map((model) => BatchPendings.fromJson(model))
+            .map((model) => BatchPendingsCw.fromJson(model))
             .toList();
         batchesListAuthorized.forEach((x) => x.isBatchControl = false);
         totalListPending = batchesListControlled + batchesListAuthorized;

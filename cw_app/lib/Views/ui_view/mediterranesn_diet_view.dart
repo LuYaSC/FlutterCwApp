@@ -1,5 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cw_app/Views/Models/batch_pendings.dart';
+import 'package:cw_app/Views/Models/batch_pendings_cw.dart';
 import 'package:cw_app/Views/details_views/batch_detail.dart';
 import 'package:cw_app/Views/authorize_views/screen_authorize.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
@@ -9,7 +9,7 @@ import 'dart:math' as math;
 class MediterranesnDietView extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
-  final BatchPendings list;
+  final BatchPendingsCw list;
 
   const MediterranesnDietView(
       {Key key, this.animationController, this.animation, this.list})

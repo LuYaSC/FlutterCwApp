@@ -1,11 +1,12 @@
-import 'batch_pendings.dart';
+
+import 'batch_pendings_cw.dart';
 
 class TotalBatchesPending {
-  List<BatchPendings> batchestoControl;
-  List<BatchPendings> batchestoAuthorize;
+  List<BatchPendingsCw> batchestoControl;
+  List<BatchPendingsCw> batchestoAuthorize;
 
   TotalBatchesPending() {
-    this.batchestoControl = new List<BatchPendings>();
-    this.batchestoAuthorize = new List<BatchPendings>();
+    this.batchestoControl = new List<BatchPendingsCw>();
+    this.batchestoAuthorize = new List<BatchPendingsCw>();
   }
 }

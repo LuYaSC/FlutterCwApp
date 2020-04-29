@@ -1,4 +1,4 @@
-import 'package:cw_app/Views/Models/batch_pendings.dart';
+import 'package:cw_app/Views/Models/batch_pendings_cw.dart';
 import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/Models/popular_filter_list.dart';
 import 'package:cw_app/Views/Models/range_slider_view.dart';
@@ -8,8 +8,9 @@ import 'package:cw_app/Views/themes/hotel_app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 class ScreenAccepted extends StatefulWidget {
-  final List<BatchPendings> batches;
+  final List<BatchPendingsCw> batches;
   final bool isController;
 
   ScreenAccepted({Key key, this.batches, this.isController}) : super(key: key);
@@ -19,7 +20,7 @@ class ScreenAccepted extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<ScreenAccepted> {
-  List<BatchPendings> batches = new List<BatchPendings>();
+  List<BatchPendingsCw> batches = new List<BatchPendingsCw>();
   bool isController = false;
   List<PopularFilterListData> popularFilterListData =
       PopularFilterListData.popularFList;
@@ -28,11 +29,11 @@ class _FiltersScreenState extends State<ScreenAccepted> {
   List<PopularFilterListData> operationListData =
       PopularFilterListData.operationList;
 
-  _FiltersScreenState(List<BatchPendings> batches) {
+  _FiltersScreenState(List<BatchPendingsCw> batches) {
     this.batches = batches;
     this.isController = isController;
   }
-
+ 
   RangeValues _values = const RangeValues(100, 600);
   double distValue = 50.0;
 
@@ -264,7 +265,7 @@ class _FiltersScreenState extends State<ScreenAccepted> {
   List<Widget> getOperationsListUI() {
     final List<Widget> noList = <Widget>[];
     for (int i = 0; i < this.batches.length; i++) {
-      final BatchPendings batch = this.batches[i];
+      final BatchPendingsCw batch = this.batches[i];
       noList.add(
         Material(
           color: Colors.transparent,
@@ -491,7 +492,7 @@ class _FiltersScreenState extends State<ScreenAccepted> {
       int count = 0;
       for (int i = 0; i < batches.length; i++) {
         if (i != 0) {
-          final BatchPendings batch = batches[i];
+          final BatchPendingsCw batch = batches[i];
           if (batch.isSelected) {
             count += 1;
           }
