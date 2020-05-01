@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cw_app/Services/API.dart';
+import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -358,7 +359,12 @@ class _LoginScreen extends State<LoginScreen> {
                                 controller: userName,
                                 maxLength: 16,
                                 decoration: InputDecoration(
-                                    icon: new Icon(Icons.credit_card),
+                                    icon: new Icon(Icons.credit_card,
+                                        color: HexColor('FF8000')),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: HexColor('FF8000')),
+                                    ),
                                     hintStyle: TextStyle(
                                         color: Colors.grey, fontSize: 12.0)),
                               ),
@@ -378,8 +384,15 @@ class _LoginScreen extends State<LoginScreen> {
                                 obscureText: true,
                                 maxLength: 35,
                                 decoration: InputDecoration(
-                                    icon: new Icon(Icons.lock_open),
+                                    icon: new Icon(
+                                      Icons.lock_open,
+                                      color: HexColor('FF8000'),
+                                    ),
                                     hintText: '',
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: HexColor('FF8000')),
+                                    ),
                                     hintStyle: TextStyle(
                                         color: Colors.grey, fontSize: 12.0)),
                               ),

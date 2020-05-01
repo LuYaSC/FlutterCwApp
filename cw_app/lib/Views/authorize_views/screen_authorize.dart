@@ -365,20 +365,25 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
                   : SizedBox(
                       height: ScreenUtil.getInstance().setHeight(1),
                     ),
-              Text("Clave de Internet",
-                  style: TextStyle(
-                      color: Color(0xFF014B8E),
-                      fontFamily: "Poppins-Medium",
-                      fontSize: ScreenUtil.getInstance().setSp(26))),
-              TextField(
-                obscureText: true,
-                maxLength: 35,
-                controller: password,
-                decoration: InputDecoration(
-                    icon: new Icon(Icons.lock_open),
-                    hintText: '',
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
-              ),
+              Column(
+                children: <Widget>[
+                  Text("Clave de Internet",
+                      style: TextStyle(
+                          color: Color(0xFF014B8E),
+                          fontFamily: "Poppins-Medium",
+                          fontSize: ScreenUtil.getInstance().setSp(26))),
+                  TextField(
+                    obscureText: true,
+                    maxLength: 35,
+                    controller: password,
+                    decoration: InputDecoration(
+                        icon: new Icon(Icons.lock_open),
+                        hintText: '',
+                        hintStyle:
+                            TextStyle(color: Colors.grey, fontSize: 12.0)),
+                  ),
+                ],
+              )
             ],
           ),
         ),

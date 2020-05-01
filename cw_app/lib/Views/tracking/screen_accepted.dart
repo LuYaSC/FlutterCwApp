@@ -8,7 +8,6 @@ import 'package:cw_app/Views/themes/hotel_app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class ScreenAccepted extends StatefulWidget {
   final List<BatchPendingsCw> batches;
   final bool isController;
@@ -28,12 +27,19 @@ class _FiltersScreenState extends State<ScreenAccepted> {
       PopularFilterListData.accomodationList;
   List<PopularFilterListData> operationListData =
       PopularFilterListData.operationList;
+  List<BatchPendingsCw> allBatches = new List<BatchPendingsCw>();
+  BatchPendingsCw allbatch = new BatchPendingsCw();
+  TextEditingController _textFieldRejectController = TextEditingController();
+  TextEditingController _textFieldPasswordController = TextEditingController();
 
   _FiltersScreenState(List<BatchPendingsCw> batches) {
-    this.batches = batches;
+    this.allbatch.operationType = 'Marcar todos los lotes';
+    allBatches.add(allbatch);
+    allBatches.addAll(batches);
+    this.batches = allBatches;
     this.isController = isController;
   }
- 
+
   RangeValues _values = const RangeValues(100, 600);
   double distValue = 50.0;
 
@@ -68,7 +74,7 @@ class _FiltersScreenState extends State<ScreenAccepted> {
                       height: 1,
                     ),*/
                     operations(),
-                    Container(
+                    /*Container(
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).padding.top,
                           left: 16,
@@ -84,7 +90,7 @@ class _FiltersScreenState extends State<ScreenAccepted> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
               ),
@@ -92,43 +98,100 @@ class _FiltersScreenState extends State<ScreenAccepted> {
             const Divider(
               height: 1,
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 16, right: 16, bottom: 16, top: 8),
-              child: Container(
-                height: 48,
-                decoration: BoxDecoration(
-                  color: Colors.orange[
-                      900], //HotelAppTheme.buildLightTheme().primaryColor,
-                  borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.6),
-                      blurRadius: 8,
-                      offset: const Offset(4, 4),
-                    ),
-                  ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                    highlightColor: Colors.transparent,
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Center(
-                      child: Text(
-                        'Aceptar',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            color: Colors.white),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 16, bottom: 16, top: 8),
+                    child: Container(
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: HexColor(
+                            'f57328'), //HotelAppTheme.buildLightTheme().primaryColor,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(24.0)),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            blurRadius: 8,
+                            offset: const Offset(4, 4),
+                          ),
+                        ],
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(24.0)),
+                          highlightColor: Colors.transparent,
+                          onTap: () {
+                            _displayAuthorize(context);
+                            //Navigator.pop(context);
+                          },
+                          child: Center(
+                            child: Text(
+                              'Autorizar',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 16, bottom: 16, top: 8),
+                    child: Container(
+                      height: 48,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: HexColor(
+                              'f57328'), //                   <--- border color
+                          width: 2.0,
+                        ),
+                        color: Colors
+                            .white, //HotelAppTheme.buildLightTheme().primaryColor,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(24.0)),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            blurRadius: 8,
+                            offset: const Offset(4, 4),
+                          ),
+                        ],
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(24.0)),
+                          highlightColor: Colors.transparent,
+                          onTap: () {
+                            _displayRejected(context);
+                            //Navigator.pop(context);
+                          },
+                          child: Center(
+                            child: Text(
+                              'Rechazar',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: HexColor('002d74')),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             )
           ],
         ),
@@ -280,57 +343,55 @@ class _FiltersScreenState extends State<ScreenAccepted> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: <Widget>[
-                  /*Expanded(
-                    child: Text(
-                      batch.id.toString(),
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),*/
                   Expanded(
                     child: Column(
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 10,
-                                right: 10,
-                              ),
-                              child: Text(
-                                'Lote: ${batch.id}',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontFamily: FintnessAppTheme.fontName,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15,
-                                  letterSpacing: 0.0,
-                                  color: HexColor("#014B8E"),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 10,
-                                right: 10,
-                              ),
-                              child: Text(
-                                'Importe: ${batch.amount}',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontFamily: FintnessAppTheme.fontName,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12,
-                                  letterSpacing: 0.0,
-                                  color: HexColor("#014B8E"),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        batch.id != 0
+                            ? Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 10,
+                                      right: 10,
+                                    ),
+                                    child: Text(
+                                      'Lote: ${batch.id}',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontFamily: FintnessAppTheme.fontName,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15,
+                                        letterSpacing: 0.0,
+                                        color: HexColor("#014B8E"),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                        batch.id != 0
+                            ? Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 10,
+                                      right: 10,
+                                    ),
+                                    child: Text(
+                                      'Importe: ${batch.amount}',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontFamily: FintnessAppTheme.fontName,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
+                                        letterSpacing: 0.0,
+                                        color: HexColor("#014B8E"),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(),
                         Row(
                           children: <Widget>[
                             Padding(
@@ -344,9 +405,10 @@ class _FiltersScreenState extends State<ScreenAccepted> {
                                 style: TextStyle(
                                   fontFamily: FintnessAppTheme.fontName,
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 12,
+                                  fontSize: batch.id != 0 ? 12 : 20,
                                   letterSpacing: 0.0,
-                                  color: Colors.orange[900],// HexColor("#014B8E"),
+                                  color: Colors
+                                      .orange[900], // HexColor("#014B8E"),
                                 ),
                               ),
                             ),
@@ -366,8 +428,7 @@ class _FiltersScreenState extends State<ScreenAccepted> {
                   ),*/
                   CupertinoSwitch(
                     activeColor: batch.isSelected
-                        ? Colors.orange[
-                            900] /*HotelAppTheme.buildLightTheme().primaryColor*/
+                        ? HexColor('014B8E')
                         : Colors.grey.withOpacity(0.6),
                     onChanged: (bool value) {
                       setState(() {
@@ -505,6 +566,126 @@ class _FiltersScreenState extends State<ScreenAccepted> {
         batches[0].isSelected = false;
       }
     }
+  }
+
+  _displayAuthorize(BuildContext context) async {
+    _textFieldPasswordController = new TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Clave de Internet',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: HexColor('014B8E'))),
+            content: TextField(
+              obscureText: true,
+              controller: _textFieldPasswordController,
+              decoration: InputDecoration(
+                icon: new Icon(
+                  Icons.lock_open,
+                  color: HexColor('FF8000'),
+                ),
+                hintText: "Ingrese su contraseña",
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: HexColor('FF8000')),
+                ),
+              ),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('Aceptar',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: HexColor('FF8000'))),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              new FlatButton(
+                child: new Text('Cancelar',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: HexColor('014B8E'))),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  _displayRejected(BuildContext context) async {
+    _textFieldPasswordController = new TextEditingController();
+    _textFieldRejectController = new TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Clave de Internet',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: HexColor('014B8E'))),
+            content: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0),
+                child: Column(
+                  children: <Widget>[
+                    TextField(
+                      controller: _textFieldRejectController,
+                      decoration: InputDecoration(
+                        icon: new Icon(
+                          Icons.cancel,
+                          color: HexColor('FF8000'),
+                        ),
+                        hintText: "Motivo de Rechazo",
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: HexColor('FF8000')),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    TextField(
+                      obscureText: true,
+                      controller: _textFieldPasswordController,
+                      decoration: InputDecoration(
+                        icon: new Icon(
+                          Icons.lock_open,
+                          color: HexColor('FF8000'),
+                        ),
+                        hintText: "Contraseña",
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: HexColor('FF8000')),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('Aceptar',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: HexColor('FF8000'))),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              new FlatButton(
+                child: new Text('Cancelar',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: HexColor('014B8E'))),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 
   Widget distanceViewUI() {
