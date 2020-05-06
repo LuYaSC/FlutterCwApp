@@ -1,12 +1,15 @@
+import 'package:cw_app/Views/Models/batch_pendings_cw.dart';
 import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
 
-class HeaderDetail extends StatelessWidget {
+class ServicesPaseHeaderView extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
+  final BatchPendingsCw batch;
 
-  const HeaderDetail({Key key, this.animationController, this.animation})
+  const ServicesPaseHeaderView(
+      {Key key, this.animationController, this.animation, this.batch})
       : super(key: key);
 
   @override
@@ -49,7 +52,7 @@ class HeaderDetail extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
-                          'Nro de Lote: 123456',
+                          'Lote: ${batch.id}',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontFamily: FintnessAppTheme.fontName,
@@ -61,10 +64,10 @@ class HeaderDetail extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 2,
+                        height: 6,
                       ),
                       Text(
-                        'Cta Origen: 201-50804718-3-78',
+                        'Operación: ${batch.operationType}',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: FintnessAppTheme.fontName,
@@ -75,10 +78,10 @@ class HeaderDetail extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 2,
+                        height: 6,
                       ),
                       Text(
-                        'Fecha de Ingreso: 26/02/2020',
+                        'Cta. origen: ${batch.account}',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: FintnessAppTheme.fontName,
@@ -89,52 +92,10 @@ class HeaderDetail extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 2,
+                        height: 6,
                       ),
                       Text(
-                        'Monto del lote: 0.11 Bolivianos',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: FintnessAppTheme.fontName,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14,
-                          letterSpacing: 0.0,
-                          color: FintnessAppTheme.white,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      Text(
-                        'Debito por Operacion: Multiple',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: FintnessAppTheme.fontName,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14,
-                          letterSpacing: 0.0,
-                          color: FintnessAppTheme.white,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        'Origen de fondos: pago a proveedores',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: FintnessAppTheme.fontName,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14,
-                          letterSpacing: 0.0,
-                          color: FintnessAppTheme.white,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 2,
-                      ),
-                      Text(
-                        'Destino de fondos: pago a proveedores',
+                        'Importe: ${batch.amount} ${(batch.currency == 'BOL' ? 'BOLIVIANOS' : 'DOLARES')}',
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: FintnessAppTheme.fontName,

@@ -1,14 +1,15 @@
+import 'package:cw_app/Views/Models/bill_address_cresag.dart';
 import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
 
-class ListDetail extends StatelessWidget {
+class CresagAddressView extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
-  final bool isBol;
+  final BillAddressCresag detail;
 
-  const ListDetail(
-      {Key key, this.animationController, this.animation, this.isBol})
+  const CresagAddressView(
+      {Key key, this.animationController, this.animation, this.detail})
       : super(key: key);
 
   @override
@@ -82,7 +83,7 @@ class ListDetail extends StatelessWidget {
                                             ),
                                             children: <TextSpan>[
                                               new TextSpan(
-                                                text: 'Banco: ',
+                                                text: '${detail.streetType}: ',
                                                 style: TextStyle(
                                                   fontFamily:
                                                       FintnessAppTheme.fontName,
@@ -94,9 +95,7 @@ class ListDetail extends StatelessWidget {
                                                 ),
                                               ),
                                               new TextSpan(
-                                                text: this.isBol
-                                                    ? 'BANCO SOLIDARIO'
-                                                    : "BANCO NACIONAL DE BOLIVIA S.A.",
+                                                text: detail.streetName,
                                                 style: TextStyle(
                                                   fontFamily:
                                                       FintnessAppTheme.fontName,
@@ -129,7 +128,7 @@ class ListDetail extends StatelessWidget {
                                             ),
                                             children: <TextSpan>[
                                               new TextSpan(
-                                                text: 'Cuenta Destino: ',
+                                                text: 'Zona: ',
                                                 style: TextStyle(
                                                   fontFamily:
                                                       FintnessAppTheme.fontName,
@@ -141,9 +140,7 @@ class ListDetail extends StatelessWidget {
                                                 ),
                                               ),
                                               new TextSpan(
-                                                text: this.isBol
-                                                    ? '406406000001'
-                                                    : "406406000002",
+                                                text: detail.neighborhood,
                                                 style: TextStyle(
                                                   fontFamily:
                                                       FintnessAppTheme.fontName,
@@ -176,7 +173,7 @@ class ListDetail extends StatelessWidget {
                                             ),
                                             children: <TextSpan>[
                                               new TextSpan(
-                                                text: 'Razon Beneficiario: ',
+                                                text: 'Nro.: ',
                                                 style: TextStyle(
                                                   fontFamily:
                                                       FintnessAppTheme.fontName,
@@ -188,9 +185,195 @@ class ListDetail extends StatelessWidget {
                                                 ),
                                               ),
                                               new TextSpan(
-                                                text: this.isBol
-                                                    ? 'Juan Perez'
-                                                    : "Armando Esteban Quito",
+                                                text: detail.doorNumber,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      FintnessAppTheme.fontName,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12,
+                                                  letterSpacing: 0.0,
+                                                  color: HexColor("#014B8E"),
+                                                  //FintnessAppTheme.nearlyDarkBlue,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  detail.floor != null
+                                      ? Row(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 5,
+                                                right: 12,
+                                                top: 1,
+                                              ),
+                                              child: RichText(
+                                                text: new TextSpan(
+                                                  style: new TextStyle(
+                                                    fontSize: 14.0,
+                                                    color: Colors.black,
+                                                  ),
+                                                  children: <TextSpan>[
+                                                    new TextSpan(
+                                                      text: 'Depto/Piso: ',
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            FintnessAppTheme
+                                                                .fontName,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 12,
+                                                        letterSpacing: 0.0,
+                                                        color:
+                                                            Colors.orange[900],
+                                                        //FintnessAppTheme.nearlyDarkBlue,
+                                                      ),
+                                                    ),
+                                                    new TextSpan(
+                                                      text: detail.floor,
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            FintnessAppTheme
+                                                                .fontName,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 12,
+                                                        letterSpacing: 0.0,
+                                                        color:
+                                                            HexColor("#014B8E"),
+                                                        //FintnessAppTheme.nearlyDarkBlue,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : Container(),
+                                  (detail.city != null && detail.city != "") ? Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 5,
+                                          right: 12,
+                                          top: 1,
+                                        ),
+                                        child: RichText(
+                                          text: new TextSpan(
+                                            style: new TextStyle(
+                                              fontSize: 14.0,
+                                              color: Colors.black,
+                                            ),
+                                            children: <TextSpan>[
+                                              new TextSpan(
+                                                text: 'Departamento: ',
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      FintnessAppTheme.fontName,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12,
+                                                  letterSpacing: 0.0,
+                                                  color: Colors.orange[900],
+                                                  //FintnessAppTheme.nearlyDarkBlue,
+                                                ),
+                                              ),
+                                              new TextSpan(
+                                                text: detail.city,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      FintnessAppTheme.fontName,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12,
+                                                  letterSpacing: 0.0,
+                                                  color: HexColor("#014B8E"),
+                                                  //FintnessAppTheme.nearlyDarkBlue,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ) :Container(),
+                                  (detail.province != null && detail.province != "") ?Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 5,
+                                          right: 12,
+                                          top: 1,
+                                        ),
+                                        child: RichText(
+                                          text: new TextSpan(
+                                            style: new TextStyle(
+                                              fontSize: 14.0,
+                                              color: Colors.black,
+                                            ),
+                                            children: <TextSpan>[
+                                              new TextSpan(
+                                                text: 'Provincia: ',
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      FintnessAppTheme.fontName,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12,
+                                                  letterSpacing: 0.0,
+                                                  color: Colors.orange[900],
+                                                  //FintnessAppTheme.nearlyDarkBlue,
+                                                ),
+                                              ),
+                                              new TextSpan(
+                                                text: detail.province,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      FintnessAppTheme.fontName,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12,
+                                                  letterSpacing: 0.0,
+                                                  color: HexColor("#014B8E"),
+                                                  //FintnessAppTheme.nearlyDarkBlue,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ) : Container(),
+                                  Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 5,
+                                          right: 12,
+                                          top: 1,
+                                        ),
+                                        child: RichText(
+                                          text: new TextSpan(
+                                            style: new TextStyle(
+                                              fontSize: 14.0,
+                                              color: Colors.black,
+                                            ),
+                                            children: <TextSpan>[
+                                              new TextSpan(
+                                                text: 'Localidad: ',
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      FintnessAppTheme.fontName,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 12,
+                                                  letterSpacing: 0.0,
+                                                  color: Colors.orange[900],
+                                                  //FintnessAppTheme.nearlyDarkBlue,
+                                                ),
+                                              ),
+                                              new TextSpan(
+                                                text: detail.location,
                                                 style: TextStyle(
                                                   fontFamily:
                                                       FintnessAppTheme.fontName,
@@ -223,7 +406,7 @@ class ListDetail extends StatelessWidget {
                                             ),
                                             children: <TextSpan>[
                                               new TextSpan(
-                                                text: 'Monto: ',
+                                                text: 'Urb./Condominio: ',
                                                 style: TextStyle(
                                                   fontFamily:
                                                       FintnessAppTheme.fontName,
@@ -235,103 +418,7 @@ class ListDetail extends StatelessWidget {
                                                 ),
                                               ),
                                               new TextSpan(
-                                                text: this.isBol
-                                                    ? '10.01'
-                                                    : "50.10",
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      FintnessAppTheme.fontName,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 12,
-                                                  letterSpacing: 0.0,
-                                                  color: HexColor("#014B8E"),
-                                                  //FintnessAppTheme.nearlyDarkBlue,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 5,
-                                          right: 12,
-                                          top: 1,
-                                        ),
-                                        child: RichText(
-                                          text: new TextSpan(
-                                            style: new TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.black,
-                                            ),
-                                            children: <TextSpan>[
-                                              new TextSpan(
-                                                text: 'Detalle: ',
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      FintnessAppTheme.fontName,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 12,
-                                                  letterSpacing: 0.0,
-                                                  color: Colors.orange[900],
-                                                  //FintnessAppTheme.nearlyDarkBlue,
-                                                ),
-                                              ),
-                                              new TextSpan(
-                                                text: this.isBol
-                                                    ? 'PAGO PRUEBAS'
-                                                    : "PAGO PROVEEDORES",
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      FintnessAppTheme.fontName,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 12,
-                                                  letterSpacing: 0.0,
-                                                  color: HexColor("#014B8E"),
-                                                  //FintnessAppTheme.nearlyDarkBlue,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 5,
-                                            right: 12,
-                                            top: 1,
-                                            bottom: 5),
-                                        child: RichText(
-                                          text: new TextSpan(
-                                            style: new TextStyle(
-                                              fontSize: 14.0,
-                                              color: Colors.black,
-                                            ),
-                                            children: <TextSpan>[
-                                              new TextSpan(
-                                                text: 'E-Mail: ',
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      FintnessAppTheme.fontName,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 12,
-                                                  letterSpacing: 0.0,
-                                                  color: Colors.orange[900],
-                                                  //FintnessAppTheme.nearlyDarkBlue,
-                                                ),
-                                              ),
-                                              new TextSpan(
-                                                text: this.isBol
-                                                    ? 'Rhilaquita@bcp.com.bo'
-                                                    : "LJimenez@bcp.com.bo",
+                                                text: detail.urbanization,
                                                 style: TextStyle(
                                                   fontFamily:
                                                       FintnessAppTheme.fontName,

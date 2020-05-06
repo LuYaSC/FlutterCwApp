@@ -398,6 +398,7 @@ class MediterranesnDietView extends StatelessWidget {
                                                         Batchdetail(
                                                           animationController:
                                                               animationController,
+                                                          batch: this.list,
                                                           key: key,
                                                         ),
                                                     fullscreenDialog: true),
@@ -464,7 +465,14 @@ class MediterranesnDietView extends StatelessWidget {
                                                 MaterialPageRoute<dynamic>(
                                                     builder: (BuildContext
                                                             context) =>
-                                                        ScreenAuthorize(false, list, this.list.isBatchControl ? 'Controlar' : 'Autorizar'),
+                                                        ScreenAuthorize(
+                                                            false,
+                                                            list,
+                                                            this
+                                                                    .list
+                                                                    .isBatchControl
+                                                                ? 'Controlar'
+                                                                : 'Autorizar'),
                                                     /*ScreenMovements(
                                                           animationController:
                                                               animationController,
@@ -534,7 +542,8 @@ class MediterranesnDietView extends StatelessWidget {
                                                 MaterialPageRoute<dynamic>(
                                                     builder: (BuildContext
                                                             context) =>
-                                                        ScreenAuthorize(true, list, 'Rechazar'),
+                                                        ScreenAuthorize(true,
+                                                            list, 'Rechazar'),
                                                     fullscreenDialog: true),
                                               );
                                             },

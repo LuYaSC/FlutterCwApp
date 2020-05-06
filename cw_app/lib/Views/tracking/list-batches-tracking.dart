@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cw_app/Views/Models/batch_pendings_cw.dart';
 import 'package:cw_app/Views/Models/tracking_batch.dart';
 import 'package:cw_app/Views/details_views/batch_detail.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
@@ -19,6 +20,17 @@ class ListBatchesTracking extends StatelessWidget {
       this.rotation,
       this.list})
       : super(key: key);
+
+      BatchPendingsCw getBatch(TrackingBatch list) {
+        var batch = new BatchPendingsCw();
+        batch.account = list.formattedAccount;
+        batch.amount = list.amount;
+        batch.currency = list.currency;
+        batch.id = list.id;
+        batch.operationTypeId = list.operationTypeId;
+        batch.operationType = list.name;
+        return batch;
+      }
 
   @override
   Widget build(BuildContext context) {
@@ -384,6 +396,7 @@ class ListBatchesTracking extends StatelessWidget {
                                                               animationController:
                                                                   animationController,
                                                               key: key,
+                                                              batch: getBatch(list),
                                                             ),
                                                         fullscreenDialog: true),
                                                   );

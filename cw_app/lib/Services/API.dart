@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cw_app/Views/Models/authorize_batch.dart';
+import 'package:cw_app/Views/Models/batch_pendings_cw.dart';
+import 'package:cw_app/Views/Models/get_detail_batch.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -132,7 +134,7 @@ class API {
 
   static Future getTrackingBatches(String token) {
     baseUrl =
-        "https://www99.bancred.com.bo/SitiosSegurosCore/TrackTransfers/api/TrackTransfers";
+        "https://credinetweb.bcp.com.bo/SitiosSegurosCore/TrackTransfersn/api/TrackTransfers";
     var url = baseUrl + "/TrackingListParameters";
     var bodyEncoded = json.encode({
       "OperationStatusId": 0,
@@ -172,5 +174,167 @@ class API {
           "Content-Type": "application/x-www-form-urlencoded"
         },
         body: map);
+  }
+
+  static Future getAfpPayments(String token, int batch) {
+    baseUrl =
+        'https://credinetweb.bcp.com.bo/SitiosSegurosCore/AFP/api/AFP/GetPaymentAFPDetail';
+    var dto = new GetDetailBatch();
+    dto.processBatchId = batch;
+    var bodyEncoded = json.encode(dto);
+    return http.post(
+      baseUrl,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
+  static Future getCreSagPayments(String token, int batch) {
+    baseUrl =
+        'https://credinetweb.bcp.com.bo/SitiosSegurosCore/servicepayments/api/servicePayments/getCresaguapacDetail';
+    var dto = new GetDetailBatch();
+    dto.processBatchId = batch;
+    var bodyEncoded = json.encode(dto);
+    return http.post(
+      baseUrl,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
+  static Future getDetailPasePayments(
+      String token, int batch, int operationType) {
+    baseUrl = operationType == 33
+        ? 'https://www99.bancred.com.bo/SitiosSegurosCore/ServicesPasePayments/api/ServicesPase/GetDetail'
+        : 'https://credinetweb.bcp.com.bo/SitiosSegurosCore/ElfecPayments/api/Elfec/GetElfecDetail';
+    var dto = new GetDetailBatch();
+    dto.processBatchId = batch;
+    var bodyEncoded = json.encode(dto);
+    return http.post(
+      baseUrl,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
+  static Future getDetailTelephonyPayments(String token, int batch) {
+    baseUrl =
+        'https://www99.bancred.com.bo/SitiosSegurosCore/servicepayments/api/servicePayments/getTelephonyDetail';
+    var dto = new GetDetailBatch();
+    dto.processBatchId = batch;
+    var bodyEncoded = json.encode(dto);
+    return http.post(
+      baseUrl,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
+  static Future getDetailMassPayments(String token, BatchPendingsCw batch) {
+    baseUrl = getUrl(batch.operationTypeId);
+    var dto = new GetDetailBatch();
+    dto.batchId = batch.id;
+    dto.id = batch.id;
+    var bodyEncoded = json.encode(dto);
+    return http.post(
+      baseUrl,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
+  static Future getDetailMultiplePayments(String token, BatchPendingsCw batch) {
+    baseUrl = getUrl(batch.operationTypeId);
+    var dto = new GetDetailBatch();
+    dto.batchId = batch.id;
+    dto.id = batch.id;
+    var bodyEncoded = json.encode(dto);
+    return http.post(
+      baseUrl,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
+  static Future getDetailTransfer(String token, int processBatchId) {
+    baseUrl =
+        "https://www99.bancred.com.bo/SitiosSegurosCore/transfers/api/transfers/GetDetail";
+    var dto = new GetDetailBatch();
+    dto.batchId = processBatchId;
+    dto.id = processBatchId;
+    var bodyEncoded = json.encode(dto);
+    return http.post(
+      baseUrl,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
+  static String getUrl(int operationId) {
+    String url = '';
+    switch (operationId) {
+      case 8:
+        url =
+            'https://www99.bancred.com.bo/SitiosSegurosCore/salariesPayments/api/salariesPayments/GetDetail';
+        break;
+      case 16:
+        url =
+            'https://www99.bancred.com.bo/SitiosSegurosCore/providersPayments/api/providersPayments/GetDetail';
+        break;
+      case 24:
+        url =
+            'https://www99.bancred.com.bo/SitiosSegurosCore/PaymentBankAch/api/PaymentBankAch/GetDetail';
+        break;
+      case 25:
+        url =
+            'https://www99.bancred.com.bo/SitiosSegurosCore/cashPayments/api/cashPayments/GetDetail';
+        break;
+      case 20:
+        url =
+            'https://www99.bancred.com.bo/SitiosSegurosCore/multiplePayments/api/oldmultiplePayments/GetDetail';
+        break;
+      case 23:
+        url =
+            'https://www99.bancred.com.bo/SitiosSegurosCore/favoritePayments/api/oldfavoritePayments/GetDetail';
+        break;
+      case 26:
+        url =
+            'https://www99.bancred.com.bo/SitiosSegurosCore/ProvidersCheckManagement/api/ManagementCheck/GetDetail';
+        break;
+      case 27:
+        url =
+            'https://www99.bancred.com.bo/SitiosSegurosCore/ProvidersDepositOtherBankCheck/api/OldDepositOtherBank/GetDetail';
+        break;
+      case 28:
+        url =
+            'https://www99.bancred.com.bo/SitiosSegurosCore/PaymentTaxChecks/api/TaxCheck/GetDetail';
+        break;
+      case 29:
+        url =
+            'https://www99.bancred.com.bo/SitiosSegurosCore/PaymentOddAch/api/OldPaymentODD/GetDetail';
+        break;
+    }
+    return url;
   }
 }

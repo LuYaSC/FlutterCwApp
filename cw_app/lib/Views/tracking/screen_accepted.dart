@@ -105,7 +105,7 @@ class _FiltersScreenState extends State<ScreenAccepted> {
                     padding: const EdgeInsets.only(
                         left: 16, right: 16, bottom: 16, top: 8),
                     child: Container(
-                      height: 48,
+                      height: 35,
                       decoration: BoxDecoration(
                         color: HexColor(
                             'f57328'), //HotelAppTheme.buildLightTheme().primaryColor,
@@ -148,11 +148,10 @@ class _FiltersScreenState extends State<ScreenAccepted> {
                     padding: const EdgeInsets.only(
                         left: 16, right: 16, bottom: 16, top: 8),
                     child: Container(
-                      height: 48,
+                      height: 35,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: HexColor(
-                              'f57328'), //                   <--- border color
+                          color: HexColor('f57328'),
                           width: 2.0,
                         ),
                         color: Colors
@@ -579,6 +578,7 @@ class _FiltersScreenState extends State<ScreenAccepted> {
                     fontWeight: FontWeight.bold, color: HexColor('014B8E'))),
             content: TextField(
               obscureText: true,
+              maxLength: 35,
               controller: _textFieldPasswordController,
               decoration: InputDecoration(
                 icon: new Icon(
@@ -632,6 +632,7 @@ class _FiltersScreenState extends State<ScreenAccepted> {
                   children: <Widget>[
                     TextField(
                       controller: _textFieldRejectController,
+                      maxLength: 35,
                       decoration: InputDecoration(
                         icon: new Icon(
                           Icons.cancel,
@@ -649,6 +650,7 @@ class _FiltersScreenState extends State<ScreenAccepted> {
                     TextField(
                       obscureText: true,
                       controller: _textFieldPasswordController,
+                      maxLength: 35,
                       decoration: InputDecoration(
                         icon: new Icon(
                           Icons.lock_open,

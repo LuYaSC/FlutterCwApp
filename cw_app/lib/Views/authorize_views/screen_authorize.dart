@@ -174,82 +174,94 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
             const Divider(
               height: 1,
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 16, right: 16, bottom: 16, top: 8),
-              child: Container(
-                height: 35,
-                decoration: BoxDecoration(
-                  color: HexColor('f57328'), //Color(0xFFf57328),
-                  borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.6),
-                      blurRadius: 8,
-                      offset: const Offset(4, 4),
-                    ),
-                  ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                    highlightColor: Colors.transparent,
-                    onTap: () {
-                      this._authorizeBatch();
-                      //Navigator.pop(context);
-                    },
-                    child: Center(
-                      child: Text(
-                        this.operationDescription,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            color: Colors.white),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 16, bottom: 16, top: 8),
+                    child: Container(
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: HexColor('f57328'), //Color(0xFFf57328),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(24.0)),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            blurRadius: 8,
+                            offset: const Offset(4, 4),
+                          ),
+                        ],
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(24.0)),
+                          highlightColor: Colors.transparent,
+                          onTap: () {
+                            this._authorizeBatch();
+                            //Navigator.pop(context);
+                          },
+                          child: Center(
+                            child: Text(
+                              this.operationDescription,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 16, bottom: 16, top: 8),
+                    child: Container(
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: Colors
+                            .grey, //HotelAppTheme.buildLightTheme().primaryColor,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(24.0)),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            blurRadius: 8,
+                            offset: const Offset(4, 4),
+                          ),
+                        ],
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(24.0)),
+                          highlightColor: Colors.transparent,
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Center(
+                            child: Text(
+                              'Cancelar',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 16, right: 16, bottom: 16, top: 8),
-              child: Container(
-                height: 35,
-                decoration: BoxDecoration(
-                  color: Colors
-                      .grey, //HotelAppTheme.buildLightTheme().primaryColor,
-                  borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.6),
-                      blurRadius: 8,
-                      offset: const Offset(4, 4),
-                    ),
-                  ],
-                ),
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-                    highlightColor: Colors.transparent,
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Center(
-                      child: Text(
-                        'Cancelar',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            )
           ],
         ),
       ),
@@ -352,8 +364,13 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
                           maxLength: 35,
                           controller: reasonRejection,
                           decoration: InputDecoration(
-                              icon: new Icon(Icons.bug_report),
+                              icon: new Icon(Icons.cancel,
+                                  color: HexColor('FF8000')),
                               hintText: '',
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: HexColor('FF8000')),
+                              ),
                               hintStyle: TextStyle(
                                   color: Colors.grey, fontSize: 12.0)),
                         ),
@@ -377,8 +394,12 @@ class _ScreenAuthorizeState extends State<ScreenAuthorize> {
                     maxLength: 35,
                     controller: password,
                     decoration: InputDecoration(
-                        icon: new Icon(Icons.lock_open),
+                        icon: new Icon(Icons.lock_open,
+                            color: HexColor('FF8000')),
                         hintText: '',
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: HexColor('FF8000')),
+                        ),
                         hintStyle:
                             TextStyle(color: Colors.grey, fontSize: 12.0)),
                   ),
