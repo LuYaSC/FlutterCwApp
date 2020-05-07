@@ -10,27 +10,22 @@ import 'dart:math' as math;
 class ListBatchesTracking extends StatelessWidget {
   final AnimationController animationController;
   final Animation animation;
-  final bool rotation;
   final TrackingBatch list;
 
   ListBatchesTracking(
-      {Key key,
-      this.animationController,
-      this.animation,
-      this.rotation,
-      this.list})
+      {Key key, this.animationController, this.animation, this.list})
       : super(key: key);
 
-      BatchPendingsCw getBatch(TrackingBatch list) {
-        var batch = new BatchPendingsCw();
-        batch.account = list.formattedAccount;
-        batch.amount = list.amount;
-        batch.currency = list.currency;
-        batch.id = list.id;
-        batch.operationTypeId = list.operationTypeId;
-        batch.operationType = list.name;
-        return batch;
-      }
+  BatchPendingsCw getBatch(TrackingBatch list) {
+    var batch = new BatchPendingsCw();
+    batch.account = list.formattedAccount;
+    batch.amount = list.amount;
+    batch.currency = list.currency;
+    batch.id = list.id;
+    batch.operationTypeId = list.operationTypeId;
+    batch.operationType = list.name;
+    return batch;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -396,7 +391,8 @@ class ListBatchesTracking extends StatelessWidget {
                                                               animationController:
                                                                   animationController,
                                                               key: key,
-                                                              batch: getBatch(list),
+                                                              batch: getBatch(
+                                                                  list),
                                                             ),
                                                         fullscreenDialog: true),
                                                   );

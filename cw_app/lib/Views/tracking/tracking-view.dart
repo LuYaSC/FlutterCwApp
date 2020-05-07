@@ -104,13 +104,8 @@ class _MyDiaryScreenState extends State<TrackingView>
     );*/
 
     for (int i = 0; i < list.length; i++) {
-      bool rotation = false;
-      if (i % 2 == 0) {
-        rotation = true;
-      }
       listViews.add(
         ListBatchesTracking(
-          rotation: rotation,
           animation: Tween<double>(begin: 0.0, end: 1.0).animate(
               CurvedAnimation(
                   parent: widget.animationController,

@@ -176,6 +176,54 @@ class API {
         body: map);
   }
 
+  static Future getTransferAbroadGPI(String token, int batch) {
+    baseUrl =
+        'https://credinetweb.bcp.com.bo/SitiosSegurosCore/transfersAbroad/api/transfersAbroad/TrackerGPI';
+    var dto = new GetDetailBatch();
+    dto.batch = batch;
+    var bodyEncoded = json.encode(dto);
+    return http.post(
+      baseUrl,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
+  static Future getTransferAbroadPayments(String token, int batch) {
+    baseUrl =
+        'https://credinetweb.bcp.com.bo/SitiosSegurosCore/transfersAbroad/api/transfersAbroad/GetTransfer';
+    var dto = new GetDetailBatch();
+    dto.batch = batch;
+    var bodyEncoded = json.encode(dto);
+    return http.post(
+      baseUrl,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
+  static Future getTransferAbroadDetailPayments(String token, int batch) {
+    baseUrl =
+        'https://credinetweb.bcp.com.bo/SitiosSegurosCore/transfersAbroad/api/transfersAbroad/GetTransferDetail';
+    var dto = new GetDetailBatch();
+    dto.batch = batch;
+    var bodyEncoded = json.encode(dto);
+    return http.post(
+      baseUrl,
+      body: bodyEncoded,
+      headers: {
+        "Content-Type": "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer ' + token
+      },
+    );
+  }
+
   static Future getAfpPayments(String token, int batch) {
     baseUrl =
         'https://credinetweb.bcp.com.bo/SitiosSegurosCore/AFP/api/AFP/GetPaymentAFPDetail';

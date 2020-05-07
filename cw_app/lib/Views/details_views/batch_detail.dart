@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cw_app/Services/API.dart';
+import 'package:cw_app/Views/Models/abroad_detail_gpi.dart';
 import 'package:cw_app/Views/Models/afp_detail_result.dart';
 import 'package:cw_app/Views/Models/batch_pendings_cw.dart';
 import 'package:cw_app/Views/Models/bill_address_cresag.dart';
@@ -9,8 +10,14 @@ import 'package:cw_app/Views/Models/mass_payment_detail_result.dart';
 import 'package:cw_app/Views/Models/mass_payment_header_result.dart';
 import 'package:cw_app/Views/Models/services_pase_detail.dart';
 import 'package:cw_app/Views/Models/telephony_detail.dart';
+import 'package:cw_app/Views/Models/transfer_abroad_detail.dart';
+import 'package:cw_app/Views/Models/transfer_abroad_header.dart';
 import 'package:cw_app/Views/Models/transfer_detail_result.dart';
 import 'package:cw_app/Views/Models/users_involved.dart';
+import 'package:cw_app/Views/details_views/abroad_bank_dates_view.dart';
+import 'package:cw_app/Views/details_views/abroad_beneficiary_detail_view.dart';
+import 'package:cw_app/Views/details_views/abroad_gpi_view.dart';
+import 'package:cw_app/Views/details_views/abroad_requester_dates_view.dart';
 import 'package:cw_app/Views/details_views/afp_detail_view.dart';
 import 'package:cw_app/Views/details_views/cresag_address_view.dart';
 import 'package:cw_app/Views/details_views/cresag_detail.dart';
@@ -19,6 +26,7 @@ import 'package:cw_app/Views/details_views/multiple_payments_detail.dart';
 import 'package:cw_app/Views/details_views/services_pase_detail_view.dart';
 import 'package:cw_app/Views/details_views/services_pase_header_view.dart';
 import 'package:cw_app/Views/details_views/telephony_detail_view.dart';
+import 'package:cw_app/Views/details_views/transfer_abroad_header_view.dart';
 import 'package:cw_app/Views/details_views/transfer_detail.dart';
 import 'package:cw_app/Views/details_views/user_involveds_view.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
@@ -66,6 +74,9 @@ class _BatchdetailState extends State<Batchdetail>
   AfpDetailResult afpDetail = new AfpDetailResult();
   BillAddressCresag addressCreSag = new BillAddressCresag();
   List<CresagDetail> cresagDetail = new List<CresagDetail>();
+  TransferAbroadHeader abroadHeader = new TransferAbroadHeader();
+  TransferAbroadDetail abroadDetail = new TransferAbroadDetail();
+  List<AbroadDetailGPI> abroadGpiDetail = new List<AbroadDetailGPI>();
 
   _BatchdetailState(BatchPendingsCw batch) {
     this.batch = batch;
@@ -236,7 +247,7 @@ class _BatchdetailState extends State<Batchdetail>
             });
           });
         }
-        if (operationType.contains('CRE')) {
+        if (operationType.contains('CRE') || operationType.contains('SAG')) {
           API.getCreSagPayments(_token, this.batch.id).then((dynamic response) {
             setState(() {
               dynamic aux = response.body;
@@ -257,7 +268,51 @@ class _BatchdetailState extends State<Batchdetail>
             });
           });
         }
-
+        break;
+      case 7:
+        API
+            .getTransferAbroadPayments(_token, this.batch.id)
+            .then((dynamic response) {
+          setState(() {
+            dynamic aux = response.body;
+            Map<String, dynamic> aux2 = jsonDecode(aux);
+            dynamic isOk = aux2["isOk"];
+            abroadHeader = TransferAbroadHeader.fromJson(aux2['body']);
+            API
+                .getTransferAbroadDetailPayments(_token, this.batch.id)
+                .then((dynamic response) {
+              setState(() {
+                dynamic aux = response.body;
+                Map<String, dynamic> aux2 = jsonDecode(aux);
+                dynamic isOk = aux2["isOk"];
+                abroadDetail = TransferAbroadDetail.fromJson(aux2['body']);
+                API
+                    .getTransferAbroadGPI(_token, this.batch.id)
+                    .then((dynamic response) {
+                  setState(() {
+                    dynamic aux = response.body;
+                    Map<String, dynamic> aux2 = jsonDecode(aux);
+                    dynamic isOk = aux2["isOk"];
+                    if (isOk) {
+                      var gpiDetail = aux2['body'] as List;
+                      abroadGpiDetail = gpiDetail
+                          .map((model) => AbroadDetailGPI.fromJson(model))
+                          .toList();
+                      abroadHeaderViewData();
+                      abroadGPIViewData();
+                      abroadDetailViewData();
+                    } else {
+                      abroadHeaderViewData();
+                      abroadDetailViewData();
+                    }
+                    _isFetching = false;
+                  });
+                });
+                
+              });
+            });
+          });
+        });
         break;
     }
   }
@@ -293,6 +348,123 @@ class _BatchdetailState extends State<Batchdetail>
     });
     super.initState();
     this._getToken();
+  }
+
+  void abroadGPIViewData() {
+    const int count = 5;
+
+    listViews.add(
+      TitleView(
+        titleTxt: 'Rastreo GPI',
+        subTxt: '',
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+      ),
+    );
+
+    for (var i = 0; i < abroadGpiDetail.length; i++) {
+      listViews.add(
+        AbroadGpiView(
+            animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                CurvedAnimation(
+                    parent: widget.animationController,
+                    curve: Interval((1 / count) * 3, 1.0,
+                        curve: Curves.fastOutSlowIn))),
+            animationController: widget.animationController,
+            detail: abroadGpiDetail[i]),
+      );
+    }
+  }
+
+  void abroadDetailViewData() {
+    const int count = 5;
+
+    listViews.add(
+      TitleView(
+        titleTxt: 'Datos del Solicitante',
+        subTxt: '',
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+      ),
+    );
+
+    listViews.add(
+      AbroadRequesterDatesView(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+        detail: abroadDetail,
+      ),
+    );
+
+    listViews.add(
+      TitleView(
+        titleTxt: 'Datos del Beneficiario',
+        subTxt: '',
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+      ),
+    );
+
+    listViews.add(
+      AbroadBeneficiaryDetaiView(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+        detail: abroadDetail,
+      ),
+    );
+
+    listViews.add(
+      TitleView(
+        titleTxt: 'Datos del Banco Pagador',
+        subTxt: '',
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+      ),
+    );
+
+    listViews.add(
+      AbroadBankDatesView(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+        detail: abroadDetail,
+      ),
+    );
+  }
+
+  void abroadHeaderViewData() {
+    const int count = 5;
+
+    listViews.add(
+      TransferAbroadHeaderView(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController,
+            curve:
+                Interval((1 / count) * 2, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController,
+        batch: abroadHeader,
+      ),
+    );
   }
 
   void multiplePaymentViewData() {

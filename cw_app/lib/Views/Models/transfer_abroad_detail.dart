@@ -1,4 +1,37 @@
-class TransferAbroadHeader {
+class TransferAbroadDetail {
+  String beneficiaryBusinessName;
+  String beneficiaryAddress;
+  String beneficiaryPhone;
+  String beneficiaryNumberAccount;
+  String beneficiaryPaymentConcept;
+  String beneficiaryDocumentNumber;
+  String beneficiaryDocumentType;
+  String beneficiaryCountryResidence;
+  String beneficiaryCityResidence;
+  String beneficiaryEmail;
+  String payerBankName;
+  String payerBankCodeSwift;
+  String payerBankAddress;
+  String payerBankCity;
+  String payerBankCountry;
+  String payerBankFullData;
+  String intermediaryBankName;
+  String intermediaryBankCodeSwift;
+  String intermediaryBankAddress;
+  String intermediaryBankCity;
+  String intermediaryBankCountry;
+  String intermediaryBankFullData;
+  String intermediaryBankNumberAccountPayer;
+  String requesterBusinessName;
+  String requesterAddress;
+  String requesterDocumentNumber;
+  String requesterPhone;
+  String requesterEmail;
+  String requesterNumberAccount;
+  double exchangeRate;
+  String transferCategoryCode;
+  String transferCategory;
+  String transferReason;
   String fundSource;
   String fundDestination;
   double destinationAmount;
@@ -44,7 +77,40 @@ class TransferAbroadHeader {
   int processBatchId;
   String detailCharges;
 
-  TransferAbroadHeader() {
+  TransferAbroadDetail() {
+    this.beneficiaryBusinessName = '';
+    this.beneficiaryAddress = '';
+    this.beneficiaryPhone = '';
+    this.beneficiaryNumberAccount = '';
+    this.beneficiaryPaymentConcept = '';
+    this.beneficiaryDocumentNumber = '';
+    this.beneficiaryDocumentType = '';
+    this.beneficiaryCountryResidence = '';
+    this.beneficiaryCityResidence = '';
+    this.beneficiaryEmail = '';
+    this.payerBankName = '';
+    this.payerBankCodeSwift = '';
+    this.payerBankAddress = '';
+    this.payerBankCity = '';
+    this.payerBankCountry = '';
+    this.payerBankFullData = '';
+    this.intermediaryBankName = '';
+    this.intermediaryBankCodeSwift = '';
+    this.intermediaryBankAddress = '';
+    this.intermediaryBankCity = '';
+    this.intermediaryBankCountry = '';
+    this.intermediaryBankFullData = '';
+    this.intermediaryBankNumberAccountPayer = '';
+    this.requesterBusinessName = '';
+    this.requesterAddress = '';
+    this.requesterDocumentNumber = '';
+    this.requesterPhone = '';
+    this.requesterEmail = '';
+    this.requesterNumberAccount = '';
+    this.exchangeRate = 0;
+    this.transferCategoryCode = '';
+    this.transferCategory = '';
+    this.transferReason = '';
     this.fundSource = '';
     this.fundDestination = '';
     this.destinationAmount = 0;
@@ -91,8 +157,42 @@ class TransferAbroadHeader {
     this.detailCharges = '';
   }
 
-  TransferAbroadHeader.fromJson(Map json)
-      : fundSource = json['fundSource'],
+  TransferAbroadDetail.fromJson(Map json)
+      : beneficiaryBusinessName = json['beneficiaryBusinessName'],
+        beneficiaryAddress = json['beneficiaryAddress'],
+        beneficiaryPhone = json['beneficiaryPhone'],
+        beneficiaryNumberAccount = json['beneficiaryNumberAccount'],
+        beneficiaryPaymentConcept = json['beneficiaryPaymentConcept'],
+        beneficiaryDocumentNumber = json['beneficiaryDocumentNumber'],
+        beneficiaryDocumentType = json['beneficiaryDocumentType'],
+        beneficiaryCountryResidence = json['beneficiaryCountryResidence'],
+        beneficiaryCityResidence = json['beneficiaryCityResidence'],
+        beneficiaryEmail = json['beneficiaryEmail'],
+        payerBankName = json['payerBankName'],
+        payerBankCodeSwift = json['payerBankCodeSwift'],
+        payerBankAddress = json['payerBankAddress'],
+        payerBankCity = json['payerBankCity'],
+        payerBankCountry = json['payerBankCountry'],
+        payerBankFullData = json['payerBankFullData'],
+        intermediaryBankName = json['intermediaryBankName'],
+        intermediaryBankCodeSwift = json['intermediaryBankCodeSwift'],
+        intermediaryBankAddress = json['intermediaryBankAddress'],
+        intermediaryBankCity = json['intermediaryBankCity'],
+        intermediaryBankCountry = json['intermediaryBankCountry'],
+        intermediaryBankFullData = json['intermediaryBankFullData'],
+        intermediaryBankNumberAccountPayer =
+            json['intermediaryBankNumberAccountPayer'],
+        requesterBusinessName = json['requesterBusinessName'],
+        requesterAddress = json['requesterAddress'],
+        requesterDocumentNumber = json['requesterDocumentNumber'],
+        requesterPhone = json['requesterPhone'],
+        requesterEmail = json['requesterEmail'],
+        requesterNumberAccount = json['requesterNumberAccount'],
+        exchangeRate = json['exchangeRate'],
+        transferCategoryCode = json['transferCategoryCode'],
+        transferCategory = json['transferCategory'],
+        transferReason = json['transferReason'],
+        fundSource = json['fundSource'],
         fundDestination = json['fundDestination'],
         destinationAmount = json['destinationAmount'],
         destinationCurrency = json['destinationCurrency'],
@@ -141,6 +241,39 @@ class TransferAbroadHeader {
 
   dynamic toJson() {
     return {
+      'beneficiaryBusinessName': beneficiaryBusinessName,
+      'beneficiaryAddress': beneficiaryAddress,
+      'beneficiaryPhone': beneficiaryPhone,
+      'beneficiaryNumberAccount': beneficiaryNumberAccount,
+      'beneficiaryPaymentConcept': beneficiaryPaymentConcept,
+      'beneficiaryDocumentNumber': beneficiaryDocumentNumber,
+      'beneficiaryDocumentType': beneficiaryDocumentType,
+      'beneficiaryCountryResidence': beneficiaryCountryResidence,
+      'beneficiaryCityResidence': beneficiaryCityResidence,
+      'beneficiaryEmail': beneficiaryEmail,
+      'payerBankName': payerBankName,
+      'payerBankCodeSwift': payerBankCodeSwift,
+      'payerBankAddress': payerBankAddress,
+      'payerBankCity': payerBankCity,
+      'payerBankCountry': payerBankCountry,
+      'payerBankFullData': payerBankFullData,
+      'intermediaryBankName': intermediaryBankName,
+      'intermediaryBankCodeSwift': intermediaryBankCodeSwift,
+      'intermediaryBankAddress': intermediaryBankAddress,
+      'intermediaryBankCity': intermediaryBankCity,
+      'intermediaryBankCountry': intermediaryBankCountry,
+      'intermediaryBankFullData': intermediaryBankFullData,
+      'intermediaryBankNumberAccountPayer': intermediaryBankNumberAccountPayer,
+      'requesterBusinessName': requesterBusinessName,
+      'requesterAddress': requesterAddress,
+      'requesterDocumentNumber': requesterDocumentNumber,
+      'requesterPhone': requesterPhone,
+      'requesterEmail': requesterEmail,
+      'requesterNumberAccount': requesterNumberAccount,
+      'exchangeRate': exchangeRate,
+      'transferCategoryCode': transferCategoryCode,
+      'transferCategory': transferCategory,
+      'transferReason': transferReason,
       'fundSource': fundSource,
       'fundDestination': fundDestination,
       'destinationAmount': destinationAmount,
