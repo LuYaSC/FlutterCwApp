@@ -2,10 +2,25 @@ class PopularFilterListData {
   PopularFilterListData({
     this.titleTxt = '',
     this.isSelected = false,
+    this.limit = 0,
   });
 
   String titleTxt;
   bool isSelected;
+  double limit;
+
+    static List<PopularFilterListData> authList = <PopularFilterListData>[
+    PopularFilterListData(
+      titleTxt: 'Remberto Hilaquita Mamani',
+      limit: 10000.0,
+      isSelected: false,
+    ),
+    PopularFilterListData(
+      titleTxt: 'Carlos Enrique Moring',
+       limit: 100.0,
+      isSelected: false,
+    ),
+  ];
 
   static List<PopularFilterListData> popularFList = <PopularFilterListData>[
     PopularFilterListData(

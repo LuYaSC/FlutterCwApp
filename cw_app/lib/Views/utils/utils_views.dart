@@ -2,6 +2,7 @@ import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:focus_widget/focus_widget.dart';
 
 class UtilsViews {
   BuildContext context;
@@ -68,6 +69,79 @@ class UtilsViews {
           ),
         ),
       ],
+    );
+  }
+
+  Container getDropdown<T>(
+      T value,
+      List<DropdownMenuItem<T>> _dropdownMenuItems,
+      dynamic onChangeDropdownItem,
+      IconData iconView) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      height: 60,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(25),
+        border: Border.all(
+          color: Color(0xFFE5E5E5),
+        ),
+      ),
+      child: Row(
+        children: <Widget>[
+          Icon(iconView),
+          //SvgPicture.asset("assets/icons/maps-and-flags.svg"),
+          SizedBox(width: 20),
+          Expanded(
+            child: DropdownButton(
+              isExpanded: true,
+              iconEnabledColor: Colors.orange[900],
+              underline: SizedBox(),
+              //icon: SvgPicture.asset("assets/icons/dropdown.svg"),
+              value: value,
+              items: _dropdownMenuItems,
+              onChanged: onChangeDropdownItem,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container getTextTransaction(String title, String value) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 1, horizontal: 20),
+      width: double.infinity,
+      child: rowlist(title, value),
+    );
+  }
+
+  Container getInput(FocusNode focus, String textInput, [int maxLength = 20, int maxLines = 1]) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 1, horizontal: 20),
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0),
+        child: Container(
+          child: FocusWidget(
+            focusNode: focus,
+            child: TextField(
+              maxLength: maxLength,
+              maxLines: maxLines,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: textInput,
+                labelText: textInput,
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: HexColor('FF8000')),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

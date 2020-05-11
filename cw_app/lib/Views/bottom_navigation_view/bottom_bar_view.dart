@@ -1,6 +1,10 @@
 import 'dart:math' as math;
+import 'package:cw_app/Views/Models/batch_pendings_cw.dart';
 import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/models/tabIcon_data.dart';
+import 'package:cw_app/Views/servicescw/services_electricity_view.dart';
+import 'package:cw_app/Views/servicescw/services_water_view.dart';
+import 'package:cw_app/Views/servicescw/transfers_view.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -156,7 +160,7 @@ class _BottomBarViewState extends State<BottomBarView>
                   _translateButton.value * 3.0,
                   0.0,
                 ),
-                child: add(),
+                child: servicesElectricity(),
               ),
               Transform(
                 transform: Matrix4.translationValues(
@@ -164,7 +168,7 @@ class _BottomBarViewState extends State<BottomBarView>
                   _translateButton.value * 2.0,
                   0.0,
                 ),
-                child: image(),
+                child: servicesWater(),
               ),
               Transform(
                 transform: Matrix4.translationValues(
@@ -172,7 +176,7 @@ class _BottomBarViewState extends State<BottomBarView>
                   _translateButton.value,
                   0.0,
                 ),
-                child: inbox(),
+                child: transfers(),
               ),
               toggle(),
             ],
@@ -205,41 +209,161 @@ class _BottomBarViewState extends State<BottomBarView>
     isOpened = !isOpened;
   }
 
-  Widget add() {
+  BatchPendingsCw list = new BatchPendingsCw();
+
+   Widget servicesWater() {
     return Container(
-      child: FloatingActionButton(
-        heroTag: 'btn3',
-        onPressed: null,
-        backgroundColor: HexColor('014B8E'),
-        tooltip: 'Add',
-        child: Icon(Icons.add),
+      width: 55,
+      height: 55,
+      decoration: BoxDecoration(
+        color: HexColor('014B8E'),
+        borderRadius: BorderRadius.all(
+          Radius.circular(100.0),
+        ),
+        border: new Border.all(width: 4, color: HexColor('014B8E')),
+      ),
+      child: InkWell(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+          Navigator.push<dynamic>(
+            context,
+            MaterialPageRoute<dynamic>(
+                builder: (BuildContext context) => ServicesWaterView(
+                      animationController: animationController,
+                      //key: key,
+                    ),
+                fullscreenDialog: true),
+          );
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              Icons.opacity,
+              color: FintnessAppTheme.white,
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget image() {
+   Widget servicesElectricity() {
     return Container(
-      child: FloatingActionButton(
-        heroTag: 'btn2',
-        onPressed: null,
-        backgroundColor: HexColor('014B8E'),
-        tooltip: 'Image',
-        child: Icon(Icons.image),
+      width: 55,
+      height: 55,
+      decoration: BoxDecoration(
+        color: HexColor('014B8E'),
+        borderRadius: BorderRadius.all(
+          Radius.circular(100.0),
+        ),
+        border: new Border.all(width: 4, color: HexColor('014B8E')),
+      ),
+      child: InkWell(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+          Navigator.push<dynamic>(
+            context,
+            MaterialPageRoute<dynamic>(
+                builder: (BuildContext context) => ServicesElectricityView(
+                      animationController: animationController,
+                      //key: key,
+                    ),
+                fullscreenDialog: true),
+          );
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              Icons.power,
+              color: FintnessAppTheme.white,
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget inbox() {
+  
+
+  Widget transfers() {
     return Container(
-      child: FloatingActionButton(
-        heroTag: 'btn1',
-        onPressed: null,
-        backgroundColor: HexColor('014B8E'),
-        tooltip: 'Inbox',
-        child: Icon(Icons.inbox),
+      width: 55,
+      height: 55,
+      decoration: BoxDecoration(
+        color: HexColor('014B8E'),
+        borderRadius: BorderRadius.all(
+          Radius.circular(100.0),
+        ),
+        border: new Border.all(width: 4, color: HexColor('014B8E')),
+      ),
+      child: InkWell(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+          Navigator.push<dynamic>(
+            context,
+            MaterialPageRoute<dynamic>(
+                builder: (BuildContext context) => TransfersView(
+                      animationController: animationController,
+                      //key: key,
+                    ),
+                fullscreenDialog: true),
+          );
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              Icons.monetization_on,
+              color: FintnessAppTheme.white,
+            ),
+          ],
+        ),
       ),
     );
   }
+
+  // Widget historicals() {
+  //   return Container(
+  //     width: 55,
+  //     height: 55,
+  //     decoration: BoxDecoration(
+  //       color: HexColor('014B8E'),
+  //       borderRadius: BorderRadius.all(
+  //         Radius.circular(100.0),
+  //       ),
+  //       border: new Border.all(width: 4, color: HexColor('014B8E')),
+  //     ),
+  //     child: InkWell(
+  //       onTap: () {
+  //         FocusScope.of(context).requestFocus(FocusNode());
+  //         Navigator.push<dynamic>(
+  //           context,
+  //           MaterialPageRoute<dynamic>(
+  //               builder: (BuildContext context) => ServicesView(
+  //                     animationController: animationController,
+  //                     //key: key,
+  //                   ),
+  //               fullscreenDialog: true),
+  //         );
+  //       },
+  //       child: Column(
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         crossAxisAlignment: CrossAxisAlignment.center,
+  //         children: <Widget>[
+  //           Icon(
+  //             Icons.assessment,
+  //             color: FintnessAppTheme.white,
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget toggle() {
     return Container(

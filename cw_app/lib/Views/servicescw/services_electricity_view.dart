@@ -1,32 +1,42 @@
 import 'dart:convert';
 
 import 'package:cw_app/Services/API.dart';
+import 'package:cw_app/Views/Models/batch_pendings_cw.dart';
+import 'package:cw_app/Views/Models/filters_screen.dart';
 import 'package:cw_app/Views/Models/hexColor.dart';
-import 'package:cw_app/Views/Models/tracking_batch.dart';
+import 'package:cw_app/Views/Models/total_batches_pending.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
-import 'package:cw_app/Views/tracking/filters_screen_tracking.dart';
-import 'package:cw_app/Views/tracking/list-batches-tracking.dart';
+import 'package:cw_app/Views/tracking/screen_accepted.dart';
+import 'package:cw_app/Views/ui_view/glass_view.dart';
+import 'package:cw_app/Views/ui_view/mediterranesn_diet_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class TrackingView extends StatefulWidget {
-  const TrackingView({Key key, this.animationController}) : super(key: key);
+class ServicesElectricityView extends StatefulWidget {
+  const ServicesElectricityView({Key key, this.animationController}) : super(key: key);
 
   final AnimationController animationController;
   @override
-  _MyDiaryScreenState createState() => _MyDiaryScreenState();
+  _ServicesElectricityViewState createState() => _ServicesElectricityViewState();
 }
 
-class _MyDiaryScreenState extends State<TrackingView>
+class _ServicesElectricityViewState extends State<ServicesElectricityView>
     with TickerProviderStateMixin {
   Animation<double> topBarAnimation;
+
+  List<Widget> listViewsAut = <Widget>[];
+  List<Widget> listViewsCtr = <Widget>[];
+  final ScrollController scrollControllerAut = ScrollController();
+  final ScrollController scrollControllerCtr = ScrollController();
   String _token = '';
-  List<TrackingBatch> list = new List<TrackingBatch>();
   bool _isFetching = false;
-  List<Widget> listViews = <Widget>[];
-  final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
+  TotalBatchesPending list = new TotalBatchesPending();
+  List<BatchPendingsCw> totalListPending = new List<BatchPendingsCw>();
+  List<BatchPendingsCw> batchesListControlled = new List<BatchPendingsCw>();
+  List<BatchPendingsCw> batchesListAuthorized = new List<BatchPendingsCw>();
+  String operationDescription = '';
 
   Future<void> _getToken() async {
     final storage = new FlutterSecureStorage();
@@ -37,20 +47,28 @@ class _MyDiaryScreenState extends State<TrackingView>
     setState(() {
       _token = value;
       _isFetching = true;
-      _getTrackingBatches();
+      _getPendings();
     });
   }
 
-  Future<void> _getTrackingBatches() async{
-    API.getTrackingBatches(_token).then((dynamic response) {
+  Future<void> _getPendings() {
+    API.getPendings(_token).then((dynamic response) {
       setState(() {
         _isFetching = false;
         dynamic aux = response.body;
         Map<String, dynamic> aux2 = jsonDecode(aux);
         dynamic isOk = aux2["isOk"];
-        var listResponse = aux2['body'] as List;
-        list =
-            listResponse.map((model) => TrackingBatch.fromJson(model)).toList();
+        var listControl = aux2['body']['batchesToControl'] as List;
+        var listAuthorize = aux2['body']['batchesToAuthorize'] as List;
+        batchesListControlled = listControl
+            .map((model) => BatchPendingsCw.fromJson(model))
+            .toList();
+        batchesListControlled.forEach((x) => x.isBatchControl = true);
+        batchesListAuthorized = listAuthorize
+            .map((model) => BatchPendingsCw.fromJson(model))
+            .toList();
+        batchesListAuthorized.forEach((x) => x.isBatchControl = false);
+        totalListPending = batchesListControlled + batchesListAuthorized;
         addAllListData();
       });
     });
@@ -62,21 +80,22 @@ class _MyDiaryScreenState extends State<TrackingView>
         CurvedAnimation(
             parent: widget.animationController,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
-    scrollController.addListener(() {
-      if (scrollController.offset >= 24) {
+
+    scrollControllerAut.addListener(() {
+      if (scrollControllerAut.offset >= 24) {
         if (topBarOpacity != 1.0) {
           setState(() {
             topBarOpacity = 1.0;
           });
         }
-      } else if (scrollController.offset <= 24 &&
-          scrollController.offset >= 0) {
-        if (topBarOpacity != scrollController.offset / 24) {
+      } else if (scrollControllerAut.offset <= 24 &&
+          scrollControllerAut.offset >= 0) {
+        if (topBarOpacity != scrollControllerAut.offset / 24) {
           setState(() {
-            topBarOpacity = scrollController.offset / 24;
+            topBarOpacity = scrollControllerAut.offset / 24;
           });
         }
-      } else if (scrollController.offset <= 0) {
+      } else if (scrollControllerAut.offset <= 0) {
         if (topBarOpacity != 0.0) {
           setState(() {
             topBarOpacity = 0.0;
@@ -84,34 +103,86 @@ class _MyDiaryScreenState extends State<TrackingView>
         }
       }
     });
+
+    scrollControllerCtr.addListener(() {
+      if (scrollControllerCtr.offset >= 24) {
+        if (topBarOpacity != 1.0) {
+          setState(() {
+            topBarOpacity = 1.0;
+          });
+        }
+      } else if (scrollControllerCtr.offset <= 24 &&
+          scrollControllerCtr.offset >= 0) {
+        if (topBarOpacity != scrollControllerCtr.offset / 24) {
+          setState(() {
+            topBarOpacity = scrollControllerCtr.offset / 24;
+          });
+        }
+      } else if (scrollControllerCtr.offset <= 0) {
+        if (topBarOpacity != 0.0) {
+          setState(() {
+            topBarOpacity = 0.0;
+          });
+        }
+      }
+    });
+    this._getToken();
     super.initState();
-    _getToken();
   }
 
   void addAllListData() {
     const int count = 9;
-    /*listViews.add(
-      TotalBatchesTracking(
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController,
-            curve:
-                Interval((1 / count) * 8, 1.0, curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController,
-        totalOperation: list.length,
-      ),
-    );*/
 
-    for (int i = 0; i < list.length; i++) {
-      listViews.add(
-        ListBatchesTracking(
+    for (int i = 0; i < this.batchesListAuthorized.length; i++) {
+      listViewsAut.add(
+        MediterranesnDietView(
           animation: Tween<double>(begin: 0.0, end: 1.0).animate(
               CurvedAnimation(
                   parent: widget.animationController,
                   curve: Interval((1 / count) * 1, 1.0,
                       curve: Curves.fastOutSlowIn))),
           animationController: widget.animationController,
-          list: this.list[i],
+          list: this.batchesListAuthorized[i],
         ),
+      );
+    }
+    if (this.batchesListAuthorized.length == 0) {
+      listViewsAut.add(
+        GlassView(
+            animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                CurvedAnimation(
+                    parent: widget.animationController,
+                    curve: Interval((1 / count) * 8, 1.0,
+                        curve: Curves.fastOutSlowIn))),
+            animationController: widget.animationController,
+            message: 'No se encontraron lotes por autorizar'),
+      );
+    }
+
+    for (int i = 0; i < this.batchesListControlled.length; i++) {
+      listViewsCtr.add(
+        MediterranesnDietView(
+          animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+              CurvedAnimation(
+                  parent: widget.animationController,
+                  curve: Interval((1 / count) * 1, 1.0,
+                      curve: Curves.fastOutSlowIn))),
+          animationController: widget.animationController,
+          list: this.batchesListControlled[i],
+        ),
+      );
+    }
+
+    if (this.batchesListControlled.length == 0) {
+      listViewsCtr.add(
+        GlassView(
+            animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                CurvedAnimation(
+                    parent: widget.animationController,
+                    curve: Interval((1 / count) * 8, 1.0,
+                        curve: Curves.fastOutSlowIn))),
+            animationController: widget.animationController,
+            message: 'No se encontraron lotes por autorizar'),
       );
     }
   }
@@ -123,15 +194,67 @@ class _MyDiaryScreenState extends State<TrackingView>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: FintnessAppTheme.background,
+    final ktabPages = <Widget>[
+      Stack(
+        children: <Widget>[
+          getMainListViewUIAuthorizer(),
+          getAppBarUI(false),
+          viewCharge(),
+          SizedBox(
+            height: MediaQuery.of(context).padding.bottom,
+          )
+        ],
+      ),
+      Stack(
+        children: <Widget>[
+          getMainListViewUIController(),
+          getAppBarUI(true),
+          viewCharge(),
+          SizedBox(
+            height: MediaQuery.of(context).padding.bottom,
+          )
+        ],
+      ),
+      Stack(
+        children: <Widget>[
+          getMainListViewUIController(),
+          getAppBarUI(true),
+          viewCharge(),
+          SizedBox(
+            height: MediaQuery.of(context).padding.bottom,
+          )
+        ],
+      ),
+    ];
+    final kTabs = <Tab>[
+      Tab(
+        //icon: Icon(Icons.cloud),
+        text: 'DELAPAZ',
+      ),
+      Tab(
+        //icon: Icon(Icons.cloud),
+        text: 'CRE',
+      ),
+      Tab(
+        //icon: Icon(Icons.cloud),
+        text: 'ELFEC',
+      ),
+    ];
+
+    return DefaultTabController(
+      length: kTabs.length,
+      //color: FintnessAppTheme.background,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Seguimiento'),
+          title: Text('Pago de Servicios'),
           backgroundColor: HexColor('014B8E'),
+          bottom: TabBar(tabs: kTabs),
+          actions: <Widget>[],
         ),
-        backgroundColor: Colors.transparent,
-        body: Stack(
+        backgroundColor: Colors.white,
+        body: TabBarView(
+          children: ktabPages,
+        ), /*Stack(
           children: <Widget>[
             getMainListViewUI(),
             getAppBarUI(),
@@ -140,7 +263,7 @@ class _MyDiaryScreenState extends State<TrackingView>
               height: MediaQuery.of(context).padding.bottom,
             )
           ],
-        ),
+        ),*/
       ),
     );
   }
@@ -154,7 +277,7 @@ class _MyDiaryScreenState extends State<TrackingView>
         : Container();
   }
 
-  Widget getMainListViewUI() {
+  Widget getMainListViewUIAuthorizer() {
     return FutureBuilder<bool>(
       future: getData(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -162,18 +285,18 @@ class _MyDiaryScreenState extends State<TrackingView>
           return const SizedBox();
         } else {
           return ListView.builder(
-            controller: scrollController,
+            controller: scrollControllerAut,
             padding: EdgeInsets.only(
               top: AppBar().preferredSize.height +
                   MediaQuery.of(context).padding.top +
                   24,
               bottom: 62 + MediaQuery.of(context).padding.bottom,
             ),
-            itemCount: listViews.length,
+            itemCount: listViewsAut.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
               widget.animationController.forward();
-              return listViews[index];
+              return listViewsAut[index];
             },
           );
         }
@@ -181,7 +304,34 @@ class _MyDiaryScreenState extends State<TrackingView>
     );
   }
 
-  Widget getAppBarUI() {
+  Widget getMainListViewUIController() {
+    return FutureBuilder<bool>(
+      future: getData(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (!snapshot.hasData) {
+          return const SizedBox();
+        } else {
+          return ListView.builder(
+            controller: scrollControllerCtr,
+            padding: EdgeInsets.only(
+              top: AppBar().preferredSize.height +
+                  MediaQuery.of(context).padding.top +
+                  24,
+              bottom: 62 + MediaQuery.of(context).padding.bottom,
+            ),
+            itemCount: listViewsCtr.length,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (BuildContext context, int index) {
+              widget.animationController.forward();
+              return listViewsCtr[index];
+            },
+          );
+        }
+      },
+    );
+  }
+
+  Widget getAppBarUI(bool isController) {
     return Column(
       children: <Widget>[
         AnimatedBuilder(
@@ -224,7 +374,9 @@ class _MyDiaryScreenState extends State<TrackingView>
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  '${this.list.length} operaciones en el periodo',
+                                  isController
+                                      ? '${this.batchesListControlled.length} Lotes encontrados'
+                                      : '${this.batchesListAuthorized.length} Lotes encontrados',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: FintnessAppTheme.fontName,
@@ -236,44 +388,6 @@ class _MyDiaryScreenState extends State<TrackingView>
                                 ),
                               ),
                             ),
-                            /*Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                focusColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                splashColor: Colors.grey.withOpacity(0.2),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(4.0),
-                                ),
-                                onTap: () {
-                                  FocusScope.of(context)
-                                      .requestFocus(FocusNode());
-                                  Navigator.push<dynamic>(
-                                    context,
-                                    MaterialPageRoute<dynamic>(
-                                        builder: (BuildContext context) =>
-                                            ScreenDonwloads(),
-                                        fullscreenDialog: true),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(
-                                            Icons.file_download,
-                                            color: Colors.orange[900],
-                                          ) // HotelAppTheme.buildLightTheme()
-                                          //.primaryColor),
-                                          ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),*/
                             Material(
                               color: Colors.transparent,
                               child: InkWell(
@@ -291,7 +405,58 @@ class _MyDiaryScreenState extends State<TrackingView>
                                     context,
                                     MaterialPageRoute<dynamic>(
                                         builder: (BuildContext context) =>
-                                            FiltersScreenTracking(),
+                                            ScreenAccepted(
+                                                batches: isController
+                                                    ? this.batchesListControlled
+                                                    : this
+                                                        .batchesListAuthorized),
+                                        fullscreenDialog: true),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        isController
+                                            ? 'Controlar varios lotes'
+                                            : 'Autorizar varios lotes',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w100,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.check_circle,
+                                            color: Colors.orange[900],
+                                          ) // HotelAppTheme.buildLightTheme()
+                                          //.primaryColor),
+                                          ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                focusColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                splashColor: Colors.grey.withOpacity(0.2),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(4.0),
+                                ),
+                                onTap: () {
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  Navigator.push<dynamic>(
+                                    context,
+                                    MaterialPageRoute<dynamic>(
+                                        builder: (BuildContext context) =>
+                                            FiltersScreen(),
                                         fullscreenDialog: true),
                                   );
                                 },
@@ -319,23 +484,6 @@ class _MyDiaryScreenState extends State<TrackingView>
                                 ),
                               ),
                             ),
-                            /*SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Center(
-                                  child: Icon(
-                                    Icons.filter_list,
-                                    color: Colors
-                                        .orange[900], // FintnessAppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),*/
                           ],
                         ),
                       )

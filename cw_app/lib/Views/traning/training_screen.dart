@@ -44,7 +44,7 @@ class _TrainingScreenState extends State<TrainingScreen>
     });
   }
 
-  Future<dynamic> _getAccounts() {
+  Future<dynamic> _getAccounts() async {
     API.getAccounts(_token).then((dynamic response) {
       setState(() {
         _isFetching = false;

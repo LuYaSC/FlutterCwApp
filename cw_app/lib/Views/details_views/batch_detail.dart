@@ -104,7 +104,7 @@ class _BatchdetailState extends State<Batchdetail>
     });
   }
 
-  Future<void> _getDetailBatches(int operationTypeId, String operationType) {
+  Future<void> _getDetailBatches(int operationTypeId, String operationType) async {
     switch (operationTypeId) {
       case 15:
         API.getDetailTransfer(_token, this.batch.id).then((dynamic response) {

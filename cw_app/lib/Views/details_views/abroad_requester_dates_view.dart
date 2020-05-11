@@ -1,4 +1,3 @@
-import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/Models/transfer_abroad_detail.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:cw_app/Views/utils/utils_views.dart';
