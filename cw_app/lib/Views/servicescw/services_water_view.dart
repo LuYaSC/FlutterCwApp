@@ -1,10 +1,12 @@
 import 'dart:convert';
-
 import 'package:cw_app/Services/API.dart';
 import 'package:cw_app/Views/Models/batch_pendings_cw.dart';
 import 'package:cw_app/Views/Models/filters_screen.dart';
 import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/Models/total_batches_pending.dart';
+import 'package:cw_app/Views/servicescw/water/epsas_view.dart';
+import 'package:cw_app/Views/servicescw/water/saguapac_view.dart';
+import 'package:cw_app/Views/servicescw/water/semapa_view.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:cw_app/Views/tracking/screen_accepted.dart';
 import 'package:cw_app/Views/ui_view/glass_view.dart';
@@ -19,12 +21,17 @@ class ServicesWaterView extends StatefulWidget {
 
   final AnimationController animationController;
   @override
-  _ServicesWaterViewState createState() => _ServicesWaterViewState();
+  _ServicesWaterViewState createState() =>
+      _ServicesWaterViewState(this.animationController);
 }
 
 class _ServicesWaterViewState extends State<ServicesWaterView>
     with TickerProviderStateMixin {
   Animation<double> topBarAnimation;
+  AnimationController animationController;
+  _ServicesWaterViewState(AnimationController animationController) {
+    this.animationController = animationController;
+  }
 
   List<Widget> listViewsAut = <Widget>[];
   List<Widget> listViewsCtr = <Widget>[];
@@ -195,11 +202,13 @@ class _ServicesWaterViewState extends State<ServicesWaterView>
 
   @override
   Widget build(BuildContext context) {
+    bool isRe = false;
+    BatchPendingsCw batch = new BatchPendingsCw();
+    String operationDescription = 'Preparar';
     final ktabPages = <Widget>[
       Stack(
         children: <Widget>[
-          getMainListViewUIAuthorizer(),
-          getAppBarUI(false),
+          EpsasView(isRe, batch, operationDescription, animationController),
           viewCharge(),
           SizedBox(
             height: MediaQuery.of(context).padding.bottom,
@@ -208,8 +217,7 @@ class _ServicesWaterViewState extends State<ServicesWaterView>
       ),
       Stack(
         children: <Widget>[
-          getMainListViewUIController(),
-          getAppBarUI(true),
+          SaguapacView(isRe, batch, operationDescription, animationController),
           viewCharge(),
           SizedBox(
             height: MediaQuery.of(context).padding.bottom,
@@ -218,8 +226,7 @@ class _ServicesWaterViewState extends State<ServicesWaterView>
       ),
       Stack(
         children: <Widget>[
-          getMainListViewUIController(),
-          getAppBarUI(true),
+          SemapaView(isRe, batch, operationDescription, animationController),
           viewCharge(),
           SizedBox(
             height: MediaQuery.of(context).padding.bottom,

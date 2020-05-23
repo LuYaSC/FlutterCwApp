@@ -12,7 +12,6 @@ import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:cw_app/Views/tracking/screen_accepted.dart';
 import 'package:cw_app/Views/ui_view/glass_view.dart';
 import 'package:cw_app/Views/ui_view/mediterranesn_diet_view.dart';
-import 'package:cw_app/Views/utils/utils_views.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -238,9 +237,9 @@ class _TransfersViewState extends State<TransfersView>
           // getMainListViewUIAuthorizer(),
           // getAppBarUI(false),
           //viewCharge(),
-          SizedBox(
-            height: MediaQuery.of(context).padding.bottom,
-          )
+          // SizedBox(
+          //   height: MediaQuery.of(context).padding.bottom,
+          // )
         ],
       ),
       Stack(
@@ -262,9 +261,9 @@ class _TransfersViewState extends State<TransfersView>
           // getMainListViewUIAuthorizer(),
           // getAppBarUI(false),
           //viewCharge(),
-          SizedBox(
-            height: MediaQuery.of(context).padding.bottom,
-          )
+          // SizedBox(
+          //   height: MediaQuery.of(context).padding.bottom,
+          // )
         ],
       ),
     ];

@@ -17,23 +17,20 @@ import 'package:focus_widget/focus_widget.dart';
 import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-class AchTransfersView extends StatefulWidget {
+class SaguapacView extends StatefulWidget {
   @override
-  _AchTransfersViewState createState() => _AchTransfersViewState(
-      this.isRejected,
-      this.batch,
-      this.operationDescription,
-      this.animationController);
+  _SaguapacViewState createState() => _SaguapacViewState(this.isRejected, this.batch,
+      this.operationDescription, this.animationController);
 
   final AnimationController animationController;
   final bool isRejected;
   final BatchPendingsCw batch;
   final String operationDescription;
-  AchTransfersView(this.isRejected, this.batch, this.operationDescription,
+  SaguapacView(this.isRejected, this.batch, this.operationDescription,
       this.animationController);
 }
 
-class _AchTransfersViewState extends State<AchTransfersView> {
+class _SaguapacViewState extends State<SaguapacView> {
   List<PopularFilterListData> popularFilterListData =
       PopularFilterListData.authList;
   List<PopularFilterListData> accomodationListData =
@@ -51,7 +48,7 @@ class _AchTransfersViewState extends State<AchTransfersView> {
   String _token = '';
   List<AuthorizeResponse> bathAuthorize = new List<AuthorizeResponse>();
   AuthorizeBatch dto = new AuthorizeBatch();
-  _AchTransfersViewState(this.isRejected, this.batch, this.operationDescription,
+  _SaguapacViewState(this.isRejected, this.batch, this.operationDescription,
       this.animationController);
 
   RangeValues _values = const RangeValues(100, 600);
@@ -69,17 +66,19 @@ class _AchTransfersViewState extends State<AchTransfersView> {
   }
 
   List<Company> _companies = Company.getCompanies();
-  List<Bank> _banks = Bank.getBanks();
-  List<BranchOffice> _branchOffices = BranchOffice.getBranchOffices();
   List<Currency> _currencies = Currency.getCurrencies();
+  List<FavoriteEpsas> _favorites = FavoriteEpsas.getFav();
+  List<PaymentType> _paymentTypes = PaymentType.getPayType();
+
   List<DropdownMenuItem<Company>> _dropdownMenuItems;
   List<DropdownMenuItem<Currency>> _dropdownItemsCurrency;
+  List<DropdownMenuItem<FavoriteEpsas>> _dropdownItemsFav;
+  List<DropdownMenuItem<PaymentType>> _dropdownItemsPayTypes;
+
   Company _selectedCompany;
   Currency _selectedCurrency;
-  Bank _selectedBank;
-  BranchOffice _selectedBranchOffice;
-  List<DropdownMenuItem<Bank>> _dropdownItemsBank;
-  List<DropdownMenuItem<BranchOffice>> _dropdownItemsBranchOffice;
+  FavoriteEpsas _selectedFav;
+  PaymentType _selectedPaymentType;
 
   List<DropdownMenuItem<Currency>> buildDropdownCurrencies(List currencies) {
     List<DropdownMenuItem<Currency>> items = List();
@@ -107,27 +106,27 @@ class _AchTransfersViewState extends State<AchTransfersView> {
     return items;
   }
 
-  List<DropdownMenuItem<Bank>> buildDropdownMenuItemsBank(List banks) {
-    List<DropdownMenuItem<Bank>> items = List();
-    for (Bank bank in banks) {
+  List<DropdownMenuItem<FavoriteEpsas>> buildDropdownItemsFav(List favorites) {
+    List<DropdownMenuItem<FavoriteEpsas>> items = List();
+    for (FavoriteEpsas fav in favorites) {
       items.add(
         DropdownMenuItem(
-          value: bank,
-          child: Text(bank.description),
+          value: fav,
+          child: Text(fav.description),
         ),
       );
     }
     return items;
   }
 
-  List<DropdownMenuItem<BranchOffice>> buildDropdownMenuItemsBranchOffice(
-      List branchs) {
-    List<DropdownMenuItem<BranchOffice>> items = List();
-    for (BranchOffice branch in branchs) {
+  List<DropdownMenuItem<PaymentType>> buildDropdownItemsPaymentType(
+      List paymentTypes) {
+    List<DropdownMenuItem<PaymentType>> items = List();
+    for (PaymentType pay in paymentTypes) {
       items.add(
         DropdownMenuItem(
-          value: branch,
-          child: Text(branch.description),
+          value: pay,
+          child: Text(pay.description),
         ),
       );
     }
@@ -146,15 +145,15 @@ class _AchTransfersViewState extends State<AchTransfersView> {
     });
   }
 
-  onChangeDropdownItemBank(Bank selectedBank) {
+  onChangeDropdownItemFavorites(FavoriteEpsas selectedFav) {
     setState(() {
-      _selectedBank = selectedBank;
+      _selectedFav = selectedFav;
     });
   }
 
-  onChangeDropdownItemBranchOffice(BranchOffice selectedBranchOffice) {
+  onChangeDropdownItemPaymentTypes(PaymentType selectedPaymentType) {
     setState(() {
-      _selectedBranchOffice = selectedBranchOffice;
+      _selectedPaymentType = selectedPaymentType;
     });
   }
 
@@ -165,11 +164,10 @@ class _AchTransfersViewState extends State<AchTransfersView> {
     _selectedCurrency = _dropdownItemsCurrency[0].value;
     _dropdownMenuItems = buildDropdownMenuItems(_companies);
     _selectedCompany = _dropdownMenuItems[0].value;
-    _dropdownItemsBank = buildDropdownMenuItemsBank(_banks);
-    _selectedBank = _dropdownItemsBank[0].value;
-    _dropdownItemsBranchOffice =
-        buildDropdownMenuItemsBranchOffice(_branchOffices);
-    _selectedBranchOffice = _dropdownItemsBranchOffice[0].value;
+    _dropdownItemsFav = buildDropdownItemsFav(_favorites);
+    _selectedFav = _dropdownItemsFav[0].value;
+    _dropdownItemsPayTypes = buildDropdownItemsPaymentType(_paymentTypes);
+    _selectedPaymentType = _dropdownItemsPayTypes[0].value;
     super.initState();
   }
 
@@ -428,7 +426,7 @@ class _AchTransfersViewState extends State<AchTransfersView> {
                       height: 25.0,
                     ),
                     TitleView(
-                      titleTxt: 'Seleccione Cuenta Destino',
+                      titleTxt: 'Ingrese datos de servicio',
                       subTxt: '',
                       animation: Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -440,15 +438,15 @@ class _AchTransfersViewState extends State<AchTransfersView> {
                     SizedBox(
                       height: 20.0,
                     ),
-                    utils.getInput(_fundSource, 'Cuenta Destino', 20),
-                    utils.getInput(_fundSource, 'Nombre de destinatario', 45),
-                    utils.getDropdown(_selectedBank, _dropdownItemsBank,
-                        onChangeDropdownItemBank, Icons.account_balance),
-                    utils.getDropdown(
-                        _selectedBranchOffice,
-                        _dropdownItemsBranchOffice,
-                        onChangeDropdownItemBranchOffice,
-                        Icons.contacts),
+                    utils.getDropdown(_selectedFav, _dropdownItemsFav,
+                        onChangeDropdownItemFavorites, Icons.backup),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    utils.getTextTransaction(
+                        'Nombre Favorito', _selectedFav.description),
+                
+                    utils.getInput(_fundSource, 'Codigo fijo'),
                     SizedBox(
                       height: 20.0,
                     ),
@@ -530,9 +528,6 @@ class _AchTransfersViewState extends State<AchTransfersView> {
                         ),
                       ],
                     ),
-                    utils.getInput(_fundSource, 'Origen de los fondos', 200, 3),
-                    utils.getInput(
-                        _fundSource, 'Destino de los fondos', 200, 3),
                     TitleView(
                       titleTxt: 'Seleccione autorizadores',
                       subTxt: '',
@@ -895,52 +890,30 @@ class Currency {
   }
 }
 
-class Bank {
+class FavoriteEpsas {
   String code;
   String description;
 
-  Bank(this.code, this.description);
+  FavoriteEpsas(this.code, this.description);
 
-  static List<Bank> getBanks() {
-    return <Bank>[
-      Bank('000', 'Seleccione Banco'),
-      Bank('BCB', 'BANCO CENTRAL DE BOLIVIA'),
-      Bank('BDB', 'BANCO DO BRASIL S.A.'),
-      Bank('BEC', 'BANCO ECONOMICO S.A.'),
-      Bank('BFO', 'BANCO FORTALEZA'),
-      Bank('BGA', 'BANCO GANADERO S.A.'),
-      Bank('BIE', 'BANCO FIE'),
-      Bank('BIS', 'BANCO BISA S.A.'),
-      Bank('BMS', 'BANCO MERCANTIL SANTA CRUZ'),
-      Bank('BNA', 'BANCO DE LA NACION ARGENTINA'),
-      Bank('BNB', 'BANCO NACIONAL DE BOLIVIA S.A.'),
-      Bank('BPR', 'BANCO PRODEM S.A'),
-      Bank('BSO', 'BANCO SOLIDARIO S.A.'),
-      Bank('BUN', 'BANCO UNION S.A'),
-      Bank('CCM', 'COOPERATIVA DE AHORRO Y CREDITO ABIERTA COMARAPA'),
-      Bank('CCP', 'COOPERATIVA DE AHORRO Y CREDITO ABIERTA CATEDRAL'),
-      Bank('CCR', 'EL CHOROLQUE R.L'),
+  static List<FavoriteEpsas> getFav() {
+    return <FavoriteEpsas>[
+      FavoriteEpsas('1', 'Fav 1 Saguapac'),
+      FavoriteEpsas('2', 'Fav 2 Saguapac'),
     ];
   }
 }
 
-class BranchOffice {
+class PaymentType {
   String code;
   String description;
 
-  BranchOffice(this.code, this.description);
+  PaymentType(this.code, this.description);
 
-  static List<BranchOffice> getBranchOffices() {
-    return <BranchOffice>[
-      BranchOffice('000', 'Seleccione Sucursal'),
-      BranchOffice('101', 'CHUQUISACA'),
-      BranchOffice('201', 'LA PAZ'),
-      BranchOffice('301', 'COCHABAMBA'),
-      BranchOffice('401', 'ORURO'),
-      BranchOffice('501', 'POTOSI'),
-      BranchOffice('601', 'TARIJA'),
-      BranchOffice('701', 'SANTA CRUZ'),
-      BranchOffice('801', 'BENI'),
+  static List<PaymentType> getPayType() {
+    return <PaymentType>[
+      PaymentType('BOL', 'Recorrido'),
+      PaymentType('USD', 'Cuenta'),
     ];
   }
 }

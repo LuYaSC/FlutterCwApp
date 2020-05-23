@@ -5,6 +5,9 @@ import 'package:cw_app/Views/Models/batch_pendings_cw.dart';
 import 'package:cw_app/Views/Models/filters_screen.dart';
 import 'package:cw_app/Views/Models/hexColor.dart';
 import 'package:cw_app/Views/Models/total_batches_pending.dart';
+import 'package:cw_app/Views/servicescw/electricity/cre_view.dart';
+import 'package:cw_app/Views/servicescw/electricity/delapaz_view.dart';
+import 'package:cw_app/Views/servicescw/electricity/elfec_view.dart';
 import 'package:cw_app/Views/themes/fintness_app_theme.dart';
 import 'package:cw_app/Views/tracking/screen_accepted.dart';
 import 'package:cw_app/Views/ui_view/glass_view.dart';
@@ -14,15 +17,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ServicesElectricityView extends StatefulWidget {
-  const ServicesElectricityView({Key key, this.animationController}) : super(key: key);
+  const ServicesElectricityView({Key key, this.animationController})
+      : super(key: key);
 
   final AnimationController animationController;
   @override
-  _ServicesElectricityViewState createState() => _ServicesElectricityViewState();
+  _ServicesElectricityViewState createState() =>
+      _ServicesElectricityViewState(this.animationController);
 }
 
 class _ServicesElectricityViewState extends State<ServicesElectricityView>
     with TickerProviderStateMixin {
+  AnimationController animationController;
+  _ServicesElectricityViewState(AnimationController animationController) {
+    this.animationController = animationController;
+  }
   Animation<double> topBarAnimation;
 
   List<Widget> listViewsAut = <Widget>[];
@@ -194,11 +203,13 @@ class _ServicesElectricityViewState extends State<ServicesElectricityView>
 
   @override
   Widget build(BuildContext context) {
+    bool isRe = false;
+    BatchPendingsCw batch = new BatchPendingsCw();
+    String operationDescription = 'Preparar';
     final ktabPages = <Widget>[
       Stack(
         children: <Widget>[
-          getMainListViewUIAuthorizer(),
-          getAppBarUI(false),
+          DelapazView(isRe, batch, operationDescription, animationController),
           viewCharge(),
           SizedBox(
             height: MediaQuery.of(context).padding.bottom,
@@ -207,8 +218,7 @@ class _ServicesElectricityViewState extends State<ServicesElectricityView>
       ),
       Stack(
         children: <Widget>[
-          getMainListViewUIController(),
-          getAppBarUI(true),
+          CreView(isRe, batch, operationDescription, animationController),
           viewCharge(),
           SizedBox(
             height: MediaQuery.of(context).padding.bottom,
@@ -217,8 +227,7 @@ class _ServicesElectricityViewState extends State<ServicesElectricityView>
       ),
       Stack(
         children: <Widget>[
-          getMainListViewUIController(),
-          getAppBarUI(true),
+          ElfecView(isRe, batch, operationDescription, animationController),
           viewCharge(),
           SizedBox(
             height: MediaQuery.of(context).padding.bottom,
