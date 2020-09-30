@@ -96,6 +96,8 @@ class CustomThumbShape extends SliderComponentShape {
     Animation<double> enableAnimation,
     bool isDiscrete,
     TextPainter labelPainter,
+    Size sizeWithOverflow,
+    double textScaleFactor,
     RenderBox parentBox,
     SliderThemeData sliderTheme,
     TextDirection textDirection,
