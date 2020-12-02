@@ -69,7 +69,7 @@ class API {
 
   static Future getInformation(String token) {
     baseUrl =
-        "https://www99.bancred.com.bo/SitiosSegurosCore/VPN/api/AppInformation/GetInformation";
+        "https://www99.bancred.com.bo/SitiosSegurosCore/SFTP/api/AppInformation/GetInformation";
     return http.post(
       baseUrl,
       body: '',
@@ -134,7 +134,7 @@ class API {
 
   static Future getTrackingBatches(String token) {
     baseUrl =
-        "https://credinetweb.bcp.com.bo/SitiosSegurosCore/TrackTransfersn/api/TrackTransfers";
+        "https://www99.bancred.com.bo/SitiosSegurosCore/TrackTransfers/api/TrackTransfers";
     var url = baseUrl + "/TrackingListParameters";
     var bodyEncoded = json.encode({
       "OperationStatusId": 0,

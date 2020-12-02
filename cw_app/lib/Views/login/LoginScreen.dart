@@ -237,8 +237,11 @@ class _LoginScreen extends State<LoginScreen> {
     }
     if (!mounted) return;
     if (isAuthorized) {
+      userName.text = '9000010000130765';
+      password.text = 'pato123AB';
       isAuthorized = true;
-      Navigator.pushNamed(context, '/page');
+      this._loginCw();
+      //Navigator.pushNamed(context, '/page');
     } else {
       isAuthorized = false;
     }
@@ -420,7 +423,7 @@ class _LoginScreen extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Row(
+                      /*Row(
                         children: <Widget>[
                           SizedBox(
                             width: 12.0,
@@ -438,7 +441,57 @@ class _LoginScreen extends State<LoginScreen> {
                                   color: Color(0xFF014B8E),
                                   fontFamily: "Poppins-Medium"))
                         ],
+                      ),*/
+                      Row(
+                        children: <Widget>[
+                          SizedBox(
+                            width: 20.0,
+                          ),
+                          Material(
+                            color: Colors.white,
+                            child: Center(
+                              child: Ink(
+                                decoration: const ShapeDecoration(
+                                  color: Color(0xFF014B8E),
+                                  shape: CircleBorder(),
+                                ),
+                                child: IconButton(
+                                  icon: Icon(Icons.fingerprint),
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    _authorizeNow();
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
+                      /*Row(
+                        children: <Widget>[
+                          SizedBox(
+                            width: 12.0,
+                          ),
+                          Material(
+                            color: Colors.white,
+                            child: Center(
+                              child: Ink(
+                                decoration: const ShapeDecoration(
+                                  color: Color(0xFF014B8E),
+                                  shape: CircleBorder(),
+                                ),
+                                child: IconButton(
+                                  icon: Icon(Icons.face),
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    _authorizeNow();
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),*/
                       InkWell(
                         child: Container(
                           width: ScreenUtil.getInstance().setWidth(330),

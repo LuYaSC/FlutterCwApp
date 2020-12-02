@@ -31,11 +31,11 @@ class _BottomBarViewState extends State<BottomBarView>
       duration: const Duration(milliseconds: 1000),
     );
     animationController.forward();
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500))
-          ..addListener(() {
-            setState(() {});
-          });
+    _animationController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 500))
+      ..addListener(() {
+        setState(() {});
+      });
     _animateIcon =
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
     _buttonColor = ColorTween(
@@ -211,7 +211,7 @@ class _BottomBarViewState extends State<BottomBarView>
 
   BatchPendingsCw list = new BatchPendingsCw();
 
-   Widget servicesWater() {
+  Widget servicesWater() {
     return Container(
       width: 55,
       height: 55,
@@ -249,7 +249,7 @@ class _BottomBarViewState extends State<BottomBarView>
     );
   }
 
-   Widget servicesElectricity() {
+  Widget servicesElectricity() {
     return Container(
       width: 55,
       height: 55,
@@ -286,8 +286,6 @@ class _BottomBarViewState extends State<BottomBarView>
       ),
     );
   }
-
-  
 
   Widget transfers() {
     return Container(
